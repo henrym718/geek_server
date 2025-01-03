@@ -12,7 +12,8 @@
     "dependencies": {
         "express": "^4.21.2",
         "picocolors": "^1.1.1",
-        "winston": "^3.17.0"
+        "winston": "^3.17.0",
+        "zod": "^3.24.1"
     },
     "devDependencies": {
         "@types/express": "^5.0.0",
