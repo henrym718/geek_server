@@ -1,0 +1,14 @@
+services:
+    postgres:
+        image: postgres
+        container_name: postgres
+        environment:
+            POSTGRES_USER: geek
+            POSTGRES_PASSWORD: 12345
+            POSTGRES_DB: dbtest
+        ports:
+            - 5432:5432
+        volumes:
+            - data_geek:/var/lib/postgresql/data
+volumes:
+    data_geek:
