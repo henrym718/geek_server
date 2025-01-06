@@ -8,6 +8,7 @@ export class HttpResponse {
             details,
         });
     }
+
     public static failure(res: Response, status: number, message: string) {
         res.status(status).json({
             success: false,
