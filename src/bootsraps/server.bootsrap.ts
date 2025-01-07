@@ -1,5 +1,6 @@
 import express, { Application } from "express";
 import http, { Server } from "http";
+import { authRoutes } from "../modules/auth/presentation/routes/auth.routes";
 
 export class ServerBootstrap {
     private readonly app: Application;
@@ -7,6 +8,8 @@ export class ServerBootstrap {
 
     constructor() {
         this.app = express();
+        this.configureMiddlewares();
+        this.configureRoutes();
     }
 
     public async initialize(): Promise<void> {
@@ -23,6 +26,14 @@ export class ServerBootstrap {
                     reject(error);
                 });
         });
+    }
+
+    private configureMiddlewares() {
+        this.app.use(express.json());
+    }
+
+    private configureRoutes() {
+        this.app.use("/authenticate", authRoutes);
     }
 
     public async close(): Promise<void> {
