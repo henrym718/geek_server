@@ -13,20 +13,20 @@ export class User {
 export interface UserProps {
     readonly id: string;
     readonly email: string;
-    readonly password?: string;
-    readonly provider: AuthProvider;
-    readonly role: Role;
+    readonly password: string | null;
+    readonly provider: AuthProviderEnum;
+    readonly role: RoleEnum;
     readonly isActive: boolean;
     readonly createdAt: Date;
     readonly updatedAt: Date;
 }
 
-export enum AuthProvider {
+export enum AuthProviderEnum {
     LOCAL = "LOCAL",
     GOOGLE = "GOOGLE",
 }
 
-export enum Role {
+export enum RoleEnum {
     CLIENT = "CLIENT",
     VENDOR = "VENDOR",
 }
