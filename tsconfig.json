@@ -5,11 +5,18 @@
         "module": "commonjs",
         "rootDir": "./src",
         "outDir": "./dist",
+        "baseUrl": "./src",
+        "paths": {
+            "@Bootstraps/*": ["bootstraps/*"],
+            "@Common/*": ["common/*"],
+            "@Auth/*": ["modules/auth/*"],
+            "@User/*": ["modules/user/*"],
+            "@Client/*": ["modules/client/*"],
+            "@Vendor/*": ["modules/vendor/*"]
+        },
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "strict": true,
-        "skipLibCheck": true,
-        "baseUrl": "/src",
-        "paths": {}
+        "skipLibCheck": true
     }
 }

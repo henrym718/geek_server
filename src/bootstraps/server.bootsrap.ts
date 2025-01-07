@@ -1,6 +1,6 @@
 import express, { Application } from "express";
 import http, { Server } from "http";
-import { authRoutes } from "../modules/auth/presentation/routes/auth.routes";
+import { authRoutes } from "@Auth/presentation/routes/auth.routes";
 
 export class ServerBootstrap {
     private readonly app: Application;

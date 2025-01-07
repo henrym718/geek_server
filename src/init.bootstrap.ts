@@ -1,7 +1,7 @@
-import { ServerBootstrap } from "./bootsraps/server.bootsrap";
-import { EnvBootstrap } from "./bootsraps/env.bootstrap";
-import { logger } from "./common/logger";
-import { PrismaBootstrap } from "./bootsraps/prisma.bootsrap";
+import { ServerBootstrap } from "@Bootstraps/server.bootsrap";
+import { EnvBootstrap } from "@Bootstraps/env.bootstrap";
+import { PrismaBootstrap } from "@Bootstraps/prisma.bootsrap";
+import { logger } from "@Common/logger";
 
 const serverBootstrap = new ServerBootstrap();
 const envBootstrap = new EnvBootstrap();

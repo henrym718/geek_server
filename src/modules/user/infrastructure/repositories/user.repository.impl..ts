@@ -1,8 +1,8 @@
-import { IUserRepository } from "../../domain/ports/user.repository";
-import { PrismaBootstrap } from "../../../../bootsraps/prisma.bootsrap";
-import { User } from "../../domain/entities/user";
-import { toRole } from "../../../../common/toRole";
-import { toProvider } from "../../../../common/toAuthProvider";
+import { IUserRepository } from "@User/domain/ports/user.repository";
+import { PrismaBootstrap } from "bootstraps/prisma.bootsrap";
+import { User } from "@User/domain/entities/user";
+import { toRole } from "@Common/toRole";
+import { toProvider } from "@Common/toAuthProvider";
 
 export class UserRepository implements IUserRepository {
     async findbyEmail(email: string): Promise<User | null> {

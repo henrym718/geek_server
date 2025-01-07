@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { AuthController } from "../controllers/auth.controller";
-import { LocalAuthServices } from "../../infraestruture/services/local-auth.services";
+import { LocalAuthServices } from "@Auth/infraestruture/services/local-auth.services";
 
 const localAuthService = new LocalAuthServices();
 const localAuthControler = new AuthController(localAuthService);
