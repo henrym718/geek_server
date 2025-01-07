@@ -5,3 +5,5 @@ dist
 .env.production
 .env.test
 prisma/migrations
+src/modules/pruebas/
+.DS_Store

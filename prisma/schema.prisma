@@ -8,9 +8,52 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum AuthProvider {
+ LOCAL
+ GOOGLE
+}
+
+enum Role {
+  CLIENT
+  VENDOR
+}
 
  model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id        String          @id @default(uuid())
+  email     String          @unique
+  password  String?
+  provider  AuthProvider
+  role      Role
+  isActive  Boolean         @default(true)
+  createAt  DateTime        @default(now())
+  updateAt  DateTime        @updatedAt
+  client    Client?  
+  vendor    Vendor? 
+  @@map("users")
+       
+       
+}
+
+model Client {
+  id        String          @id @default(uuid())
+  firtName  String
+  latName   String
+  photo     String?
+  city      String
+  userId    String          @unique
+  user      User            @relation(fields: [userId], references: [id])
+  @@map("clients")
+
+}
+
+model Vendor {
+  id        String          @id @default(uuid())
+  firtName  String
+  latName   String
+  photo     String
+  phone     String
+  city      String
+  userid    String          @unique
+  user      User            @relation(fields: [userid], references: [id])
+  @@map("vendors")
 }
