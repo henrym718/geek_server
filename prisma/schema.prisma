@@ -29,9 +29,7 @@ enum Role {
   updateAt  DateTime        @updatedAt
   client    Client?  
   vendor    Vendor? 
-  @@map("users")
-       
-       
+  @@map("users")  
 }
 
 model Client {
