@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "dev": "ts-node src/init.bootstrap.ts"
+        "dev": "nodemon --watch src/ --exec  ts-node src/init.bootstrap.ts"
     },
     "keywords": [],
     "author": "",
@@ -19,6 +19,7 @@
     "devDependencies": {
         "@types/express": "^5.0.0",
         "@types/node": "^22.10.5",
+        "nodemon": "^3.1.9",
         "prisma": "^6.1.0",
         "ts-node": "^10.9.2",
         "tsconfig-paths": "^4.2.0",

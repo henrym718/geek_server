@@ -1,15 +1,15 @@
 export class User {
     private constructor(private readonly props: UserProps) {}
 
-    static create(props: Omit<UserProps, "id" | "createAt" | "isActive">): User {
-        return new User({ ...props, id: "idprovisional", createdAt: new Date(), isActive: true });
+    static create(props: Omit<UserProps, "id" | "createdAt" | "updatedAt" | "isActive">): User {
+        return new User({ ...props, id: "idprovisional", createdAt: new Date(), updatedAt: new Date(), isActive: true });
     }
 
     static reconstitute(props: UserProps): User {
         return new User(props);
     }
 }
-// src/domain/entities/User.ts
+
 export interface UserProps {
     readonly id: string;
     readonly email: string;

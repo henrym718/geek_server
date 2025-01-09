@@ -1,4 +1,4 @@
-import { AuthProviderEnum } from "../modules/user/domain/entities/user";
+import { AuthProviderEnum } from "../domain/entities/user";
 import { HttpException } from "./http.exception";
 
 export const toProvider = (provider: string): AuthProviderEnum => {
