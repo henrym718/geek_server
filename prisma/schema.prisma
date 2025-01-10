@@ -22,7 +22,7 @@ model User {
   email         String       @unique
   password      String?
   provider      AuthProvider
-  tokenProvider String
+  tokenProvider String?
   role          Role
   refresToken   String
   isActive      Boolean      @default(true)
