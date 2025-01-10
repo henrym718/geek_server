@@ -1,7 +1,5 @@
-import { RoleEnum } from "@Domain/entities/user";
-
 export interface RegisterUserDto {
-    role: RoleEnum;
+    role: string;
     email: string;
     password: string;
 }
