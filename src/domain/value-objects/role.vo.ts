@@ -1,6 +1,6 @@
 import { HttpException } from "@Common/http.exception";
 
-enum RoleEnum {
+export enum RoleEnum {
     CLIENT = "CLIENT",
     VENDOR = "VENDOR",
 }
@@ -8,7 +8,7 @@ enum RoleEnum {
 export class RoleVO {
     private constructor(private readonly role: RoleEnum) {}
 
-    public static create(role: string): RoleVO {
+    public static fromPlainText(role: string): RoleVO {
         const normalized = role.toUpperCase();
         const enumRole = RoleEnum[normalized as keyof typeof RoleEnum];
         if (!enumRole) {
