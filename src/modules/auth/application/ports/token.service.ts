@@ -1,10 +1,12 @@
-type TokenPayload = {
-    id: string;
+export type TokenPayload = {
+    userId: string;
     email: string;
     role: string;
 };
 
 export interface TokenService {
-    create(data: TokenPayload): Promise<string>;
-    verify(token: string): Promise<TokenPayload | null>;
+    generateAccessToken(payload: TokenPayload): Promise<string>;
+    generateRefreshToken(payload: TokenPayload): Promise<string>;
+    verifyAccessToken(token: string): Promise<TokenPayload | null>;
+    verifyRefreshToken(token: string): Promise<TokenPayload | null>;
 }
