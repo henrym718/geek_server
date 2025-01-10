@@ -7,7 +7,7 @@ enum ProviderEnum {
 export class ProviderVO {
     private constructor(private readonly provider: ProviderEnum) {}
 
-    public static create(provider: string): ProviderVO {
+    public static fromString(provider: string): ProviderVO {
         const normalized = provider.toUpperCase();
         const providerEnum = ProviderEnum[normalized as keyof typeof ProviderEnum];
 
@@ -16,10 +16,6 @@ export class ProviderVO {
         }
 
         return new ProviderVO(providerEnum);
-    }
-
-    public static fromEnum(provider: ProviderEnum): ProviderVO {
-        return new ProviderVO(provider);
     }
 
     public equals(provider: ProviderVO): boolean {
