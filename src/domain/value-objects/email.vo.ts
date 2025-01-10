@@ -4,8 +4,9 @@ export class EmailVO {
     private constructor(private readonly value: string) {}
 
     public static create(email: string): EmailVO {
-        this.validateEmail(email);
-        return new EmailVO(email);
+        const normalized = email.toLowerCase();
+        this.validateEmail(normalized);
+        return new EmailVO(normalized);
     }
 
     private static validateEmail(email: string): void {
