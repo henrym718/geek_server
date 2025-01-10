@@ -1,13 +1,13 @@
 import { HttpException } from "@Common/http.exception";
 
-enum ProviderEnum {
+export enum ProviderEnum {
     LOCAL = "LOCAL",
     GOOGLE = "GOOGLE",
 }
 export class ProviderVO {
     private constructor(private readonly provider: ProviderEnum) {}
 
-    public static fromString(provider: string): ProviderVO {
+    public static fromPlainText(provider: string): ProviderVO {
         const normalized = provider.toUpperCase();
         const providerEnum = ProviderEnum[normalized as keyof typeof ProviderEnum];
 
@@ -16,6 +16,10 @@ export class ProviderVO {
         }
 
         return new ProviderVO(providerEnum);
+    }
+
+    public static fromEnum(provider: ProviderEnum): ProviderVO {
+        return new ProviderVO(provider);
     }
 
     public equals(provider: ProviderVO): boolean {
