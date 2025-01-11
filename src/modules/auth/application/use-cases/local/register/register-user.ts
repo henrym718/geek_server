@@ -20,7 +20,7 @@ export class RegisterUser implements RegisterUserUseCase {
     async execute(registerData: RegisterUserDto): Promise<AuthResponseDto> {
         const { email, password, role } = registerData;
 
-        const existingUser = await this.userRepository.findbyEmail(email);
+        const existingUser = await this.userRepository.findbyEmail(email.toLowerCase());
         if (existingUser) {
             throw HttpException.badRequest("User already exists");
         }
@@ -49,7 +49,7 @@ export class RegisterUser implements RegisterUserUseCase {
             refreshToken: refreshTokenVO,
         });
 
-        await this.userRepository.create(user);
+        await this.userRepository.save(user);
 
         return { accessToken };
     }
