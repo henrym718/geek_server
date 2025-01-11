@@ -46,18 +46,42 @@ export class User {
         return new User(props);
     }
 
-    public toJSON() {
-        return {
-            id: this.props.id.getValue(),
-            email: this.props.email.getValue(),
-            provider: this.props.provider.getValue(),
-            password: this.props.password ? this.props.password.getValue() : null,
-            tokenProvider: this.props.tokenProvider ? this.props.tokenProvider.getValue() : null,
-            role: this.props.role.getValue(),
-            refreshToken: this.props.refreshToken.getValue(),
-            isActive: this.props.isActive,
-            createdAt: this.props.createdAt,
-            updatedAt: this.props.updatedAt,
-        };
+    updateRefreshToken(refreshToken: TokenVO): User {
+        return new User({
+            ...this.props,
+            refreshToken,
+            updatedAt: new Date(),
+        });
+    }
+
+    get id(): IdVO {
+        return this.props.id;
+    }
+    get email(): EmailVO {
+        return this.props.email;
+    }
+    get provider(): ProviderVO {
+        return this.props.provider;
+    }
+    get password(): PasswordVO | null {
+        return this.props.password;
+    }
+    get tokenProvider(): TokenVO | null {
+        return this.props.tokenProvider;
+    }
+    get role(): RoleVO {
+        return this.props.role;
+    }
+    get refreshToken(): TokenVO {
+        return this.props.refreshToken;
+    }
+    get isActive(): boolean {
+        return this.props.isActive;
+    }
+    get createdAt(): Date {
+        return this.props.createdAt;
+    }
+    get updatedAt(): Date | null {
+        return this.props.updatedAt;
     }
 }
