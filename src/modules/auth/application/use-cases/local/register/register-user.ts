@@ -49,7 +49,7 @@ export class RegisterUser implements RegisterUserUseCase {
             refreshToken: refreshTokenVO,
         });
 
-        await this.userRepository.save(user);
+        await this.userRepository.create(user);
 
         return { accessToken };
     }
