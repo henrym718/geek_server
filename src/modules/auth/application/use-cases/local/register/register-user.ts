@@ -36,8 +36,8 @@ export class RegisterUser implements RegisterUserUseCase {
 
         const tokenPayload = { userId: userId.getValue(), email: emailVO.getValue(), role: roleVO.getValue() };
 
-        const accessToken = await this.tokenService.generateAccessToken(tokenPayload);
-        const refreshToken = await this.tokenService.generateRefreshToken(tokenPayload);
+        const accessToken = this.tokenService.generateAccessToken(tokenPayload);
+        const refreshToken = this.tokenService.generateRefreshToken(tokenPayload);
         const refreshTokenVO = TokenVO.create(refreshToken);
 
         const user = User.create({
