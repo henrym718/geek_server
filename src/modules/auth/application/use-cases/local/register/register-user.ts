@@ -1,20 +1,23 @@
 import { UserRepository } from "@User/application/ports/user.repository";
 import { HashService } from "@Auth/application/ports/hash.service";
 import { TokenService } from "@Auth/application/ports/token.service";
-import { UuidService } from "@Auth/application/ports/uuid.service";
+import { IdService } from "@Auth/application/ports/uuid.service";
 import { RegisterUserUseCase } from "./register-user.use-case";
 import { RegisterUserDto } from "./register-user.dto";
 import { AuthResponseDto } from "@Auth/application/dtos/auth-response.dto";
 import { HttpException } from "@Common/http.exception";
 import { User } from "@Domain/entities/user";
 import { EmailVO, IdVO, PasswordVO, ProviderEnum, ProviderVO, RoleVO, TokenVO } from "@Domain/value-objects";
+import { injectable, inject } from "inversify";
+import { TYPES } from "@Auth/presentation/types/types";
 
+@injectable()
 export class RegisterUser implements RegisterUserUseCase {
     constructor(
-        private readonly userRepository: UserRepository,
-        private readonly hashService: HashService,
-        private readonly tokenService: TokenService,
-        private readonly uuidService: UuidService
+        @inject(TYPES.UserRepository) private readonly userRepository: UserRepository,
+        @inject(TYPES.HashService) private readonly hashService: HashService,
+        @inject(TYPES.TokenService) private readonly tokenService: TokenService,
+        @inject(TYPES.IdService) private readonly idService: IdService
     ) {}
 
     async execute(registerData: RegisterUserDto): Promise<AuthResponseDto> {
@@ -25,7 +28,7 @@ export class RegisterUser implements RegisterUserUseCase {
             throw HttpException.badRequest("User already exists");
         }
 
-        const userId = IdVO.create(this.uuidService.generateUUID());
+        const userId = IdVO.create(this.idService.generateUUID());
         const emailVO = EmailVO.create(email);
         const roleVO = RoleVO.fromPlainText(role);
         const passwordVO = PasswordVO.fromPlainText(password);

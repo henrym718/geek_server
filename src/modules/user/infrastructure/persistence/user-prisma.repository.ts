@@ -15,7 +15,6 @@ export class UserPrismaRepository implements UserRepository {
                 role: user.role.getValue(),
                 isActive: user.isActive,
                 createAt: user.createdAt,
-                updateAt: user.updatedAt ?? "",
                 refresToken: user.refreshToken.getValue(),
                 tokenProvider: user.tokenProvider?.getValue(),
             },
@@ -26,7 +25,6 @@ export class UserPrismaRepository implements UserRepository {
     }
     async findbyEmail(email: string): Promise<User | null> {
         const prisma = PrismaBootstrap.prisma;
-
         const userFound = await prisma.user.findUnique({
             where: {
                 email,
