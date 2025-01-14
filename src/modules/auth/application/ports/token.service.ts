@@ -5,8 +5,7 @@ export type TokenPayload = {
 };
 
 export interface TokenService {
-    generateAccessToken(payload: TokenPayload): Promise<string>;
-    generateRefreshToken(payload: TokenPayload): Promise<string>;
-    verifyAccessToken(token: string): Promise<TokenPayload | null>;
-    verifyRefreshToken(token: string): Promise<TokenPayload | null>;
+    generateAccessToken(payload: TokenPayload): string;
+    generateRefreshToken(payload: TokenPayload): string;
+    verifyToken(token: string): TokenPayload;
 }
