@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "dev": "nodemon --watch src/ --exec  ts-node src/init.bootstrap.ts"
+        "dev": "nodemon --watch src/ --exec  ts-node src/init.bootstrap.ts",
+        "migrate": "DATABASE_URL=postgresql://geek:12345@localhost:5432/dbtest?schema=pubic npx prisma migrate dev"
     },
     "keywords": [],
     "author": "",
