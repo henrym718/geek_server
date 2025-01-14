@@ -31,8 +31,8 @@ export class LoginUser implements LoginUserUseCase {
         }
 
         const payload = { email: foundUser.email.getValue(), role: foundUser.role.getValue(), userId: foundUser.id.getValue() };
-        const accessToken = await this.tokenService.generateAccessToken(payload);
-        const refreshToken = await this.tokenService.generateRefreshToken(payload);
+        const accessToken = this.tokenService.generateAccessToken(payload);
+        const refreshToken = this.tokenService.generateRefreshToken(payload);
 
         const updatedUser = foundUser.updateRefreshToken(TokenVO.create(refreshToken));
         await this.userRepository.save(updatedUser);
