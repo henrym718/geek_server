@@ -2,6 +2,7 @@ import "reflect-metadata";
 import express, { Application } from "express";
 import http, { Server } from "http";
 import { authRoutes } from "@Auth/presentation/routes/auth.routes";
+import { logger } from "@Common/logger";
 
 export class ServerBootstrap {
     private readonly app: Application;
@@ -20,7 +21,7 @@ export class ServerBootstrap {
             this.server
                 .listen(4000)
                 .on("listening", () => {
-                    console.log("Server is running on port 4000");
+                    logger.info("✅ Server is running on port 4000");
                     resolve();
                 })
                 .on("error", (error) => {
@@ -41,7 +42,7 @@ export class ServerBootstrap {
         if (this.server) {
             return new Promise((resolve) => {
                 this.server?.close(() => {
-                    console.log("Server is closed");
+                    logger.error("❌ Server is closed");
                     resolve();
                 });
             });

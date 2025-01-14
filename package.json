@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "dev": "nodemon --watch src/ --exec  ts-node src/main.ts",
+        "dev": "NODE_ENV=development nodemon --watch src/ --exec  ts-node src/main.ts",
         "migrate": "DATABASE_URL=postgresql://geek:12345@localhost:5432/dbtest?schema=pubic npx prisma migrate dev",
         "studio": "DATABASE_URL=postgresql://geek:12345@localhost:5432/dbtest?schema=pubic npx prisma studio"
     },
