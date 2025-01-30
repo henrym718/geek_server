@@ -34,7 +34,7 @@ export class PasswordVO {
         }
 
         if (!new RegExp(/^(?=.*\d)(?=.*[a-zA-Z]).{5,}$/).test(password)) {
-            throw HttpException.badRequest("Invalid password from VO");
+            throw HttpException.badRequest("Invalid password");
         }
     }
 

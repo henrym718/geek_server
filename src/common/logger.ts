@@ -10,7 +10,7 @@ const levesl: Record<string, any> = {
 
 const formatLog = format.printf(({ level, message, timestamp }): string => {
     const levelColor = levesl[level](`${level.toUpperCase()}:`);
-    return `${timestamp} ${levelColor} ${`[ ${message} ]`}`;
+    return `${timestamp} ${levelColor} [ ${message} ]`;
 });
 
 export const logger = createLogger({
