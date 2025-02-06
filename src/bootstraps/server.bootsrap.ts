@@ -5,7 +5,7 @@ import { authRoutes } from "@Auth/presentation/routes/auth.routes";
 import { logger } from "@Common/logger";
 import { errorLog } from "@Common/middlewares/errorLog";
 import { errorHandler } from "@Common/middlewares/errorHandler";
-
+import cors from "cors";
 export class ServerBootstrap {
     private readonly app: Application;
     private server: Server | null = null;
@@ -35,6 +35,7 @@ export class ServerBootstrap {
 
     private setupGeneralMiddlewares() {
         this.app.use(express.json());
+        this.app.use(cors());
     }
 
     private setupRoutes() {
