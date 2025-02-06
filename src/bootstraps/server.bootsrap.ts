@@ -3,6 +3,8 @@ import express, { Application } from "express";
 import http, { Server } from "http";
 import { authRoutes } from "@Auth/presentation/routes/auth.routes";
 import { logger } from "@Common/logger";
+import { errorLog } from "@Common/middlewares/errorLog";
+import { errorHandler } from "@Common/middlewares/errorHandler";
 
 export class ServerBootstrap {
     private readonly app: Application;
@@ -10,8 +12,9 @@ export class ServerBootstrap {
 
     constructor() {
         this.app = express();
-        this.configureMiddlewares();
-        this.configureRoutes();
+        this.setupGeneralMiddlewares();
+        this.setupRoutes();
+        this.setupErrorHandling();
     }
 
     public async initialize(): Promise<void> {
@@ -30,12 +33,17 @@ export class ServerBootstrap {
         });
     }
 
-    private configureMiddlewares() {
+    private setupGeneralMiddlewares() {
         this.app.use(express.json());
     }
 
-    private configureRoutes() {
+    private setupRoutes() {
         this.app.use("/authenticate", authRoutes);
+    }
+
+    private setupErrorHandling() {
+        this.app.use(errorLog);
+        this.app.use(errorHandler);
     }
 
     public async close(): Promise<void> {
