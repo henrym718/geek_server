@@ -4,7 +4,7 @@ export type TokenPayload = {
     role: string;
 };
 
-export interface TokenService {
+export interface ITokenService {
     generateAccessToken(payload: TokenPayload): string;
     generateRefreshToken(payload: TokenPayload): string;
     verifyToken(token: string): TokenPayload;

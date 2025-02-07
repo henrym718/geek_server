@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
-import { HashService } from "@Auth/application/ports/hash.service";
+import { IHashService } from "@Auth/application/interfaces/services/hash.service";
 
-export class BcryptHashService implements HashService {
+export class HashServiceImpl implements IHashService {
     async hash(password: string): Promise<string> {
         return await bcrypt.hash(password, 10);
     }

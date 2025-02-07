@@ -1,4 +1,4 @@
-export interface IdService {
+export interface IUUIDService {
     generateUUID(): string;
     isValid(uuid: string): boolean;
 }

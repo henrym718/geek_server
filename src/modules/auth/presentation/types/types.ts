@@ -5,4 +5,5 @@ export const TYPES = {
     HashService: Symbol.for("HashService"),
     TokenService: Symbol.for("TokenService"),
     IdService: Symbol.for("IdService"),
+    AuthController: Symbol.for("AuthController"),
 };

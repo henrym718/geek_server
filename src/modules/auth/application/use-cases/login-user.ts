@@ -1,17 +1,20 @@
 import { UserRepository } from "@User/application/ports/user.repository";
-import { HashService } from "@Auth/application/ports/hash.service";
-import { TokenService } from "@Auth/application/ports/token.service";
-import { LoginUserUseCase } from "./login-user.use-case";
+import { IHashService } from "@Auth/application/interfaces/services/hash.service";
+import { ITokenService } from "@Auth/application/interfaces/services/token.service";
+import { ILoginUserUseCase } from "../interfaces/use-cases/login-user.use-case";
 import { AuthResponseDto } from "@Auth/application/dtos/auth-response.dto";
-import { LoginUserDto } from "./login-user.dto";
+import { LoginUserDto } from "../dtos/login-user.dto";
 import { HttpException } from "@Common/http.exception";
 import { EmailVO, PasswordVO, TokenVO } from "@Domain/value-objects";
+import { inject, injectable } from "inversify";
+import { TYPES } from "@Auth/presentation/types/types";
 
-export class LoginUser implements LoginUserUseCase {
+@injectable()
+export class LoginUser implements ILoginUserUseCase {
     constructor(
-        private readonly userRepository: UserRepository,
-        private readonly tokenService: TokenService,
-        private readonly hashService: HashService
+        @inject(TYPES.UserRepository) private readonly userRepository: UserRepository,
+        @inject(TYPES.TokenService) private readonly tokenService: ITokenService,
+        @inject(TYPES.HashService) private readonly hashService: IHashService
     ) {}
 
     async execute(loginData: LoginUserDto): Promise<AuthResponseDto> {

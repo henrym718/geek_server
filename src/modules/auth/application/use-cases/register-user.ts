@@ -1,9 +1,9 @@
 import { UserRepository } from "@User/application/ports/user.repository";
-import { HashService } from "@Auth/application/ports/hash.service";
-import { TokenService } from "@Auth/application/ports/token.service";
-import { IdService } from "@Auth/application/ports/uuid.service";
-import { RegisterUserUseCase } from "./register-user.use-case";
-import { RegisterUserDto } from "./register-user.dto";
+import { IHashService } from "@Auth/application/interfaces/services/hash.service";
+import { ITokenService } from "@Auth/application/interfaces/services/token.service";
+import { IUUIDService } from "@Auth/application/interfaces/services/uuid.service";
+import { IRegisterUserUseCase } from "../interfaces/use-cases/register-user.use-case";
+import { RegisterUserDto } from "../dtos/register-user.dto";
 import { AuthResponseDto } from "@Auth/application/dtos/auth-response.dto";
 import { HttpException } from "@Common/http.exception";
 import { User } from "@Domain/entities/user";
@@ -12,12 +12,12 @@ import { injectable, inject } from "inversify";
 import { TYPES } from "@Auth/presentation/types/types";
 
 @injectable()
-export class RegisterUser implements RegisterUserUseCase {
+export class RegisterUser implements IRegisterUserUseCase {
     constructor(
         @inject(TYPES.UserRepository) private readonly userRepository: UserRepository,
-        @inject(TYPES.HashService) private readonly hashService: HashService,
-        @inject(TYPES.TokenService) private readonly tokenService: TokenService,
-        @inject(TYPES.IdService) private readonly idService: IdService
+        @inject(TYPES.HashService) private readonly hashService: IHashService,
+        @inject(TYPES.TokenService) private readonly tokenService: ITokenService,
+        @inject(TYPES.IdService) private readonly idService: IUUIDService
     ) {}
 
     async execute(registerData: RegisterUserDto): Promise<AuthResponseDto> {
