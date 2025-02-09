@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import express, { Application } from "express";
 import http, { Server } from "http";
-import { authRoutes } from "@Auth/presentation/routes/auth.routes";
+import { authRoutes } from "@Auth/presentation/auth.routes";
 import { logger } from "@Common/logger";
 import { errorLog } from "@Common/middlewares/errorLog";
 import { errorHandler } from "@Common/middlewares/errorHandler";

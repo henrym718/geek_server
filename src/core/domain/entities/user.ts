@@ -1,23 +1,23 @@
 import { HttpException } from "@Common/http.exception";
-import { EmailVO, IdVO, PasswordVO, ProviderVO, RoleVO, TokenVO } from "@Domain/value-objects";
+import { EmailVO, IdVO, PasswordVO, ProviderVO, RoleVO, TokenVO } from "../value-objects";
 
-export interface UserCreateProps {
+interface UserCreateProps {
     readonly id: IdVO;
+    readonly email: EmailVO;
     readonly provider: ProviderVO;
     readonly role: RoleVO;
-    readonly email: EmailVO;
     readonly refreshToken: TokenVO;
     readonly password?: PasswordVO;
     readonly tokenProvider?: TokenVO;
 }
 
-export interface UserProps {
+interface UserProps {
     readonly id: IdVO;
     readonly email: EmailVO;
     readonly provider: ProviderVO;
+    readonly role: RoleVO;
     readonly password: PasswordVO | null;
     readonly tokenProvider: TokenVO | null;
-    readonly role: RoleVO;
     readonly refreshToken: TokenVO;
     readonly isActive: boolean;
     readonly createdAt: Date;

@@ -1,4 +1,4 @@
-export const TYPES = {
+export const AUTH_SYMBOL = {
     RegisterUserUseCase: Symbol.for("RegisterUserUseCase"),
     LoginUserUseCase: Symbol.for("LoginUserUseCase"),
     UserRepository: Symbol.for("UserRepository"),

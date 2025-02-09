@@ -1,16 +1,17 @@
 import { HttpResponse } from "@Common/http.response";
 import { NextFunction, Request, Response } from "express";
-import { inject } from "inversify";
-import { TYPES } from "../types/types";
+import { inject, injectable } from "inversify";
+import { AUTH_SYMBOL } from "../infraestructure/container/auth.symbol";
 import { RegisterUserDto } from "@Auth/application/dtos/register-user.dto";
 import { IRegisterUserUseCase } from "@Auth/application/interfaces/use-cases/register-user.use-case";
 import { ILoginUserUseCase } from "@Auth/application/interfaces/use-cases/login-user.use-case";
 import { LoginUserDto } from "@Auth/application/dtos/login-user.dto";
 
+@injectable()
 export class AuthController {
     constructor(
-        @inject(TYPES.RegisterUserUseCase) private readonly registerUserCase: IRegisterUserUseCase,
-        @inject(TYPES.LoginUserUseCase) private readonly loginUserCase: ILoginUserUseCase
+        @inject(AUTH_SYMBOL.RegisterUserUseCase) private readonly registerUserCase: IRegisterUserUseCase,
+        @inject(AUTH_SYMBOL.LoginUserUseCase) private readonly loginUserCase: ILoginUserUseCase
     ) {
         this.registerUserLocal = this.registerUserLocal.bind(this);
         this.loginUserLocal = this.loginUserLocal.bind(this);

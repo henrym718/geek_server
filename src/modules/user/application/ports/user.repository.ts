@@ -1,7 +1,7 @@
-import { User } from "@Domain/entities/user";
+import { User } from "@Core/domain/entities/user";
 
-export interface UserRepository {
+export interface IUserRepository {
     create(user: User): Promise<void>;
-    save(user: User): Promise<void>;
+    update(user: User): Promise<void>;
     findbyEmail(email: string): Promise<User | null>;
 }

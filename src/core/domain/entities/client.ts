@@ -1,4 +1,13 @@
-import { User } from "@Domain/entities/user";
+import { User } from "@Core/domain/entities/user";
+
+export interface ClientProps {
+    readonly id: string;
+    readonly firstName: string;
+    readonly lastName: string;
+    readonly photo?: string;
+    readonly city: string;
+    readonly userId: string;
+}
 
 export class Client {
     private constructor(private readonly user: User, private readonly props: ClientProps) {}
@@ -10,13 +19,4 @@ export class Client {
     static reconstitute(user: User, props: ClientProps): Client {
         return new Client(user, props);
     }
-}
-
-export interface ClientProps {
-    readonly id: string;
-    readonly firstName: string;
-    readonly lastName: string;
-    readonly photo?: string;
-    readonly city: string;
-    readonly userId: string;
 }

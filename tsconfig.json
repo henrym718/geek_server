@@ -9,7 +9,7 @@
         "paths": {
             "@Bootstraps/*": ["bootstraps/*"],
             "@Common/*": ["common/*"],
-            "@Domain/*": ["domain/*"],
+            "@Core/*": ["core/*"],
             "@Auth/*": ["modules/auth/*"],
             "@User/*": ["modules/user/*"],
             "@Client/*": ["modules/client/*"],

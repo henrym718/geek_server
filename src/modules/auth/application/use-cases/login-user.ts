@@ -1,20 +1,20 @@
-import { UserRepository } from "@User/application/ports/user.repository";
+import { IUserRepository } from "@User/application/ports/user.repository";
 import { IHashService } from "@Auth/application/interfaces/services/hash.service";
 import { ITokenService } from "@Auth/application/interfaces/services/token.service";
 import { ILoginUserUseCase } from "../interfaces/use-cases/login-user.use-case";
 import { AuthResponseDto } from "@Auth/application/dtos/auth-response.dto";
 import { LoginUserDto } from "../dtos/login-user.dto";
 import { HttpException } from "@Common/http.exception";
-import { EmailVO, PasswordVO, TokenVO } from "@Domain/value-objects";
+import { EmailVO, PasswordVO, TokenVO } from "@Core/domain/value-objects";
 import { inject, injectable } from "inversify";
-import { TYPES } from "@Auth/presentation/types/types";
+import { AUTH_SYMBOL } from "@Auth/infraestructure/container/auth.symbol";
 
 @injectable()
 export class LoginUser implements ILoginUserUseCase {
     constructor(
-        @inject(TYPES.UserRepository) private readonly userRepository: UserRepository,
-        @inject(TYPES.TokenService) private readonly tokenService: ITokenService,
-        @inject(TYPES.HashService) private readonly hashService: IHashService
+        @inject(AUTH_SYMBOL.UserRepository) private readonly userRepository: IUserRepository,
+        @inject(AUTH_SYMBOL.TokenService) private readonly tokenService: ITokenService,
+        @inject(AUTH_SYMBOL.HashService) private readonly hashService: IHashService
     ) {}
 
     async execute(loginData: LoginUserDto): Promise<AuthResponseDto> {
@@ -38,7 +38,7 @@ export class LoginUser implements ILoginUserUseCase {
         const refreshToken = this.tokenService.generateRefreshToken(payload);
 
         const updatedUser = foundUser.updateRefreshToken(TokenVO.create(refreshToken));
-        await this.userRepository.save(updatedUser);
+        await this.userRepository.update(updatedUser);
 
         return { accessToken };
     }

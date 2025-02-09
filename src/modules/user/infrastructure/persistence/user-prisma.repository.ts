@@ -1,64 +1,57 @@
 import { PrismaBootstrap } from "@Bootstraps/prisma.bootsrap";
-import { HttpException } from "@Common/http.exception";
-import { User } from "@Domain/entities/user";
-import { EmailVO, IdVO, PasswordVO, ProviderVO, RoleVO, TokenVO } from "@Domain/value-objects";
-import { UserRepository } from "@User/application/ports/user.repository";
+import { EmailVO, IdVO, PasswordVO, ProviderVO, RoleVO, TokenVO } from "@Core/domain/value-objects";
+import { IUserRepository } from "@User/application/ports/user.repository";
+import { User } from "@Core/domain/entities/user";
+import { Prisma, User as UserPrisma } from "@prisma/client";
 
-export class UserPrismaRepository implements UserRepository {
+export class UserPrismaRepository implements IUserRepository {
     private get prisma() {
-        const prisma = PrismaBootstrap.prisma;
-        if (!prisma) {
-            HttpException.forbidden("Prisma client not initialized");
-        }
-        return prisma;
+        return PrismaBootstrap.prisma;
     }
 
     async create(user: User): Promise<void> {
         await this.prisma.user.create({
-            data: {
-                id: user.id.getValue(),
-                provider: user.provider.getValue(),
-                email: user.email.getValue(),
-                password: user.password?.getValue() ?? null,
-                role: user.role.getValue(),
-                isActive: user.isActive,
-                createAt: user.createdAt,
-                refresToken: user.refreshToken.getValue(),
-                tokenProvider: user.tokenProvider?.getValue(),
-            },
+            data: this.toPrisma(user),
         });
     }
-    async save(user: User): Promise<void> {
+
+    async update(user: User): Promise<void> {
         await this.prisma.user.update({
             where: { id: user.id.getValue() },
-            data: {
-                provider: user.provider.getValue(),
-                email: user.email.getValue(),
-                password: user.password?.getValue() ?? null,
-                role: user.role.getValue(),
-                isActive: user.isActive,
-                createAt: user.createdAt,
-                refresToken: user.refreshToken.getValue(),
-                tokenProvider: user.tokenProvider?.getValue(),
-            },
+            data: this.toPrisma(user),
         });
     }
+
     async findbyEmail(email: string): Promise<User | null> {
         const userFound = await this.prisma.user.findUnique({ where: { email } });
-
         if (!userFound) return null;
+        return this.toDomain(userFound);
+    }
 
+    private toPrisma(user: User): Prisma.UserCreateInput {
+        return {
+            id: user.id.getValue(),
+            provider: user.provider.getValue(),
+            email: user.email.getValue(),
+            password: user.password?.getValue() ?? null,
+            role: user.role.getValue(),
+            refresToken: user.refreshToken.getValue(),
+            tokenProvider: user.tokenProvider?.getValue() ?? null,
+        };
+    }
+
+    private toDomain(user: UserPrisma): User {
         return User.reconstitute({
-            id: IdVO.create(userFound.id),
-            provider: ProviderVO.fromPlainText(userFound.provider),
-            email: EmailVO.create(userFound.email),
-            password: PasswordVO.fromPlainText(userFound.password ?? ""),
-            role: RoleVO.fromPlainText(userFound.role),
-            isActive: userFound.isActive,
-            refreshToken: TokenVO.create(userFound.refresToken),
-            tokenProvider: userFound.tokenProvider ? TokenVO.create(userFound.tokenProvider) : null,
-            createdAt: userFound.createAt,
-            updatedAt: userFound.updateAt,
+            id: IdVO.create(user.id),
+            provider: ProviderVO.fromPlainText(user.provider),
+            email: EmailVO.create(user.email),
+            password: user.password ? PasswordVO.fromPlainText(user.password) : null,
+            role: RoleVO.fromPlainText(user.role),
+            isActive: user.isActive,
+            refreshToken: TokenVO.create(user.refresToken),
+            tokenProvider: user.tokenProvider ? TokenVO.create(user.tokenProvider) : null,
+            createdAt: user.createAt,
+            updatedAt: user.updateAt,
         });
     }
 }

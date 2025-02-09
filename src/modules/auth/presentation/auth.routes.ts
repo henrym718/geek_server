@@ -1,5 +1,5 @@
-import { authContainer } from "../container/container";
-import { AuthController } from "../controllers/auth.controller";
+import { authContainer } from "../infraestructure/container/auth-container";
+import { AuthController } from "./auth.controller";
 import { Router } from "express";
 
 const authController = authContainer.get<AuthController>(AuthController);
