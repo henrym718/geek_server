@@ -6,3 +6,4 @@ export { PasswordVO } from "./password.vo";
 export { ProviderVO } from "./provider.vo";
 export { RoleVO } from "./role.vo";
 export { TokenVO } from "./token.dto";
+export { TextVO } from "./text.vo";
