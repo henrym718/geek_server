@@ -9,6 +9,8 @@ import { UpdateGroup } from "@Group/application/use-cases/update-group";
 import { IUUIDService } from "@Shared/interfaces/uuid.service";
 import { UUIDServiceImpl } from "@Shared/services/uuid.service.impl";
 import { GroupController } from "@Group/presentation/group.controller";
+import { IListGroupsUseCase } from "@Group/application/interfaces/use-cases/list-groups.use-case";
+import { ListGroup } from "@Group/application/use-cases/list-group";
 
 export const groupContainer = new Container();
 
@@ -16,4 +18,5 @@ groupContainer.bind<IGroupRepository>(GROUP_SYMBOLS.GroupRepository).to(GroupPri
 groupContainer.bind<IUUIDService>(GROUP_SYMBOLS.IdService).to(UUIDServiceImpl);
 groupContainer.bind<ICreateGroupUseCase>(GROUP_SYMBOLS.CreateGroupUseCase).to(CreateGroup);
 groupContainer.bind<IUpdateGroupUseCase>(GROUP_SYMBOLS.UpdateGroupUseCase).to(UpdateGroup);
+groupContainer.bind<IListGroupsUseCase>(GROUP_SYMBOLS.ListGroupUseCase).to(ListGroup);
 groupContainer.bind<GroupController>(GroupController).toSelf();

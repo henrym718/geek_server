@@ -50,8 +50,8 @@ export class UserPrismaRepository implements IUserRepository {
             isActive: user.isActive,
             refreshToken: TokenVO.create(user.refresToken),
             tokenProvider: user.tokenProvider ? TokenVO.create(user.tokenProvider) : null,
-            createdAt: user.createAt,
-            updatedAt: user.updateAt,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
         });
     }
 }

@@ -28,7 +28,7 @@ export class GroupPrismaRepository implements IGroupRepository {
     }
 
     async findAll(): Promise<Group[]> {
-        return (await this.prisma.group.findMany()).map((group) => this.toDomain(group));
+        return await this.prisma.group.findMany().then((groups) => groups.map(this.toDomain));
     }
 
     private toPrisma(entity: Group): Prisma.GroupCreateInput {
@@ -40,8 +40,8 @@ export class GroupPrismaRepository implements IGroupRepository {
             id: IdVO.create(entity.id),
             name: TextVO.create("name", entity.name),
             isActive: entity.isActive,
-            createdAt: entity.createAt,
-            updatedAt: entity.updateAt,
+            createdAt: entity.createdAt,
+            updatedAt: entity.updatedAt,
         });
     }
 }
