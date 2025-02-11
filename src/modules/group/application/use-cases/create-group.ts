@@ -1,5 +1,5 @@
 import { Group } from "@Core/entities/group";
-import { ReqCreateCategoryDTO } from "../dtos/req-create-category.dto";
+import { ReqCreateGroupDTO } from "../dtos/req-create-group.dto";
 import { IGroupRepository } from "../interfaces/repositories/group.repository";
 import { ICreateGroupUseCase } from "../interfaces/use-cases/create-group.use-case";
 import { IdVO, TextVO } from "@Core/value-objects";
@@ -15,7 +15,7 @@ export class CreateGroup implements ICreateGroupUseCase {
         @inject(GROUP_SYMBOLS.IdService) private readonly idService: IUUIDService
     ) {}
 
-    async execute(data: ReqCreateCategoryDTO): Promise<void> {
+    async execute(data: ReqCreateGroupDTO): Promise<void> {
         const { name } = data;
         const existingGroup = await this.groupRepository.findByName("h");
         if (existingGroup) throw HttpException.badRequest("Group already exists");

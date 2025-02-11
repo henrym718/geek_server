@@ -1,5 +1,5 @@
-import { ReqCreateCategoryDTO } from "../../dtos/req-create-category.dto";
+import { ReqCreateGroupDTO } from "../../dtos/req-create-group.dto";
 
 export interface ICreateGroupUseCase {
-    execute(data: ReqCreateCategoryDTO): Promise<void>;
+    execute(data: ReqCreateGroupDTO): Promise<void>;
 }

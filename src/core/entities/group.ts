@@ -27,6 +27,7 @@ export class Group {
     public desactivate(): Group {
         return new Group({ ...this.props, isActive: false, updatedAt: new Date() });
     }
+
     get id(): IdVO {
         return this.props.id;
     }

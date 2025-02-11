@@ -24,6 +24,10 @@ export class TextVO {
         }
     }
 
+    public isEqual(other: TextVO): boolean {
+        return this.value === other.value;
+    }
+
     public getValue(): string {
         return this.value;
     }

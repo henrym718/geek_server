@@ -6,3 +6,4 @@ export const groupRoutes = Router();
 const groupController = groupContainer.get(GroupController);
 
 groupRoutes.post("/", groupController.createGroup);
+groupRoutes.put("/", groupController.updateGroup);
