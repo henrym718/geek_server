@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs/promises";
-import { envSchema, Env } from "@Common/env.schema";
-import { logger } from "@Common/logger";
+import { envSchema, Env } from "@Common/enviroment/env.schema";
+import { logger } from "@Common/logs/logger";
 
 export class EnvBootstrap {
     private static env: Env;

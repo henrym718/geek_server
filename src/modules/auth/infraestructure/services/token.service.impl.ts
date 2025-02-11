@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { TokenPayload, ITokenService } from "@Auth/application/interfaces/services/token.service";
 import { EnvBootstrap } from "@Bootstraps/env.bootstrap";
-import { HttpException } from "@Common/http.exception";
+import { HttpException } from "@Common/exceptions/http.exception";
 
 export class TokenServiceImpl implements ITokenService {
     generateAccessToken(payload: TokenPayload): string {

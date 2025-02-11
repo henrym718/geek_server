@@ -1,4 +1,4 @@
-import { HttpException } from "@Common/http.exception";
+import { HttpException } from "@Common/exceptions/http.exception";
 
 export enum ProviderEnum {
     LOCAL = "LOCAL",

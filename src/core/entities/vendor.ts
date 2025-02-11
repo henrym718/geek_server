@@ -1,4 +1,4 @@
-import { User } from "@Core/domain/entities/user";
+import { User } from "./user";
 
 export class Vendor {
     private constructor(private readonly user: User, private readonly props: VendorProps) {}

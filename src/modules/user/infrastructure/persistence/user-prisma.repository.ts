@@ -1,7 +1,7 @@
 import { PrismaBootstrap } from "@Bootstraps/prisma.bootsrap";
-import { EmailVO, IdVO, PasswordVO, ProviderVO, RoleVO, TokenVO } from "@Core/domain/value-objects";
+import { EmailVO, IdVO, PasswordVO, ProviderVO, RoleVO, TokenVO } from "@Core/value-objects";
 import { IUserRepository } from "@User/application/ports/user.repository";
-import { User } from "@Core/domain/entities/user";
+import { User } from "@Core/entities/user";
 import { Prisma, User as UserPrisma } from "@prisma/client";
 
 export class UserPrismaRepository implements IUserRepository {

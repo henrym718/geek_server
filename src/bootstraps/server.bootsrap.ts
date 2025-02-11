@@ -1,11 +1,12 @@
 import "reflect-metadata";
 import express, { Application } from "express";
 import http, { Server } from "http";
-import { authRoutes } from "@Auth/presentation/auth.routes";
-import { logger } from "@Common/logger";
-import { errorLog } from "@Common/middlewares/errorLog";
+import { logger } from "@Common/logs/logger";
 import { errorHandler } from "@Common/middlewares/errorHandler";
 import cors from "cors";
+import { authRoutes } from "@Auth/presentation/auth.routes";
+import { groupRoutes } from "@Group/presentation/group.routes";
+
 export class ServerBootstrap {
     private readonly app: Application;
     private server: Server | null = null;
@@ -40,10 +41,10 @@ export class ServerBootstrap {
 
     private setupRoutes() {
         this.app.use("/authenticate", authRoutes);
+        this.app.use("/group", groupRoutes);
     }
 
     private setupErrorHandling() {
-        this.app.use(errorLog);
         this.app.use(errorHandler);
     }
 

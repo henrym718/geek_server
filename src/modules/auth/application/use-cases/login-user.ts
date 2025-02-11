@@ -4,8 +4,8 @@ import { ITokenService } from "@Auth/application/interfaces/services/token.servi
 import { ILoginUserUseCase } from "../interfaces/use-cases/login-user.use-case";
 import { AuthResponseDto } from "@Auth/application/dtos/auth-response.dto";
 import { LoginUserDto } from "../dtos/login-user.dto";
-import { HttpException } from "@Common/http.exception";
-import { EmailVO, PasswordVO, TokenVO } from "@Core/domain/value-objects";
+import { HttpException } from "@Common/exceptions/http.exception";
+import { EmailVO, PasswordVO, TokenVO } from "@Core/value-objects";
 import { inject, injectable } from "inversify";
 import { AUTH_SYMBOL } from "@Auth/infraestructure/container/auth.symbol";
 

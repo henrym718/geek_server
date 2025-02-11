@@ -1,4 +1,4 @@
-import { User } from "@Core/domain/entities/user";
+import { User } from "./user";
 
 export interface ClientProps {
     readonly id: string;

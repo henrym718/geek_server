@@ -1,4 +1,4 @@
-import { HttpException } from "@Common/http.exception";
+import { HttpException } from "@Common/exceptions/http.exception";
 import { EmailVO, IdVO, PasswordVO, ProviderVO, RoleVO, TokenVO } from "../value-objects";
 
 interface UserCreateProps {

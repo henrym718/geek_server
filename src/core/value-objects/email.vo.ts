@@ -1,4 +1,4 @@
-import { HttpException } from "@Common/http.exception";
+import { HttpException } from "@Common/exceptions/http.exception";
 
 export class EmailVO {
     private constructor(private readonly value: string) {}

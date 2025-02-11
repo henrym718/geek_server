@@ -10,10 +10,10 @@
             "@Bootstraps/*": ["bootstraps/*"],
             "@Common/*": ["common/*"],
             "@Core/*": ["core/*"],
+            "@Shared/*": ["shared/*"],
             "@Auth/*": ["modules/auth/*"],
             "@User/*": ["modules/user/*"],
-            "@Client/*": ["modules/client/*"],
-            "@Vendor/*": ["modules/vendor/*"]
+            "@Group/*": ["modules/group/*"]
         },
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,

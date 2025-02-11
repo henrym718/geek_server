@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { logger } from "@Common/logger";
+import { logger } from "@Common/logs/logger";
 
 export class PrismaBootstrap {
     private static prismaClient: PrismaClient | null;

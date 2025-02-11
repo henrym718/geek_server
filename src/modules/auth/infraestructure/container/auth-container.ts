@@ -4,10 +4,10 @@ import { AUTH_SYMBOL } from "./auth.symbol";
 
 import { IHashService } from "@Auth/application/interfaces/services/hash.service";
 import { ITokenService } from "@Auth/application/interfaces/services/token.service";
-import { IUUIDService } from "@Auth/application/interfaces/services/uuid.service";
+import { IUUIDService } from "@Shared/interfaces/uuid.service";
 import { HashServiceImpl } from "@Auth/infraestructure/services/hash.service.impl";
 import { TokenServiceImpl } from "@Auth/infraestructure/services/token.service.impl";
-import { UUIDServiceImpl } from "@Auth/infraestructure/services/uuid.service.impl";
+import { UUIDServiceImpl } from "@Shared/services/uuid.service.impl";
 
 import { IRegisterUserUseCase } from "@Auth/application/interfaces/use-cases/register-user.use-case";
 import { ILoginUserUseCase } from "@Auth/application/interfaces/use-cases/login-user.use-case";

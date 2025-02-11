@@ -1,4 +1,4 @@
-import { HttpResponse } from "@Common/http.response";
+import { HttpResponse } from "@Common/response/http.response";
 import { NextFunction, Request, Response } from "express";
 import { inject, injectable } from "inversify";
 import { AUTH_SYMBOL } from "../infraestructure/container/auth.symbol";

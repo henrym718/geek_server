@@ -1,13 +1,13 @@
 import { IUserRepository } from "@User/application/ports/user.repository";
 import { IHashService } from "@Auth/application/interfaces/services/hash.service";
 import { ITokenService } from "@Auth/application/interfaces/services/token.service";
-import { IUUIDService } from "@Auth/application/interfaces/services/uuid.service";
+import { IUUIDService } from "shared/interfaces/uuid.service";
 import { IRegisterUserUseCase } from "../interfaces/use-cases/register-user.use-case";
 import { RegisterUserDto } from "../dtos/register-user.dto";
 import { AuthResponseDto } from "@Auth/application/dtos/auth-response.dto";
-import { HttpException } from "@Common/http.exception";
-import { User } from "core/domain/entities/user";
-import { EmailVO, IdVO, PasswordVO, ProviderEnum, ProviderVO, RoleVO, TokenVO } from "@Core/domain/value-objects";
+import { HttpException } from "@Common/exceptions/http.exception";
+import { User } from "@Core/entities/user";
+import { EmailVO, IdVO, PasswordVO, ProviderEnum, ProviderVO, RoleVO, TokenVO } from "@Core/value-objects";
 import { injectable, inject } from "inversify";
 import { AUTH_SYMBOL } from "@Auth/infraestructure/container/auth.symbol";
 
@@ -24,9 +24,7 @@ export class RegisterUser implements IRegisterUserUseCase {
         const { email, password, role } = registerData;
 
         const existingUser = await this.userRepository.findbyEmail(email.toLowerCase());
-        if (existingUser) {
-            throw HttpException.badRequest("User already exists");
-        }
+        if (existingUser) throw HttpException.badRequest("User already exists");
 
         const userId = IdVO.create(this.idService.generateUUID());
         const emailVO = EmailVO.create(email);

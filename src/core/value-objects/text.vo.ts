@@ -1,10 +1,10 @@
-import { HttpException } from "@Common/http.exception";
+import { HttpException } from "@Common/exceptions/http.exception";
 
 export class TextVO {
     private constructor(private readonly value: string) {}
 
     public static create(fieldName: string, value: string): TextVO {
-        const cleanedValue = value.trim();
+        const cleanedValue = value?.trim();
         this.validateName(fieldName, cleanedValue);
         return new TextVO(cleanedValue);
     }

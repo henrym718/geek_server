@@ -1,4 +1,4 @@
-import { logger } from "@Common/logger";
+import { logger } from "@Common/logs/logger";
 import { EnvBootstrap } from "./env.bootstrap";
 import { PrismaBootstrap } from "./prisma.bootsrap";
 import { ServerBootstrap } from "./server.bootsrap";

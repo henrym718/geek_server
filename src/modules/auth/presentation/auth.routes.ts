@@ -2,7 +2,7 @@ import { authContainer } from "../infraestructure/container/auth-container";
 import { AuthController } from "./auth.controller";
 import { Router } from "express";
 
-const authController = authContainer.get<AuthController>(AuthController);
+const authController = authContainer.get(AuthController);
 
 const router = Router();
 
