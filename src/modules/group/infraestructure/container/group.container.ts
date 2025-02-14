@@ -11,6 +11,8 @@ import { UUIDServiceImpl } from "@Shared/services/uuid.service.impl";
 import { GroupController } from "@Group/presentation/group.controller";
 import { IListGroupsUseCase } from "@Group/application/interfaces/use-cases/list-groups.use-case";
 import { ListGroup } from "@Group/application/use-cases/list-group";
+import { IGroupWithCategoriesUseCase } from "@Group/application/interfaces/use-cases/group-with-categories.use-case";
+import { GroupWithCategories } from "@Group/application/use-cases/group-with-categories ";
 
 export const groupContainer = new Container();
 
@@ -19,4 +21,6 @@ groupContainer.bind<IUUIDService>(GROUP_SYMBOLS.IdService).to(UUIDServiceImpl);
 groupContainer.bind<ICreateGroupUseCase>(GROUP_SYMBOLS.CreateGroupUseCase).to(CreateGroup);
 groupContainer.bind<IUpdateGroupUseCase>(GROUP_SYMBOLS.UpdateGroupUseCase).to(UpdateGroup);
 groupContainer.bind<IListGroupsUseCase>(GROUP_SYMBOLS.ListGroupUseCase).to(ListGroup);
+groupContainer.bind<IGroupWithCategoriesUseCase>(GROUP_SYMBOLS.GroupWithCategoriesUseCase).to(GroupWithCategories);
+
 groupContainer.bind<GroupController>(GroupController).toSelf();

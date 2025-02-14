@@ -17,15 +17,16 @@ export class Group {
     }
 
     public static reconstitute(data: GroupProps): Group {
-        return new Group(data);
+        return new Group({ ...data });
     }
 
     public update(data: { name: TextVO }): Group {
         return new Group({ ...this.props, ...data, updatedAt: new Date() });
     }
 
-    public desactivate(): Group {
-        return new Group({ ...this.props, isActive: false, updatedAt: new Date() });
+    public deactivate(): void {
+        this.props.isActive = false;
+        this.props.updatedAt = new Date();
     }
 
     get id(): IdVO {

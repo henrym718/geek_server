@@ -4,4 +4,5 @@ export const GROUP_SYMBOLS = {
     CreateGroupUseCase: Symbol.for("CreateGroupUseCase"),
     UpdateGroupUseCase: Symbol.for("UpdateGroupUseCase"),
     ListGroupUseCase: Symbol.for("ListGroupUseCase"),
+    GroupWithCategoriesUseCase: Symbol.for("GroupWithCategoriesUseCase"),
 };

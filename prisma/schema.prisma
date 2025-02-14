@@ -61,9 +61,20 @@ model Vendor {
 }
 
 model Group {
+  id         String     @id
+  name       String
+  isActive   Boolean    @default(true)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  categories Category[]
+}
+
+model Category {
   id        String   @id
   name      String
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  group     Group    @relation(fields: [groupId], references: [id])
+  groupId   String
 }
