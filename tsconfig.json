@@ -13,7 +13,8 @@
             "@Shared/*": ["shared/*"],
             "@Auth/*": ["modules/auth/*"],
             "@User/*": ["modules/user/*"],
-            "@Group/*": ["modules/group/*"]
+            "@Group/*": ["modules/group/*"],
+            "@Category/*": ["modules/category/*"]
         },
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,

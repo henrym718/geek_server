@@ -6,6 +6,7 @@ export interface CategoryProps {
     isActive: boolean;
     createdAt: Date;
     updatedAt: Date | null;
+    groupId: IdVO;
 }
 
 export class Category {
@@ -42,5 +43,9 @@ export class Category {
 
     get updatedAt(): Date | null {
         return this.props.updatedAt;
+    }
+
+    get groupId(): IdVO {
+        return this.props.groupId;
     }
 }

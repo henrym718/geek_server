@@ -68,6 +68,7 @@ export class GroupPrismaRepository implements IGroupRepository {
                 isActive: category.isActive,
                 createdAt: category.createdAt,
                 updatedAt: category.updatedAt,
+                groupId: IdVO.create(category.groupId),
             })
         );
     }
