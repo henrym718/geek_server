@@ -14,7 +14,7 @@ export class GroupController {
     constructor(
         @inject(GROUP_SYMBOLS.CreateGroupUseCase) private readonly createGroupUseCase: ICreateGroupUseCase,
         @inject(GROUP_SYMBOLS.UpdateGroupUseCase) private readonly updateGroupUseCase: IUpdateGroupUseCase,
-        @inject(GROUP_SYMBOLS.ListGroupUseCase) private readonly ListGroupUseCase: IListGroupsUseCase,
+        @inject(GROUP_SYMBOLS.ListGroupUseCase) private readonly listGroupUseCase: IListGroupsUseCase,
         @inject(GROUP_SYMBOLS.GroupWithCategoriesUseCase) private readonly groupWithCategoriesUseCase: IGroupWithCategoriesUseCase
     ) {
         this.createGroup = this.createGroup.bind(this);
@@ -45,7 +45,7 @@ export class GroupController {
 
     async ListGroup(req: Request, res: Response, next: NextFunction) {
         try {
-            const groupsFound = await this.ListGroupUseCase.execute();
+            const groupsFound = await this.listGroupUseCase.execute();
             HttpResponse.success(res, groupsFound);
         } catch (error) {
             next(error);

@@ -6,6 +6,7 @@ import { errorHandler } from "@Common/middlewares/errorHandler";
 import cors from "cors";
 import { authRoutes } from "@Auth/presentation/auth.routes";
 import { groupRoutes } from "@Group/presentation/group.routes";
+import { categoryRoutes } from "@Category/presentation/category.routes";
 
 export class ServerBootstrap {
     private readonly app: Application;
@@ -42,6 +43,7 @@ export class ServerBootstrap {
     private setupRoutes() {
         this.app.use("/authenticate", authRoutes);
         this.app.use("/group", groupRoutes);
+        this.app.use("/category", categoryRoutes);
     }
 
     private setupErrorHandling() {

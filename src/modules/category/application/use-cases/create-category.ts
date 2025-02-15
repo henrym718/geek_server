@@ -6,19 +6,22 @@ import { HttpException } from "@Common/exceptions/http.exception";
 import { IUUIDService } from "@Shared/interfaces/uuid.service";
 import { IdVO, TextVO } from "@Core/value-objects";
 import { Category } from "@Core/entities/category";
+import { inject, injectable } from "inversify";
+import { CATEGORY_SYMBOLS } from "@Category/infraestructure/container/category.symbol";
 
+@injectable()
 export class CreateCategory implements ICreateCategotyUseCase {
-    private constructor(
-        private readonly categoryRepository: ICategoryRepository,
-        private readonly groupRepository: IGroupRepository,
-        private readonly idService: IUUIDService
+    constructor(
+        @inject(CATEGORY_SYMBOLS.CategoryRepository) private readonly categoryRepository: ICategoryRepository,
+        @inject(CATEGORY_SYMBOLS.GroupRepository) private readonly groupRepository: IGroupRepository,
+        @inject(CATEGORY_SYMBOLS.IdService) private readonly idService: IUUIDService
     ) {}
 
     async execute(data: ReqCreateCategoryDTO): Promise<void> {
         const { name, groupId } = data;
 
         const groupExists = await this.groupRepository.findById(groupId);
-        if (groupExists) throw HttpException.notFound(`El grupo con id ${groupId} no existe.`);
+        if (!groupExists) throw HttpException.notFound(`El grupo con id ${groupId} no existe.`);
 
         const categoryId = IdVO.create(this.idService.generateUUID());
         const categoryName = TextVO.create("name", name);
