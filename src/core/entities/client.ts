@@ -1,22 +1,47 @@
+import { IdVO, TextVO } from "@Core/value-objects";
 import { User } from "./user";
 
 export interface ClientProps {
-    readonly id: string;
-    readonly firstName: string;
-    readonly lastName: string;
-    readonly photo?: string;
-    readonly city: string;
-    readonly userId: string;
+    readonly id: IdVO;
+    readonly firstName: TextVO;
+    readonly lastName: TextVO;
+    readonly photo?: TextVO;
+    readonly city: TextVO;
+    readonly userId: IdVO;
 }
 
 export class Client {
-    private constructor(private readonly user: User, private readonly props: ClientProps) {}
+    private constructor(private readonly props: ClientProps) {}
 
-    static create(user: User, props: Omit<ClientProps, "id">): Client {
-        return new Client(user, { ...props, id: "id" });
+    static create(props: ClientProps): Client {
+        return new Client(props);
     }
 
-    static reconstitute(user: User, props: ClientProps): Client {
-        return new Client(user, props);
+    static reconstitute(props: ClientProps): Client {
+        return new Client(props);
+    }
+
+    get id(): IdVO {
+        return this.props.id;
+    }
+
+    get firstName(): TextVO {
+        return this.props.firstName;
+    }
+
+    get lastName(): TextVO {
+        return this.props.lastName;
+    }
+
+    get photo(): TextVO | null {
+        return this.props.photo ?? null;
+    }
+
+    get city(): TextVO {
+        return this.props.city;
+    }
+
+    get userId(): IdVO {
+        return this.userId;
     }
 }

@@ -2,23 +2,23 @@ import { HttpResponse } from "@Common/response/http.response";
 import { NextFunction, Request, Response } from "express";
 import { inject, injectable } from "inversify";
 import { AUTH_SYMBOL } from "../infraestructure/container/auth.symbol";
-import { RegisterUserDto } from "@Auth/application/dtos/register-user.dto";
-import { IRegisterUserUseCase } from "@Auth/application/interfaces/use-cases/register-user.use-case";
-import { ILoginUserUseCase } from "@Auth/application/interfaces/use-cases/login-user.use-case";
-import { LoginUserDto } from "@Auth/application/dtos/login-user.dto";
+import { ReqRegisterLocalDto } from "@Auth/application/use-cases/register-local/register-local.dto";
+import { IRegisterLocalUseCase } from "@Auth/application/use-cases/register-local/register-local.use-case";
+import { ILoginLocalUseCase } from "@Auth/application/use-cases/login-local/login-local.use-case";
+import { ReqLoginLocalDto } from "@Auth/application/use-cases/login-local/login-local.dto";
 
 @injectable()
 export class AuthController {
     constructor(
-        @inject(AUTH_SYMBOL.RegisterUserUseCase) private readonly registerUserCase: IRegisterUserUseCase,
-        @inject(AUTH_SYMBOL.LoginUserUseCase) private readonly loginUserCase: ILoginUserUseCase
+        @inject(AUTH_SYMBOL.RegisterUserUseCase) private readonly registerUserCase: IRegisterLocalUseCase,
+        @inject(AUTH_SYMBOL.LoginUserUseCase) private readonly loginUserCase: ILoginLocalUseCase
     ) {
         this.registerUserLocal = this.registerUserLocal.bind(this);
         this.loginUserLocal = this.loginUserLocal.bind(this);
     }
     async registerUserLocal(req: Request, res: Response, next: NextFunction) {
         try {
-            const data: RegisterUserDto = req.body;
+            const data: ReqRegisterLocalDto = req.body;
             const { accessToken } = await this.registerUserCase.execute(data);
             HttpResponse.success(res, { accessToken });
         } catch (error) {
@@ -28,7 +28,7 @@ export class AuthController {
 
     async loginUserLocal(req: Request, res: Response, next: NextFunction) {
         try {
-            const data: LoginUserDto = req.body;
+            const data: ReqLoginLocalDto = req.body;
             const { accessToken } = await this.loginUserCase.execute(data);
             HttpResponse.success(res, { accessToken });
         } catch (error) {

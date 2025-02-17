@@ -1,24 +1,23 @@
 import { IUserRepository } from "@User/application/ports/user.repository";
-import { IHashService } from "@Auth/application/interfaces/services/hash.service";
-import { ITokenService } from "@Auth/application/interfaces/services/token.service";
-import { ILoginUserUseCase } from "../interfaces/use-cases/login-user.use-case";
-import { AuthResponseDto } from "@Auth/application/dtos/auth-response.dto";
-import { LoginUserDto } from "../dtos/login-user.dto";
+import { IHashService } from "@Auth/application/services/hash.service";
+import { ITokenService } from "@Auth/application/services/token.service";
+import { ILoginLocalUseCase } from "@Auth/application/use-cases/login-local/login-local.use-case";
+import { ReqLoginLocalDto, ResLoginLocalDto } from "@Auth/application/use-cases/login-local/login-local.dto";
 import { HttpException } from "@Common/exceptions/http.exception";
 import { EmailVO, PasswordVO, TokenVO } from "@Core/value-objects";
-import { inject, injectable } from "inversify";
 import { AUTH_SYMBOL } from "@Auth/infraestructure/container/auth.symbol";
+import { inject, injectable } from "inversify";
 
 @injectable()
-export class LoginUser implements ILoginUserUseCase {
+export class LoginLocalUserCase implements ILoginLocalUseCase {
     constructor(
         @inject(AUTH_SYMBOL.UserRepository) private readonly userRepository: IUserRepository,
         @inject(AUTH_SYMBOL.TokenService) private readonly tokenService: ITokenService,
         @inject(AUTH_SYMBOL.HashService) private readonly hashService: IHashService
     ) {}
 
-    async execute(loginData: LoginUserDto): Promise<AuthResponseDto> {
-        const { email, password } = loginData;
+    async execute(data: ReqLoginLocalDto): Promise<ResLoginLocalDto> {
+        const { email, password } = data;
 
         const userEmail = EmailVO.create(email);
         const userPassword = PasswordVO.fromPlainText(password);

@@ -1,10 +1,9 @@
 import { IUserRepository } from "@User/application/ports/user.repository";
-import { IHashService } from "@Auth/application/interfaces/services/hash.service";
-import { ITokenService } from "@Auth/application/interfaces/services/token.service";
-import { IUUIDService } from "shared/interfaces/uuid.service";
-import { IRegisterUserUseCase } from "../interfaces/use-cases/register-user.use-case";
-import { RegisterUserDto } from "../dtos/register-user.dto";
-import { AuthResponseDto } from "@Auth/application/dtos/auth-response.dto";
+import { IHashService } from "@Auth/application/services/hash.service";
+import { ITokenService } from "@Auth/application/services/token.service";
+import { IUUIDService } from "@Shared/interfaces/uuid.service";
+import { IRegisterLocalUseCase } from "./register-local.use-case";
+import { ReqRegisterLocalDto, ResRegisterLocalDto } from "./register-local.dto";
 import { HttpException } from "@Common/exceptions/http.exception";
 import { User } from "@Core/entities/user";
 import { EmailVO, IdVO, PasswordVO, ProviderEnum, ProviderVO, RoleVO, TokenVO } from "@Core/value-objects";
@@ -12,7 +11,7 @@ import { injectable, inject } from "inversify";
 import { AUTH_SYMBOL } from "@Auth/infraestructure/container/auth.symbol";
 
 @injectable()
-export class RegisterUser implements IRegisterUserUseCase {
+export class RegisterUserUseCase implements IRegisterLocalUseCase {
     constructor(
         @inject(AUTH_SYMBOL.UserRepository) private readonly userRepository: IUserRepository,
         @inject(AUTH_SYMBOL.HashService) private readonly hashService: IHashService,
@@ -20,7 +19,7 @@ export class RegisterUser implements IRegisterUserUseCase {
         @inject(AUTH_SYMBOL.IdService) private readonly idService: IUUIDService
     ) {}
 
-    async execute(registerData: RegisterUserDto): Promise<AuthResponseDto> {
+    async execute(registerData: ReqRegisterLocalDto): Promise<ResRegisterLocalDto> {
         const { email, password, role } = registerData;
 
         const existingUser = await this.userRepository.findbyEmail(email.toLowerCase());

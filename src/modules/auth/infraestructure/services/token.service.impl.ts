@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { TokenPayload, ITokenService } from "@Auth/application/interfaces/services/token.service";
+import { TokenPayload, ITokenService } from "@Auth/application/services/token.service";
 import { EnvBootstrap } from "@Bootstraps/env.bootstrap";
 import { HttpException } from "@Common/exceptions/http.exception";
 

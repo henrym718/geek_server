@@ -17,6 +17,9 @@ enum Role {
   VENDOR
 }
 
+//
+// 🔹 MODELO PRINCIPAL DE USUARIOS
+//
 model User {
   id            String       @id
   email         String       @unique
@@ -34,32 +37,62 @@ model User {
   @@map("users")
 }
 
+//
+// 🔹 MODELO DE CLIENTES
+//
 model Client {
-  id       String  @id
-  firtName String
-  latName  String
-  photo    String?
-  city     String
-  isActive Boolean @default(true)
-  user     User    @relation(fields: [id], references: [id])
+  id               String            @id
+  firtName         String
+  latName          String
+  photo            String?
+  city             String
+  isActive         Boolean           @default(true)
+  user             User              @relation(fields: [id], references: [id])
+  proformaRequests ProformaRequest[] // Un cliente puede hacer múltiples solicitudes de proformas
 
   @@map("clients")
 }
 
+//
+// 🔹 MODELO DE VENDEDORES
+//
 model Vendor {
-  id       String  @id
-  firtName String
-  latName  String
-  photo    String
-  phone    String
-  city     String
-  aboutme  String
-  isActive Boolean @default(true)
-  user     User    @relation(fields: [id], references: [id])
+  id        String             @id
+  firtName  String
+  latName   String
+  photo     String
+  phone     String
+  city      String
+  isActive  Boolean            @default(true)
+  user      User               @relation(fields: [id], references: [id])
+  profiles  ProfileVendor[] // Un vendor puede tener múltiples perfiles
+  responses ProformaResponse[] // Un vendor puede enviar múltiples respuestas a solicitudes
 
   @@map("vendors")
 }
 
+//
+// 🔹 MODELO DE PERFILES DE VENDEDORES
+//
+model ProfileVendor {
+  id         String   @id
+  tittle     String
+  skills     String[]
+  aboutme    String
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  vendor     Vendor   @relation(fields: [vendorId], references: [id])
+  vendorId   String
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+
+  @@map("profile_vendors")
+}
+
+//
+// 🔹 MODELOS PARA CATEGORÍAS Y GRUPOS
+//
 model Group {
   id         String     @id
   name       String
@@ -67,14 +100,54 @@ model Group {
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
   categories Category[]
+
+  @@map("groups")
 }
 
 model Category {
-  id        String   @id
+  id        String          @id
   name      String
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  group     Group    @relation(fields: [groupId], references: [id])
+  isActive  Boolean         @default(true)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  group     Group           @relation(fields: [groupId], references: [id])
   groupId   String
+  profiles  ProfileVendor[]
+
+  @@map("categories")
+}
+
+//
+// 🔹 MODELO DE SOLICITUDES DE PROFORMA (CLIENTES PIDEN TRABAJOS)
+//
+model ProformaRequest {
+  id          String             @id
+  description String
+  budget      Float
+  status      String             @default("PENDING") // PENDING, ACCEPTED, REJECTED
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  client      Client             @relation(fields: [clientId], references: [id])
+  clientId    String
+  responses   ProformaResponse[] // Relación: Una solicitud puede recibir múltiples respuestas de vendors
+
+  @@map("proforma_requests")
+}
+
+//
+// 🔹 MODELO DE RESPUESTAS A PROFORMAS (VENDEDORES HACEN OFERTAS)
+//
+model ProformaResponse {
+  id                String          @id
+  price             Float
+  message           String
+  status            String          @default("PENDING") // PENDING, ACCEPTED, REJECTED
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  proformaRequest   ProformaRequest @relation(fields: [proformaRequestId], references: [id])
+  proformaRequestId String
+  vendor            Vendor          @relation(fields: [vendorId], references: [id])
+  vendorId          String
+
+  @@map("proforma_responses")
 }

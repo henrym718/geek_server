@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { IHashService } from "@Auth/application/interfaces/services/hash.service";
+import { IHashService } from "@Auth/application/services/hash.service";
 
 export class HashServiceImpl implements IHashService {
     async hash(password: string): Promise<string> {

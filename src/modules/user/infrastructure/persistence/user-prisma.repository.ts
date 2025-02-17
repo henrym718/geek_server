@@ -3,6 +3,8 @@ import { EmailVO, IdVO, PasswordVO, ProviderVO, RoleVO, TokenVO } from "@Core/va
 import { IUserRepository } from "@User/application/ports/user.repository";
 import { User } from "@Core/entities/user";
 import { Prisma, User as UserPrisma } from "@prisma/client";
+import { Client } from "@Core/entities/client";
+import { Vendor } from "@Core/entities/vendor";
 
 export class UserPrismaRepository implements IUserRepository {
     private get prisma() {
@@ -13,6 +15,18 @@ export class UserPrismaRepository implements IUserRepository {
         await this.prisma.user.create({
             data: this.toPrisma(user),
         });
+    }
+
+    findById(id: string): Promise<User | null> {
+        throw new Error("Method not implemented.");
+    }
+
+    findUserByIdWithProfile(id: string): Promise<{ user: User; vendor?: Vendor; client?: Client } | null> {
+        throw new Error("Method not implemented.");
+    }
+
+    findAll(): Promise<User[]> {
+        throw new Error("Method not implemented.");
     }
 
     async update(user: User): Promise<void> {
