@@ -6,4 +6,5 @@ export const AUTH_SYMBOL = {
     TokenService: Symbol.for("TokenService"),
     IdService: Symbol.for("IdService"),
     AuthController: Symbol.for("AuthController"),
+    GetCurrentAccountUseCase: Symbol.for("GetCurrentAccountUseCase"),
 };

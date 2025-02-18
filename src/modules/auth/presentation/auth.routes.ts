@@ -8,5 +8,6 @@ const router = Router();
 
 router.post("/local/register", authController.registerUserLocal);
 router.post("/local/login", authController.loginUserLocal);
+router.get("/me", authController.getCurrentAccount);
 
 export const authRoutes = router;

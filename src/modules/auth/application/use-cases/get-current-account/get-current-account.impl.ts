@@ -7,7 +7,7 @@ import { IdVO } from "@Core/value-objects";
 import { HttpException } from "@Common/exceptions/http.exception";
 
 @injectable()
-export class GetCurrentAccountImpl implements IGetCurrentAccountUseCase {
+export class GetCurrentAccountUseCase implements IGetCurrentAccountUseCase {
     constructor(@inject(AUTH_SYMBOL.UserRepository) private readonly userRepository: IUserRepository) {}
 
     async execute(data: ReqGetCurrentAccountDTO): Promise<ResGetCurrentAccountDTO> {

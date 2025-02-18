@@ -5,7 +5,7 @@ export interface ClientProps {
     readonly id: IdVO;
     readonly firstName: TextVO;
     readonly lastName: TextVO;
-    readonly photo?: TextVO;
+    readonly photo?: TextVO | null;
     readonly city: TextVO;
     readonly userId: IdVO;
 }

@@ -1,5 +1,5 @@
 import { PrismaBootstrap } from "@Bootstraps/prisma.bootsrap";
-import { EmailVO, IdVO, PasswordVO, ProviderVO, RoleVO, TokenVO } from "@Core/value-objects";
+import { EmailVO, IdVO, PasswordVO, ProviderVO, RoleVO, TextVO, TokenVO } from "@Core/value-objects";
 import { IUserRepository } from "@User/application/ports/user.repository";
 import { User } from "@Core/entities/user";
 import { Prisma, User as UserPrisma } from "@prisma/client";
@@ -21,8 +21,16 @@ export class UserPrismaRepository implements IUserRepository {
         throw new Error("Method not implemented.");
     }
 
-    findUserByIdWithProfile(id: string): Promise<{ user: User; vendor?: Vendor; client?: Client } | null> {
-        throw new Error("Method not implemented.");
+    async findUserByIdWithProfile(id: string): Promise<{ user: User; vendor?: Vendor | null; client?: Client | null } | null> {
+        const userFound = await this.prisma.user.findUnique({ where: { id }, include: { client: true, vendor: true } });
+
+        if (!userFound) return null;
+        const { client, vendor, ...userData } = userFound;
+        return {
+            user: this.toDomain(userData),
+            vendor: vendor ? this.toVendorDomain(vendor) : null,
+            client: client ? this.toClientDomain(client) : null,
+        };
     }
 
     findAll(): Promise<User[]> {
@@ -66,6 +74,29 @@ export class UserPrismaRepository implements IUserRepository {
             tokenProvider: user.tokenProvider ? TokenVO.create(user.tokenProvider) : null,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
+        });
+    }
+
+    private toVendorDomain(vendor: any): Vendor {
+        return Vendor.reconstitute({
+            id: IdVO.create(vendor.id),
+            firstName: TextVO.create("firstName", vendor.firstName),
+            lastName: TextVO.create("lastName", vendor.lastName),
+            photo: TextVO.create("photo", vendor.photo),
+            phone: TextVO.create("phone", vendor.phone),
+            city: TextVO.create("city", vendor.city),
+            userId: IdVO.create(vendor.userId),
+        });
+    }
+
+    private toClientDomain(client: any): Client {
+        return Client.reconstitute({
+            id: IdVO.create(client.id),
+            firstName: TextVO.create("firstName", client.firstName),
+            lastName: TextVO.create("photo", client.lastName),
+            photo: TextVO.create("photo", client.photo) ?? null,
+            city: TextVO.create("city", client.city),
+            userId: IdVO.create(client.userId),
         });
     }
 }
