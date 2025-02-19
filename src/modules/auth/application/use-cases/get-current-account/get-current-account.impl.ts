@@ -25,7 +25,7 @@ export class GetCurrentAccountUseCase implements IGetCurrentAccountUseCase {
             isActive: user.isActive,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
-            profileComplete: !!client || !!vendor,
+            profileCompleted: !!client || !!vendor,
         };
 
         if (client) {

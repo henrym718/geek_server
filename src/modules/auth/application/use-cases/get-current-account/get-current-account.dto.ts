@@ -8,7 +8,7 @@ export interface ResGetCurrentAccountDTO {
     id: string;
     email: string;
     role: RoleEnum;
-    profileComplete: boolean;
+    profileCompleted: boolean;
     createdAt: Date;
     updatedAt: Date | null;
     isActive: boolean;
