@@ -1,11 +1,10 @@
-import { IdVO, TextVO } from "@Core/value-objects";
-import { User } from "./user";
+import { IdVO, TextVO, UrlVO } from "@Core/value-objects";
 
 export interface VendorProps {
     readonly id: IdVO;
     readonly firstName: TextVO;
     readonly lastName: TextVO;
-    readonly photo: TextVO;
+    readonly photo: UrlVO;
     readonly phone: TextVO;
     readonly city: TextVO;
     readonly userId: IdVO;
@@ -34,10 +33,10 @@ export class Vendor {
     }
 
     get phone(): TextVO {
-        return this.props.photo;
+        return this.props.phone;
     }
 
-    get photo(): TextVO {
+    get photo(): UrlVO {
         return this.props.photo;
     }
 
