@@ -1,7 +1,7 @@
 import { Client } from "@Core/entities/client";
 import { User } from "@Core/entities/user";
 import { Vendor } from "@Core/entities/vendor";
-import { IRepository } from "@Shared/interfaces/repository";
+import { IRepository } from "@Shared/repositories/repository";
 
 export interface IUserRepository extends IRepository<User> {
     create(user: User): Promise<void>;

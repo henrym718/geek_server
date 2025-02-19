@@ -1,7 +1,7 @@
 import { IUserRepository } from "@User/application/ports/user.repository";
 import { IHashService } from "@Auth/application/services/hash.service";
-import { ITokenService } from "@Auth/application/services/token.service";
-import { IUUIDService } from "@Shared/interfaces/uuid.service";
+import { ITokenService } from "@Shared/services/token/token.service";
+import { IUUIDService } from "@Shared/services/uuid/uuid.service";
 import { IRegisterLocalUseCase } from "./register-local.use-case";
 import { ReqRegisterLocalDto, ResRegisterLocalDto } from "./register-local.dto";
 import { HttpException } from "@Common/exceptions/http.exception";
@@ -9,14 +9,15 @@ import { User } from "@Core/entities/user";
 import { EmailVO, IdVO, PasswordVO, ProviderEnum, ProviderVO, RoleVO, TokenVO } from "@Core/value-objects";
 import { injectable, inject } from "inversify";
 import { AUTH_SYMBOL } from "@Auth/infraestructure/container/auth.symbol";
+import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 
 @injectable()
 export class RegisterUserUseCase implements IRegisterLocalUseCase {
     constructor(
         @inject(AUTH_SYMBOL.UserRepository) private readonly userRepository: IUserRepository,
         @inject(AUTH_SYMBOL.HashService) private readonly hashService: IHashService,
-        @inject(AUTH_SYMBOL.TokenService) private readonly tokenService: ITokenService,
-        @inject(AUTH_SYMBOL.IdService) private readonly idService: IUUIDService
+        @inject(SHARED_SYMBOLS.TokenService) private readonly tokenService: ITokenService,
+        @inject(SHARED_SYMBOLS.UUIDService) private readonly idService: IUUIDService
     ) {}
 
     async execute(registerData: ReqRegisterLocalDto): Promise<ResRegisterLocalDto> {

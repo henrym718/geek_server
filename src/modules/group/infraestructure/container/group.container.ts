@@ -6,8 +6,8 @@ import { ICreateGroupUseCase } from "@Group/application/interfaces/use-cases/cre
 import { IUpdateGroupUseCase } from "@Group/application/interfaces/use-cases/update-group.use-case";
 import { CreateGroup } from "@Group/application/use-cases/create-group";
 import { UpdateGroup } from "@Group/application/use-cases/update-group";
-import { IUUIDService } from "@Shared/interfaces/uuid.service";
-import { UUIDServiceImpl } from "@Shared/services/uuid.service.impl";
+import { IUUIDService } from "@Shared/services/uuid/uuid.service";
+import { UUIDServiceImpl } from "@Shared/services/uuid/uuid.service.impl";
 import { GroupController } from "@Group/presentation/group.controller";
 import { IListGroupsUseCase } from "@Group/application/interfaces/use-cases/list-groups.use-case";
 import { ListGroup } from "@Group/application/use-cases/list-group";

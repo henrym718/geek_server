@@ -3,7 +3,7 @@ import { ReqCreateCategoryDTO } from "../dtos/req-create-category.dto";
 import { ICategoryRepository } from "../interfaces/repositories/category.repository";
 import { ICreateCategotyUseCase } from "../interfaces/use-cases/create-category.use-case";
 import { HttpException } from "@Common/exceptions/http.exception";
-import { IUUIDService } from "@Shared/interfaces/uuid.service";
+import { IUUIDService } from "@Shared/services/uuid/uuid.service";
 import { IdVO, TextVO } from "@Core/value-objects";
 import { Category } from "@Core/entities/category";
 import { inject, injectable } from "inversify";

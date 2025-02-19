@@ -4,7 +4,7 @@ import { IGroupRepository } from "../interfaces/repositories/group.repository";
 import { ICreateGroupUseCase } from "../interfaces/use-cases/create-group.use-case";
 import { IdVO, TextVO } from "@Core/value-objects";
 import { HttpException } from "@Common/exceptions/http.exception";
-import { IUUIDService } from "@Shared/interfaces/uuid.service";
+import { IUUIDService } from "@Shared/services/uuid/uuid.service";
 import { inject, injectable } from "inversify";
 import { GROUP_SYMBOLS } from "modules/group/infraestructure/container/group.symbol";
 

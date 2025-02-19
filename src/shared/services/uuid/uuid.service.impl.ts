@@ -1,4 +1,4 @@
-import { IUUIDService } from "shared/interfaces/uuid.service";
+import { IUUIDService } from "@Shared/services/uuid/uuid.service";
 import { v4 as uuidv4, validate as uuidValidate } from "uuid";
 
 export class UUIDServiceImpl implements IUUIDService {

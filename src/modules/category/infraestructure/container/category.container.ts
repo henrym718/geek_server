@@ -4,8 +4,8 @@ import { ICategoryRepository } from "@Category/application/interfaces/repositori
 import { CategoryPrismaRepository } from "../persistence/category-prisma.repository";
 import { IGroupRepository } from "@Group/application/interfaces/repositories/group.repository";
 import { GroupPrismaRepository } from "@Group/infraestructure/persistence/group-prisma.repository";
-import { IUUIDService } from "@Shared/interfaces/uuid.service";
-import { UUIDServiceImpl } from "@Shared/services/uuid.service.impl";
+import { IUUIDService } from "@Shared/services/uuid/uuid.service";
+import { UUIDServiceImpl } from "@Shared/services/uuid/uuid.service.impl";
 import { ICreateCategotyUseCase } from "@Category/application/interfaces/use-cases/create-category.use-case";
 import { CreateCategory } from "@Category/application/use-cases/create-category";
 import { CategoryController } from "@Category/presentation/category.controller";

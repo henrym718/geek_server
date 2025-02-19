@@ -2,6 +2,7 @@ import { logger } from "@Common/logs/logger";
 import { EnvBootstrap } from "./env.bootstrap";
 import { PrismaBootstrap } from "./prisma.bootsrap";
 import { ServerBootstrap } from "./server.bootsrap";
+import "../types/express";
 
 export class AppBootstrap {
     constructor(
