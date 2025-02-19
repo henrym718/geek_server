@@ -8,6 +8,7 @@ import { ILoginLocalUseCase } from "@Auth/application/use-cases/login-local/logi
 import { ReqLoginLocalDto } from "@Auth/application/use-cases/login-local/login-local.dto";
 import { IGetCurrentAccountUseCase } from "@Auth/application/use-cases/get-current-account/get-current-account.use-case";
 import { ReqGetCurrentAccountDTO } from "@Auth/application/use-cases/get-current-account/get-current-account.dto";
+import { HttpException } from "@Common/exceptions/http.exception";
 
 @injectable()
 export class AuthController {
@@ -43,8 +44,9 @@ export class AuthController {
 
     async getCurrentAccount(req: Request, res: Response, next: NextFunction) {
         try {
-            const id: ReqGetCurrentAccountDTO = req.body;
-            const response = await this.getCurrentAccountUseCase.execute(id);
+            if (!req.user?.userId) throw HttpException.badRequest("Invalid user data or userId");
+            const userId: ReqGetCurrentAccountDTO = { id: req.user.userId };
+            const response = await this.getCurrentAccountUseCase.execute(userId);
             HttpResponse.success(res, response);
         } catch (error) {
             next(error);

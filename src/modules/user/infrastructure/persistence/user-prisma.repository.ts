@@ -5,6 +5,7 @@ import { User } from "@Core/entities/user";
 import { Prisma, User as UserPrisma } from "@prisma/client";
 import { Client } from "@Core/entities/client";
 import { Vendor } from "@Core/entities/vendor";
+import { PhoneVO } from "@Core/value-objects/phone.vo";
 
 export class UserPrismaRepository implements IUserRepository {
     private get prisma() {
@@ -83,7 +84,7 @@ export class UserPrismaRepository implements IUserRepository {
             firstName: TextVO.create("firstName", vendor.firstName),
             lastName: TextVO.create("lastName", vendor.lastName),
             photo: UrlVO.create("photo", vendor.photo),
-            phone: TextVO.create("phone", vendor.phone),
+            phone: PhoneVO.create(vendor.phone),
             city: TextVO.create("city", vendor.city),
             userId: IdVO.create(vendor.userId),
         });
