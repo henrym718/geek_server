@@ -35,8 +35,8 @@ export class AuthController {
     async loginUserLocal(req: Request, res: Response, next: NextFunction) {
         try {
             const data: ReqLoginLocalDto = req.body;
-            const { accessToken } = await this.loginUserCase.execute(data);
-            HttpResponse.success(res, { accessToken });
+            const response = await this.loginUserCase.execute(data);
+            HttpResponse.success(res, response);
         } catch (error) {
             next(error);
         }
@@ -45,7 +45,7 @@ export class AuthController {
     async getCurrentAccount(req: Request, res: Response, next: NextFunction) {
         try {
             if (!req.user?.userId) throw HttpException.badRequest("Invalid user data or userId");
-            const userId: ReqGetCurrentAccountDTO = { id: req.user.userId };
+            const userId: ReqGetCurrentAccountDTO = { email: req.user.email };
             const response = await this.getCurrentAccountUseCase.execute(userId);
             HttpResponse.success(res, response);
         } catch (error) {

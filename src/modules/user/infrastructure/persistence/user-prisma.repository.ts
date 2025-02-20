@@ -22,8 +22,8 @@ export class UserPrismaRepository implements IUserRepository {
         throw new Error("Method not implemented.");
     }
 
-    async findUserByIdWithProfile(id: string): Promise<{ user: User; vendor?: Vendor | null; client?: Client | null } | null> {
-        const userFound = await this.prisma.user.findUnique({ where: { id }, include: { client: true, vendor: true } });
+    async findUserByEmailWithProfile(email: string): Promise<{ user: User; vendor?: Vendor | null; client?: Client | null } | null> {
+        const userFound = await this.prisma.user.findUnique({ where: { email }, include: { client: true, vendor: true } });
 
         if (!userFound) return null;
         const { client, vendor, ...userData } = userFound;

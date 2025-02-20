@@ -22,23 +22,55 @@ export class LoginLocalUserCase implements ILoginLocalUseCase {
         const userEmail = EmailVO.create(email);
         const userPassword = PasswordVO.fromPlainText(password);
 
-        const foundUser = await this.userRepository.findbyEmail(userEmail.getValue());
+        const foundUser = await this.userRepository.findUserByEmailWithProfile(userEmail.getValue());
+
         if (!foundUser) {
             throw HttpException.badRequest("User not exists");
         }
 
-        const isPasswordValid = await this.hashService.check(userPassword.getValue(), foundUser.password?.getValue() ?? "");
+        const { user, client, vendor } = foundUser;
+        const isPasswordValid = await this.hashService.check(userPassword.getValue(), user.password?.getValue() ?? "");
         if (!isPasswordValid) {
             throw HttpException.badRequest("Credentials are incorrects");
         }
 
-        const payload = { email: foundUser.email.getValue(), role: foundUser.role.getValue(), userId: foundUser.id.getValue() };
+        const payload = { email: user.email.getValue(), role: user.role.getValue(), userId: user.id.getValue() };
         const accessToken = this.tokenService.generateAccessToken(payload);
         const refreshToken = this.tokenService.generateRefreshToken(payload);
 
-        const updatedUser = foundUser.updateRefreshToken(TokenVO.create(refreshToken));
+        const updatedUser = user.updateRefreshToken(TokenVO.create(refreshToken));
         await this.userRepository.update(updatedUser);
 
-        return { accessToken };
+        const response: ResLoginLocalDto = {
+            id: user.id.getValue(),
+            email: user.email.getValue(),
+            role: user.role.getValue(),
+            isActive: user.isActive,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
+            profileCompleted: !!client || !!vendor,
+            accessToken,
+        };
+
+        if (client) {
+            response.clientProfile = {
+                firstName: client.firstName.getValue(),
+                lastName: client.lastName.getValue(),
+                city: client.city.getValue(),
+                photo: client.photo?.getValue(),
+            };
+        }
+
+        if (vendor) {
+            response.vendorProfile = {
+                firstName: vendor.firstName.getValue(),
+                lastName: vendor.lastName.getValue(),
+                city: vendor.city.getValue(),
+                phone: vendor.phone.getValue(),
+                photo: vendor.photo?.getValue(),
+            };
+        }
+
+        return response;
     }
 }

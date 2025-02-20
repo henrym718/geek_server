@@ -1,7 +1,7 @@
 import { RoleEnum } from "@Core/value-objects/role.vo";
 
 export interface ReqGetCurrentAccountDTO {
-    id: string;
+    email: string;
 }
 
 export interface ResGetCurrentAccountDTO {

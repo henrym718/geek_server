@@ -3,7 +3,7 @@ import { ReqGetCurrentAccountDTO, ResGetCurrentAccountDTO } from "./get-current-
 import { IGetCurrentAccountUseCase } from "./get-current-account.use-case";
 import { inject, injectable } from "inversify";
 import { AUTH_SYMBOL } from "@Auth/infraestructure/container/auth.symbol";
-import { IdVO } from "@Core/value-objects";
+import { EmailVO } from "@Core/value-objects";
 import { HttpException } from "@Common/exceptions/http.exception";
 
 @injectable()
@@ -11,9 +11,9 @@ export class GetCurrentAccountUseCase implements IGetCurrentAccountUseCase {
     constructor(@inject(AUTH_SYMBOL.UserRepository) private readonly userRepository: IUserRepository) {}
 
     async execute(data: ReqGetCurrentAccountDTO): Promise<ResGetCurrentAccountDTO> {
-        const userId = IdVO.create(data.id).getValue();
+        const userEmail = EmailVO.create(data.email).getValue();
 
-        const userFounded = await this.userRepository.findUserByIdWithProfile(userId);
+        const userFounded = await this.userRepository.findUserByEmailWithProfile(userEmail);
         if (!userFounded) throw HttpException.notFound("User not found");
 
         const { user, client, vendor } = userFounded;
@@ -37,13 +37,13 @@ export class GetCurrentAccountUseCase implements IGetCurrentAccountUseCase {
             };
         }
 
-        if (userFounded.vendor) {
+        if (vendor) {
             response.vendorProfile = {
-                firstName: userFounded.vendor.firstName.getValue(),
-                lastName: userFounded.vendor.lastName.getValue(),
-                city: userFounded.vendor.city.getValue(),
-                phone: userFounded.vendor.phone.getValue(),
-                photo: userFounded.vendor.photo?.getValue(),
+                firstName: vendor.firstName.getValue(),
+                lastName: vendor.lastName.getValue(),
+                city: vendor.city.getValue(),
+                phone: vendor.phone.getValue(),
+                photo: vendor.photo?.getValue(),
             };
         }
 
