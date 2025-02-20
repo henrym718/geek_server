@@ -10,6 +10,7 @@ import { EmailVO, IdVO, PasswordVO, ProviderEnum, ProviderVO, RoleVO, TokenVO } 
 import { injectable, inject } from "inversify";
 import { AUTH_SYMBOL } from "@Auth/infraestructure/container/auth.symbol";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
+import { buildAuthResponse } from "../helpers/auth-response.helper";
 
 @injectable()
 export class RegisterUserUseCase implements IRegisterLocalUseCase {
@@ -41,7 +42,7 @@ export class RegisterUserUseCase implements IRegisterLocalUseCase {
         const refreshToken = this.tokenService.generateRefreshToken(tokenPayload);
         const refreshTokenVO = TokenVO.create(refreshToken);
 
-        const user = User.create({
+        const newUser = User.create({
             id: userId,
             email: emailVO,
             provider: providerVO,
@@ -50,8 +51,10 @@ export class RegisterUserUseCase implements IRegisterLocalUseCase {
             refreshToken: refreshTokenVO,
         });
 
-        await this.userRepository.create(user);
-
-        return { accessToken };
+        await this.userRepository.create(newUser);
+        const foundUser = await this.userRepository.findUserByEmailWithProfile(emailVO.getValue());
+        if (!foundUser) throw HttpException.badRequest("User not exists");
+        const { user, client, vendor } = foundUser;
+        return buildAuthResponse(user, accessToken, client ?? undefined, vendor ?? undefined);
     }
 }

@@ -7,6 +7,7 @@ import { HttpException } from "@Common/exceptions/http.exception";
 import { EmailVO, PasswordVO, TokenVO } from "@Core/value-objects";
 import { AUTH_SYMBOL } from "@Auth/infraestructure/container/auth.symbol";
 import { inject, injectable } from "inversify";
+import { buildAuthResponse } from "../helpers/auth-response.helper";
 
 @injectable()
 export class LoginLocalUserCase implements ILoginLocalUseCase {
@@ -41,36 +42,6 @@ export class LoginLocalUserCase implements ILoginLocalUseCase {
         const updatedUser = user.updateRefreshToken(TokenVO.create(refreshToken));
         await this.userRepository.update(updatedUser);
 
-        const response: ResLoginLocalDto = {
-            id: user.id.getValue(),
-            email: user.email.getValue(),
-            role: user.role.getValue(),
-            isActive: user.isActive,
-            createdAt: user.createdAt,
-            updatedAt: user.updatedAt,
-            profileCompleted: !!client || !!vendor,
-            accessToken,
-        };
-
-        if (client) {
-            response.clientProfile = {
-                firstName: client.firstName.getValue(),
-                lastName: client.lastName.getValue(),
-                city: client.city.getValue(),
-                photo: client.photo?.getValue(),
-            };
-        }
-
-        if (vendor) {
-            response.vendorProfile = {
-                firstName: vendor.firstName.getValue(),
-                lastName: vendor.lastName.getValue(),
-                city: vendor.city.getValue(),
-                phone: vendor.phone.getValue(),
-                photo: vendor.photo?.getValue(),
-            };
-        }
-
-        return response;
+        return buildAuthResponse(user, accessToken, client ?? undefined, vendor ?? undefined);
     }
 }
