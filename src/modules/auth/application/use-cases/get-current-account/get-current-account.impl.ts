@@ -5,7 +5,7 @@ import { inject, injectable } from "inversify";
 import { AUTH_SYMBOL } from "@Auth/infraestructure/container/auth.symbol";
 import { EmailVO } from "@Core/value-objects";
 import { HttpException } from "@Common/exceptions/http.exception";
-import { buildGetAccountCurrent } from "../helpers/auth-response.helper";
+import { buildResGetCurrentAccount } from "../helpers/auth-response.helper";
 
 @injectable()
 export class GetCurrentAccountUseCase implements IGetCurrentAccountUseCase {
@@ -17,6 +17,6 @@ export class GetCurrentAccountUseCase implements IGetCurrentAccountUseCase {
         const userFounded = await this.userRepository.findUserByEmailWithProfile(userEmail);
         if (!userFounded) throw HttpException.notFound("User not found");
         const { user, client, vendor } = userFounded;
-        return buildGetAccountCurrent(user, client ?? undefined, vendor ?? undefined);
+        return buildResGetCurrentAccount(user, client ?? undefined, vendor ?? undefined);
     }
 }

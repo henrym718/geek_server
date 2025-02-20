@@ -3,7 +3,7 @@ import { User } from "@Core/entities/user";
 import { Client } from "@Core/entities/client";
 import { Vendor } from "@Core/entities/vendor";
 
-export function buildGetAccountCurrent(user: User, client?: Client, vendor?: Vendor): ResGetCurrentAccountDTO {
+export function buildResGetCurrentAccount(user: User, client?: Client, vendor?: Vendor): ResGetCurrentAccountDTO {
     const response: ResGetCurrentAccountDTO = {
         id: user.id.getValue(),
         email: user.email.getValue(),
@@ -38,7 +38,7 @@ export function buildGetAccountCurrent(user: User, client?: Client, vendor?: Ven
 
 export function buildAuthResponse(user: User, accessToken: string, client?: Client, vendor?: Vendor) {
     return {
-        ...buildGetAccountCurrent(user, client, vendor),
+        ...buildResGetCurrentAccount(user, client, vendor),
         accessToken,
     };
 }
