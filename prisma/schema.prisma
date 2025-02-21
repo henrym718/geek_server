@@ -42,8 +42,8 @@ model User {
 //
 model Client {
   id               String            @id
-  firtName         String
-  latName          String
+  firstName        String
+  lastName         String
   photo            String?
   city             String
   isActive         Boolean           @default(true)
@@ -58,8 +58,8 @@ model Client {
 //
 model Vendor {
   id        String             @id
-  firtName  String
-  latName   String
+  firstName String
+  lastName  String
   photo     String
   phone     String
   city      String
