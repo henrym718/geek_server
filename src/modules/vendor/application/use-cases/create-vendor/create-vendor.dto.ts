@@ -2,7 +2,7 @@ import { RoleEnum } from "@Core/value-objects";
 
 export interface ReqCreateVendorDto {
     id: string;
-    firtName: string;
+    firstName: string;
     lastName: string;
     photo: string;
     phone: string;
@@ -12,7 +12,7 @@ export interface ReqCreateVendorDto {
 export interface ResCreateVendorDto {
     id: string;
     email: string;
-    role: RoleEnum.VENDOR;
+    role: string;
     profileCompleted: boolean;
     createdAt: Date;
     updatedAt: Date | null;
@@ -23,7 +23,7 @@ export interface ResCreateVendorDto {
 interface VendorProfile {
     firstName: string;
     lastName: string;
-    photo?: string;
+    photo: string;
     phone: string;
     city: string;
 }
