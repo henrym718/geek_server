@@ -8,7 +8,6 @@ export interface VendorProps {
     readonly photo: UrlVO;
     readonly phone: PhoneVO;
     readonly city: TextVO;
-    readonly userId: IdVO;
 }
 export class Vendor {
     private constructor(private readonly props: VendorProps) {}
@@ -43,9 +42,5 @@ export class Vendor {
 
     get city(): TextVO {
         return this.props.city;
-    }
-
-    get userId(): IdVO {
-        return this.userId;
     }
 }
