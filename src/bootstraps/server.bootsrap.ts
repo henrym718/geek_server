@@ -7,6 +7,7 @@ import cors from "cors";
 import { authRoutes } from "@Auth/presentation/auth.routes";
 import { groupRoutes } from "@Group/presentation/group.routes";
 import { categoryRoutes } from "@Category/presentation/category.routes";
+import { vendorRoutes } from "@Vendor/presnetation/vendor.routes";
 
 export class ServerBootstrap {
     private readonly app: Application;
@@ -44,6 +45,7 @@ export class ServerBootstrap {
         this.app.use("/authenticate", authRoutes);
         this.app.use("/group", groupRoutes);
         this.app.use("/category", categoryRoutes);
+        this.app.use("/vendor", vendorRoutes);
     }
 
     private setupErrorHandling() {

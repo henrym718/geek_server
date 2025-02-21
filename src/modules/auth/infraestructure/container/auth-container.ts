@@ -16,12 +16,10 @@ import { LoginLocalUserCase } from "@Auth/application/use-cases/login-local/logi
 import { IGetCurrentAccountUseCase } from "@Auth/application/use-cases/get-current-account/get-current-account.use-case";
 import { GetCurrentAccountUseCase } from "@Auth/application/use-cases/get-current-account/get-current-account.impl";
 import { sharedContainer } from "@Shared/container/shared.container";
-import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 
 export const authContainer = new Container();
+authContainer.parent = sharedContainer;
 
-authContainer.bind(SHARED_SYMBOLS.TokenService).toDynamicValue(() => sharedContainer.get(SHARED_SYMBOLS.TokenService));
-authContainer.bind(SHARED_SYMBOLS.UUIDService).toDynamicValue(() => sharedContainer.get(SHARED_SYMBOLS.UUIDService));
 authContainer.bind<IHashService>(AUTH_SYMBOL.HashService).to(HashServiceImpl);
 authContainer.bind<IRegisterLocalUseCase>(AUTH_SYMBOL.RegisterUserUseCase).to(RegisterUserUseCase);
 authContainer.bind<ILoginLocalUseCase>(AUTH_SYMBOL.LoginUserUseCase).to(LoginLocalUserCase);

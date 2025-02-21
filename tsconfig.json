@@ -19,7 +19,8 @@
             "@Auth/*": ["modules/auth/*"],
             "@User/*": ["modules/user/*"],
             "@Group/*": ["modules/group/*"],
-            "@Category/*": ["modules/category/*"]
+            "@Category/*": ["modules/category/*"],
+            "@Vendor/*": ["modules/vendor/*"]
         }
     },
     "ts-node": {

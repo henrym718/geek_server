@@ -11,6 +11,7 @@ import { injectable, inject } from "inversify";
 import { AUTH_SYMBOL } from "@Auth/infraestructure/container/auth.symbol";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 import { buildAuthResponse } from "../helpers/auth-response.helper";
+import { sharedContainer } from "@Shared/container/shared.container";
 
 @injectable()
 export class RegisterUserUseCase implements IRegisterLocalUseCase {
@@ -38,8 +39,10 @@ export class RegisterUserUseCase implements IRegisterLocalUseCase {
 
         const tokenPayload = { userId: userId.getValue(), email: emailVO.getValue(), role: roleVO.getValue() };
 
-        const accessToken = this.tokenService.generateAccessToken(tokenPayload);
-        const refreshToken = this.tokenService.generateRefreshToken(tokenPayload);
+        const tokenService = sharedContainer.get<ITokenService>(SHARED_SYMBOLS.TokenService);
+
+        const accessToken = tokenService.generateAccessToken(tokenPayload);
+        const refreshToken = tokenService.generateRefreshToken(tokenPayload);
         const refreshTokenVO = TokenVO.create(refreshToken);
 
         const newUser = User.create({
