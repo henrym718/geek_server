@@ -14,6 +14,9 @@ export class CreateVendorUseCase implements ICreateVendorUseCase {
     constructor(@inject(VENDOR_SYMBOLS.VendorRepository) private readonly vendorRepository: IVendorRepository) {}
 
     async execute(data: ReqCreateVendorDto): Promise<ResCreateVendorDto> {
+        const existingvendor = await this.vendorRepository.findById(data.id);
+        if (existingvendor) throw HttpException.badRequest("Vendor has been created");
+
         const newVendor = this.createVendorEntity(data);
         await this.vendorRepository.create(newVendor);
         const vendorCreated = await this.vendorRepository.findVendorByidWithUser(newVendor.id.getValue());
