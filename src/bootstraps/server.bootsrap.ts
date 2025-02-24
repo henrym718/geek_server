@@ -8,6 +8,7 @@ import { authRoutes } from "@Auth/presentation/auth.routes";
 import { groupRoutes } from "@Group/presentation/group.routes";
 import { categoryRoutes } from "@Category/presentation/category.routes";
 import { vendorRoutes } from "@Vendor/presnetation/vendor.routes";
+import { clientRoutes } from "@Client/presentation/client.routes";
 
 export class ServerBootstrap {
     private readonly app: Application;
@@ -46,6 +47,7 @@ export class ServerBootstrap {
         this.app.use("/group", groupRoutes);
         this.app.use("/category", categoryRoutes);
         this.app.use("/vendor", vendorRoutes);
+        this.app.use("/client", clientRoutes);
     }
 
     private setupErrorHandling() {
