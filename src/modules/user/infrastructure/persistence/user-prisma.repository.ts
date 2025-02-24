@@ -1,5 +1,5 @@
 import { PrismaBootstrap } from "@Bootstraps/prisma.bootsrap";
-import { IdVO, TextVO } from "@Core/value-objects";
+import { IdVO, TextVO, UrlVO } from "@Core/value-objects";
 import { IUserRepository } from "@User/application/ports/user.repository";
 import { User } from "@Core/entities/user";
 import { Client } from "@Core/entities/client";
@@ -54,9 +54,8 @@ export class UserPrismaRepository implements IUserRepository {
             id: IdVO.create(client.id),
             firstName: TextVO.create("firstName", client.firstName),
             lastName: TextVO.create("photo", client.lastName),
-            photo: TextVO.create("photo", client.photo) ?? null,
+            photo: UrlVO.create("photo", client.photo) ?? null,
             city: TextVO.create("city", client.city),
-            userId: IdVO.create(client.userId),
         });
     }
 }

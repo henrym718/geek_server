@@ -20,7 +20,8 @@
             "@User/*": ["modules/user/*"],
             "@Group/*": ["modules/group/*"],
             "@Category/*": ["modules/category/*"],
-            "@Vendor/*": ["modules/vendor/*"]
+            "@Vendor/*": ["modules/vendor/*"],
+            "@Client/*": ["modules/client/*"]
         }
     },
     "ts-node": {
