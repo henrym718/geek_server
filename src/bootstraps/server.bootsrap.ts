@@ -9,6 +9,7 @@ import { groupRoutes } from "@Group/presentation/group.routes";
 import { categoryRoutes } from "@Category/presentation/category.routes";
 import { vendorRoutes } from "@Vendor/presnetation/vendor.routes";
 import { clientRoutes } from "@Client/presentation/client.routes";
+import { skillRoutes } from "modules/skill/presentation/skill.routes";
 
 export class ServerBootstrap {
     private readonly app: Application;
@@ -48,6 +49,7 @@ export class ServerBootstrap {
         this.app.use("/category", categoryRoutes);
         this.app.use("/vendor", vendorRoutes);
         this.app.use("/client", clientRoutes);
+        this.app.use("/skill", skillRoutes);
     }
 
     private setupErrorHandling() {
