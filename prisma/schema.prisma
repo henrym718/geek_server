@@ -86,6 +86,7 @@ model ProfileVendor {
   vendorId   String
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
+  skill      Skill[]
 
   @@map("profile_vendors")
 }
@@ -113,8 +114,22 @@ model Category {
   group     Group           @relation(fields: [groupId], references: [id])
   groupId   String
   profiles  ProfileVendor[]
+  Skill     Skill[]
 
   @@map("categories")
+}
+
+//
+// 🔹 MODELO DE SKILLS (LAS CATEGORIAS TIENEN SKILLS Y LOS PROFILES USAN ESAS SKILLS ASI COMO LAS PREFORMAREQUEST)
+//
+model Skill {
+  id            String          @id
+  name          String
+  category      Category        @relation(fields: [categoryId], references: [id])
+  categoryId    String
+  profileVendor ProfileVendor[]
+
+  @@map("skills")
 }
 
 //
