@@ -1,5 +1,5 @@
 export interface ReqCreateSkillDto {
-    categpyId: string;
+    categoryId: string;
     name: string;
 }
 
