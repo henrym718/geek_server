@@ -24,4 +24,8 @@ export class Skill {
     get name(): TextVO {
         return this.props.name;
     }
+
+    get categoryId(): IdVO {
+        return this.props.categoryId;
+    }
 }
