@@ -6,15 +6,16 @@ import { Group } from "@Core/entities/group";
 import { Category } from "@Core/entities/category";
 
 export class GroupPrismaRepository implements IGroupRepository {
-    update(entity: Group): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
     private get prisma() {
         return PrismaBootstrap.prisma;
     }
 
     async create(entity: Group): Promise<void> {
         await this.prisma.group.create({ data: this.toPrisma(entity) });
+    }
+
+    async update(entity: Group): Promise<void> {
+        await this.prisma.group.update({ where: { id: entity.id.getValue() }, data: this.toPrisma(entity) });
     }
 
     async findByName(name: string): Promise<Group | null> {
