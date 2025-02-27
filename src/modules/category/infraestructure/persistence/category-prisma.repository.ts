@@ -1,7 +1,7 @@
 import { Category } from "@Core/entities/category";
 import { ICategoryRepository } from "@Category/application/interfaces/repositories/category.repository";
 import { PrismaBootstrap } from "@Bootstraps/prisma.bootsrap";
-import { Prisma } from "@prisma/client";
+import { CategoryMapper } from "./category.mapper";
 
 export class CategoryPrismaRepository implements ICategoryRepository {
     private get prisma() {
@@ -9,7 +9,7 @@ export class CategoryPrismaRepository implements ICategoryRepository {
     }
 
     async create(data: Category): Promise<void> {
-        await this.prisma.category.create({ data: this.toPrisma(data) });
+        await this.prisma.category.create({ data: CategoryMapper.toPersistence(data) });
     }
 
     async update(entity: Category): Promise<void> {
@@ -17,21 +17,11 @@ export class CategoryPrismaRepository implements ICategoryRepository {
     }
 
     async findById(id: string): Promise<Category | null> {
-        throw new Error("Method not implemented.");
+        const category = await this.prisma.category.findUnique({ where: { id } });
+        return category ? CategoryMapper.toDomain(category) : null;
     }
 
     async findAll(): Promise<Category[]> {
         throw new Error("Method not implemented.");
-    }
-
-    private toPrisma(entity: Category): Prisma.CategoryCreateInput {
-        return {
-            id: entity.id.getValue(),
-            name: entity.name.getValue(),
-            group: { connect: { id: entity.groupId.getValue() } },
-            isActive: entity.isActive,
-            createdAt: entity.createdAt,
-            updatedAt: entity.updatedAt ? entity.updatedAt : undefined,
-        };
     }
 }
