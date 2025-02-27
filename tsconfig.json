@@ -21,7 +21,8 @@
             "@Group/*": ["modules/group/*"],
             "@Category/*": ["modules/category/*"],
             "@Vendor/*": ["modules/vendor/*"],
-            "@Client/*": ["modules/client/*"]
+            "@Client/*": ["modules/client/*"],
+            "@Skill/*": ["modules/skill/*"]
         }
     },
     "ts-node": {
