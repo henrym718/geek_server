@@ -9,6 +9,10 @@ export class IdVO {
     }
 
     private static validateId(id: string): void {
+        if (!id) {
+            throw HttpException.badRequest("Id is required");
+        }
+
         if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
             throw HttpException.badRequest("Invalid Id");
         }
