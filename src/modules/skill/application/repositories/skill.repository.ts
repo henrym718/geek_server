@@ -1,4 +1,4 @@
-import { Skill } from "@prisma/client";
+import { Skill } from "@Core/entities/skill";
 import { IRepository } from "@Shared/repositories/repository";
 
 export interface ISkillRepository extends IRepository<Skill> {}
