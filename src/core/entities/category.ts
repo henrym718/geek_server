@@ -12,7 +12,7 @@ export interface CategoryProps {
 export class Category {
     private constructor(private readonly props: CategoryProps) {}
 
-    public static create(data: { id: IdVO; name: TextVO; groupId: IdVO }): Category {
+    public static create(data: Pick<CategoryProps, "id" | "name" | "groupId">): Category {
         return new Category({
             ...data,
             isActive: true,
