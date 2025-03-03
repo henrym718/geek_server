@@ -22,7 +22,8 @@
             "@Category/*": ["modules/category/*"],
             "@Vendor/*": ["modules/vendor/*"],
             "@Client/*": ["modules/client/*"],
-            "@Skill/*": ["modules/skill/*"]
+            "@Skill/*": ["modules/skill/*"],
+            "@ProfileVendor/*": ["modules/profile-vendor/*"]
         }
     },
     "ts-node": {
