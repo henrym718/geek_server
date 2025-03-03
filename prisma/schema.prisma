@@ -57,16 +57,15 @@ model Client {
 // 🔹 MODELO DE VENDEDORES
 //
 model Vendor {
-  id        String             @id
+  id        String          @id
   firstName String
   lastName  String
   photo     String
   phone     String
   city      String
-  isActive  Boolean            @default(true)
-  user      User               @relation(fields: [id], references: [id])
+  isActive  Boolean         @default(true)
+  user      User            @relation(fields: [id], references: [id])
   profiles  ProfileVendor[] // Un vendor puede tener múltiples perfiles
-  responses ProformaResponse[] // Un vendor puede enviar múltiples respuestas a solicitudes
 
   @@map("vendors")
 }
@@ -75,18 +74,18 @@ model Vendor {
 // 🔹 MODELO DE PERFILES DE VENDEDORES
 //
 model ProfileVendor {
-  id         String   @id
-  tittle     String
-  skills     String[]
-  aboutme    String
-  isActive   Boolean  @default(true)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  vendor     Vendor   @relation(fields: [vendorId], references: [id])
-  vendorId   String
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String
-  skill      Skill[]
+  id               String             @id
+  tittle           String
+  aboutme          String
+  isActive         Boolean            @default(true)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  vendor           Vendor             @relation(fields: [vendorId], references: [id])
+  vendorId         String
+  category         Category           @relation(fields: [categoryId], references: [id])
+  categoryId       String
+  skill            Skill[]
+  ProformaResponse ProformaResponse[]
 
   @@map("profile_vendors")
 }
@@ -161,8 +160,8 @@ model ProformaResponse {
   updatedAt         DateTime        @updatedAt
   proformaRequest   ProformaRequest @relation(fields: [proformaRequestId], references: [id])
   proformaRequestId String
-  vendor            Vendor          @relation(fields: [vendorId], references: [id])
-  vendorId          String
+  ProfileVendor     ProfileVendor   @relation(fields: [profileVendorId], references: [id])
+  profileVendorId   String
 
   @@map("proforma_responses")
 }
