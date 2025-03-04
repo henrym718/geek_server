@@ -8,3 +8,5 @@ export { RoleVO } from "./role.vo";
 export { TokenVO } from "./token.dto";
 export { TextVO } from "./text.vo";
 export { UrlVO } from "./url.vo";
+export { PriceVO } from "./price.vo";
+export { StatusVO } from "./status.vo";
