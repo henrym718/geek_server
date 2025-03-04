@@ -11,6 +11,7 @@ import { vendorRoutes } from "@Vendor/presnetation/vendor.routes";
 import { clientRoutes } from "@Client/presentation/client.routes";
 import { skillRoutes } from "modules/skill/presentation/skill.routes";
 import { profileVendorRoutes } from "@ProfileVendor/presentation/profile-vendor.routes";
+import { proformarequestRoutes } from "@ProformaRequests/presnetation/proforma-requests.routes";
 
 export class ServerBootstrap {
     private readonly app: Application;
@@ -52,6 +53,7 @@ export class ServerBootstrap {
         this.app.use("/client", clientRoutes);
         this.app.use("/skill", skillRoutes);
         this.app.use("/profile-vendor", profileVendorRoutes);
+        this.app.use("/proforma-request", proformarequestRoutes);
     }
 
     private setupErrorHandling() {
