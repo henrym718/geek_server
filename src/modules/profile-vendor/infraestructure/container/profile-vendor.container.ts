@@ -5,10 +5,6 @@ import { ProfileVendorPrismaRepository } from "../persistence/profile-vendor-pri
 import { ICreateProfileVendorUseCase } from "@ProfileVendor/aplication/use-cases/create-profile-vendor.use-case";
 import { CreateProfileVendorUseCase } from "@ProfileVendor/aplication/use-cases/create-profile-vendor.impl";
 import { ProfileVendorController } from "@ProfileVendor/presentation/profile-vendor.controller";
-import { sharedContainer } from "@Shared/container/shared.container";
-import { categoryContainer } from "@Category/infraestructure/container/category.container";
-import { vendorContainer } from "@Vendor/infraestructure/container/vendor.container";
-import { skillContainer } from "@Skill/infraestructure/container/skill.container";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 import { CATEGORY_SYMBOLS } from "@Category/infraestructure/container/category.symbol";
 import { VENDOR_SYMBOLS } from "@Vendor/infraestructure/container/vendor.symbol";
