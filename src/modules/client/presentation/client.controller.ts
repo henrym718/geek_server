@@ -13,7 +13,8 @@ export class ClientController {
 
     async createClient(req: Request, res: Response, next: NextFunction) {
         try {
-            const data: ReqCreateClientDTO = req.body;
+            const id = req.user?.userId;
+            const data: ReqCreateClientDTO = { ...req.body, id };
             const clientProfile = await this.createClientUseCase.execute(data);
             HttpResponse.success(res, clientProfile);
         } catch (error) {
