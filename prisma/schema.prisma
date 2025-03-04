@@ -17,6 +17,12 @@ enum Role {
   VENDOR
 }
 
+enum Status {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
 //
 // 🔹 MODELO PRINCIPAL DE USUARIOS
 //
@@ -105,15 +111,16 @@ model Group {
 }
 
 model Category {
-  id        String          @id
-  name      String
-  isActive  Boolean         @default(true)
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
-  group     Group           @relation(fields: [groupId], references: [id])
-  groupId   String
-  profiles  ProfileVendor[]
-  Skill     Skill[]
+  id              String            @id
+  name            String
+  isActive        Boolean           @default(true)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  group           Group             @relation(fields: [groupId], references: [id])
+  groupId         String
+  profiles        ProfileVendor[]
+  Skill           Skill[]
+  proformaRequest ProformaRequest[]
 
   @@map("categories")
 }
@@ -122,11 +129,12 @@ model Category {
 // 🔹 MODELO DE SKILLS (LAS CATEGORIAS TIENEN SKILLS Y LOS PROFILES USAN ESAS SKILLS ASI COMO LAS PREFORMAREQUEST)
 //
 model Skill {
-  id            String          @id
-  name          String
-  category      Category        @relation(fields: [categoryId], references: [id])
-  categoryId    String
-  profileVendor ProfileVendor[]
+  id               String            @id
+  name             String
+  category         Category          @relation(fields: [categoryId], references: [id])
+  categoryId       String
+  profileVendor    ProfileVendor[]
+  proformaRequests ProformaRequest[]
 
   @@map("skills")
 }
@@ -138,11 +146,14 @@ model ProformaRequest {
   id          String             @id
   description String
   budget      Float
-  status      String             @default("PENDING") // PENDING, ACCEPTED, REJECTED
+  status      Status
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
   client      Client             @relation(fields: [clientId], references: [id])
   clientId    String
+  category    Category           @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  skills      Skill[]
   responses   ProformaResponse[] // Relación: Una solicitud puede recibir múltiples respuestas de vendors
 
   @@map("proforma_requests")
@@ -155,7 +166,7 @@ model ProformaResponse {
   id                String          @id
   price             Float
   message           String
-  status            String          @default("PENDING") // PENDING, ACCEPTED, REJECTED
+  status            Status
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
   proformaRequest   ProformaRequest @relation(fields: [proformaRequestId], references: [id])
