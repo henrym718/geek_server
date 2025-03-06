@@ -26,4 +26,16 @@ export class ProformaResponsePrismaRepository implements IProformaResponseReposi
     findAll(): Promise<ProformaResponse[]> {
         throw new Error("Method not implemented.");
     }
+
+    async findByProformaRequestIdAndProfileVendorId(proformaRequestId: string, profileVendorId: string): Promise<boolean> {
+        const response = await this.db.findUnique({
+            where: {
+                proformaRequestId_profileVendorId: {
+                    proformaRequestId: proformaRequestId,
+                    profileVendorId: profileVendorId,
+                },
+            },
+        });
+        return !!response;
+    }
 }
