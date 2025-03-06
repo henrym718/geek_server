@@ -10,8 +10,9 @@ import { categoryRoutes } from "@Category/presentation/category.routes";
 import { vendorRoutes } from "@Vendor/presnetation/vendor.routes";
 import { clientRoutes } from "@Client/presentation/client.routes";
 import { skillRoutes } from "modules/skill/presentation/skill.routes";
-import { profileVendorRoutes } from "@ProfileVendor/presentation/profile-vendor.routes";
+import { vendorProfileRoutes } from "@VendorProfile/presentation/vendor-profile.routes";
 import { proformarequestRoutes } from "@ProformaRequests/presnetation/proforma-requests.routes";
+import { proformaResponseRoutes } from "modules/proforma-response/presentation/proforma-reponse.routes";
 
 export class ServerBootstrap {
     private readonly app: Application;
@@ -52,8 +53,9 @@ export class ServerBootstrap {
         this.app.use("/vendor", vendorRoutes);
         this.app.use("/client", clientRoutes);
         this.app.use("/skill", skillRoutes);
-        this.app.use("/profile-vendor", profileVendorRoutes);
+        this.app.use("/profile-vendor", vendorProfileRoutes);
         this.app.use("/proforma-request", proformarequestRoutes);
+        this.app.use("/proforma-response", proformaResponseRoutes);
     }
 
     private setupErrorHandling() {
