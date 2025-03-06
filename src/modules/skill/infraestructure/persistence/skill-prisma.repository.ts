@@ -4,12 +4,12 @@ import { ISkillRepository } from "modules/skill/application/repositories/skill.r
 import { SkillMapper } from "./skill.mapper";
 
 export class SkillPrismaRepository implements ISkillRepository {
-    private get prisma() {
-        return PrismaBootstrap.prisma;
+    private get db() {
+        return PrismaBootstrap.prisma.skill;
     }
 
     async create(data: Skill): Promise<void> {
-        await this.prisma.skill.create({ data: SkillMapper.toPersistence(data) });
+        await this.db.create({ data: SkillMapper.toPersistence(data) });
     }
 
     update(entity: Skill): Promise<void> {
@@ -21,11 +21,21 @@ export class SkillPrismaRepository implements ISkillRepository {
     }
 
     async findByIds(ids: string[]): Promise<Skill[]> {
-        const skills = await this.prisma.skill.findMany({ where: { id: { in: ids } } });
+        const skills = await this.db.findMany({ where: { id: { in: ids } } });
         return skills.map(SkillMapper.toDomain);
     }
 
     findAll(): Promise<Skill[]> {
         throw new Error("Method not implemented.");
+    }
+
+    async areSkillsValidForCategory(categoryId: string, skillIds: string[]): Promise<boolean> {
+        const skills = await this.db.findMany({
+            where: {
+                id: { in: skillIds },
+                categoryId: categoryId,
+            },
+        });
+        return skills.length === skillIds.length;
     }
 }
