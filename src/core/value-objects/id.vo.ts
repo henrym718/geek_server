@@ -18,6 +18,10 @@ export class IdVO {
         }
     }
 
+    public equals(other: IdVO): boolean {
+        return this.value === other.value;
+    }
+
     public getValue(): string {
         return this.value;
     }
