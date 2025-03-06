@@ -1,5 +1,5 @@
 import { Container } from "inversify";
-import { PROFORMA_REQUEST_SYMBOLS } from "./proforma-requests.symbols";
+import { PROFORMA_REQ_SYMBOLS } from "./proforma-requests.symbols";
 import { IProformaRequestsRepository } from "@ProformaRequests/application/repositories/proforma-requests.repository";
 import { ProformaRequestsPrismaRepository } from "../persistence/proforma-requests-prisma.repository";
 import { ProformaRequestsController } from "@ProformaRequests/presnetation/proforma-requests.controller";
@@ -20,10 +20,8 @@ import { ClientPrismaRepository } from "@Client/infraestructure/persistence/clie
 
 export const proformaRequestsContainer = new Container();
 
-proformaRequestsContainer.bind<IProformaRequestsRepository>(PROFORMA_REQUEST_SYMBOLS.ProformaRequestsRepository).to(ProformaRequestsPrismaRepository);
-proformaRequestsContainer
-    .bind<ICreateProformaRequestsUseCase>(PROFORMA_REQUEST_SYMBOLS.CreateProformaRequestsUseCase)
-    .to(CreateProformaRequestsUseCase);
+proformaRequestsContainer.bind<IProformaRequestsRepository>(PROFORMA_REQ_SYMBOLS.ProformaRequestsRepository).to(ProformaRequestsPrismaRepository);
+proformaRequestsContainer.bind<ICreateProformaRequestsUseCase>(PROFORMA_REQ_SYMBOLS.CreateProformaRequestsUseCase).to(CreateProformaRequestsUseCase);
 proformaRequestsContainer.bind<IUUIDService>(SHARED_SYMBOLS.UUIDService).to(UUIDServiceImpl);
 proformaRequestsContainer.bind<ICategoryRepository>(CATEGORY_SYMBOLS.CategoryRepository).to(CategoryPrismaRepository);
 proformaRequestsContainer.bind<ISkillRepository>(SKILL_SYMBOLS.SkillRepository).to(SkillPrismaRepository);
