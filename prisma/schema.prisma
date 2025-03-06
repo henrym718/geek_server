@@ -23,9 +23,6 @@ enum Status {
   REJECTED
 }
 
-//
-// 🔹 MODELO PRINCIPAL DE USUARIOS
-//
 model User {
   id            String       @id
   email         String       @unique
@@ -43,9 +40,6 @@ model User {
   @@map("users")
 }
 
-//
-// 🔹 MODELO DE CLIENTES
-//
 model Client {
   id               String            @id
   firstName        String
@@ -54,51 +48,42 @@ model Client {
   city             String
   isActive         Boolean           @default(true)
   user             User              @relation(fields: [id], references: [id])
-  proformaRequests ProformaRequest[] // Un cliente puede hacer múltiples solicitudes de proformas
+  proformaRequests ProformaRequest[]
 
   @@map("clients")
 }
 
-//
-// 🔹 MODELO DE VENDEDORES
-//
 model Vendor {
-  id        String          @id
-  firstName String
-  lastName  String
-  photo     String
-  phone     String
-  city      String
-  isActive  Boolean         @default(true)
-  user      User            @relation(fields: [id], references: [id])
-  profiles  ProfileVendor[] // Un vendor puede tener múltiples perfiles
+  id             String          @id
+  firstName      String
+  lastName       String
+  photo          String
+  phone          String
+  city           String
+  isActive       Boolean         @default(true)
+  user           User            @relation(fields: [id], references: [id])
+  vendorProfiles VendorProfile[]
 
   @@map("vendors")
 }
 
-//
-// 🔹 MODELO DE PERFILES DE VENDEDORES
-//
-model ProfileVendor {
-  id               String             @id
-  tittle           String
-  aboutme          String
-  isActive         Boolean            @default(true)
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  vendor           Vendor             @relation(fields: [vendorId], references: [id])
-  vendorId         String
-  category         Category           @relation(fields: [categoryId], references: [id])
-  categoryId       String
-  skill            Skill[]
-  ProformaResponse ProformaResponse[]
+model VendorProfile {
+  id                String                @id
+  tittle            String
+  aboutme           String
+  isActive          Boolean               @default(true)
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+  vendor            Vendor                @relation(fields: [vendorId], references: [id])
+  vendorId          String
+  category          Category              @relation(fields: [categoryId], references: [id])
+  categoryId        String
+  skills            ProfileVendor_Skill[]
+  proformaResponses ProformaResponse[]
 
-  @@map("profile_vendors")
+  @@map("vendor_profiles")
 }
 
-//
-// 🔹 MODELOS PARA CATEGORÍAS Y GRUPOS
-//
 model Group {
   id         String     @id
   name       String
@@ -111,68 +96,80 @@ model Group {
 }
 
 model Category {
-  id              String            @id
-  name            String
-  isActive        Boolean           @default(true)
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  group           Group             @relation(fields: [groupId], references: [id])
-  groupId         String
-  profiles        ProfileVendor[]
-  Skill           Skill[]
-  proformaRequest ProformaRequest[]
+  id               String            @id
+  name             String
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  group            Group             @relation(fields: [groupId], references: [id])
+  groupId          String
+  profiles         VendorProfile[]
+  skills           Skill[]
+  proformaRequests ProformaRequest[]
 
   @@map("categories")
 }
 
-//
-// 🔹 MODELO DE SKILLS (LAS CATEGORIAS TIENEN SKILLS Y LOS PROFILES USAN ESAS SKILLS ASI COMO LAS PREFORMAREQUEST)
-//
 model Skill {
-  id               String            @id
-  name             String
-  category         Category          @relation(fields: [categoryId], references: [id])
-  categoryId       String
-  profileVendor    ProfileVendor[]
-  proformaRequests ProformaRequest[]
+  id                    String                  @id
+  name                  String
+  category              Category                @relation(fields: [categoryId], references: [id])
+  categoryId            String
+  profileVendorSkills   ProfileVendor_Skill[]
+  proformaRequestSkills ProformaRequest_Skill[]
 
   @@map("skills")
 }
 
-//
-// 🔹 MODELO DE SOLICITUDES DE PROFORMA (CLIENTES PIDEN TRABAJOS)
-//
 model ProformaRequest {
-  id          String             @id
-  description String
-  budget      Float
-  status      Status
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
-  client      Client             @relation(fields: [clientId], references: [id])
-  clientId    String
-  category    Category           @relation(fields: [categoryId], references: [id])
-  categoryId  String
-  skills      Skill[]
-  responses   ProformaResponse[] // Relación: Una solicitud puede recibir múltiples respuestas de vendors
+  id                String                  @id
+  description       String
+  budget            Float
+  status            Status
+  createdAt         DateTime                @default(now())
+  updatedAt         DateTime                @updatedAt
+  client            Client                  @relation(fields: [clientId], references: [id])
+  clientId          String
+  category          Category                @relation(fields: [categoryId], references: [id])
+  categoryId        String
+  skills            ProformaRequest_Skill[]
+  proformaResponses ProformaResponse[]
 
   @@map("proforma_requests")
 }
 
-//
-// 🔹 MODELO DE RESPUESTAS A PROFORMAS (VENDEDORES HACEN OFERTAS)
-//
 model ProformaResponse {
   id                String          @id
-  price             Float
+  budget            Float
   message           String
   status            Status
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
   proformaRequest   ProformaRequest @relation(fields: [proformaRequestId], references: [id])
   proformaRequestId String
-  ProfileVendor     ProfileVendor   @relation(fields: [profileVendorId], references: [id])
+  vendorProfile     VendorProfile   @relation(fields: [profileVendorId], references: [id])
   profileVendorId   String
 
   @@map("proforma_responses")
+}
+
+// Relaciones muchos a muchos
+model ProfileVendor_Skill {
+  profileVendorId String
+  skillId         String
+  VendorProfile   VendorProfile @relation(fields: [profileVendorId], references: [id])
+  skill           Skill         @relation(fields: [skillId], references: [id])
+
+  @@id([profileVendorId, skillId])
+  @@map("profileVendor_skills")
+}
+
+model ProformaRequest_Skill {
+  proformaRequestId String
+  skillId           String
+  proformaRequest   ProformaRequest @relation(fields: [proformaRequestId], references: [id])
+  skill             Skill           @relation(fields: [skillId], references: [id])
+
+  @@id([proformaRequestId, skillId])
+  @@map("proformaRequest_skills")
 }
