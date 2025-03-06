@@ -24,21 +24,25 @@ export class CreateProformaResponseUseCase implements ICreateProformaResponseUse
     ) {}
 
     async execute(data: ReqCreateProformaResponseDto): Promise<ResCreateProformaResponseDto> {
-        const { profileVendorId, proformaRequestId, budget, message } = data;
+        const { vendorId, profileVendorId, proformaRequestId, budget, message } = data;
 
         const proformaResponseId = IdVO.create(this.idService.generateUUID());
         const proformaResponseBudget = PriceVO.create(budget);
         const proformaResponseMessage = TextVO.create("message", message);
         const profileVendor_Id = IdVO.create(profileVendorId);
+        const vendor_Id = IdVO.create(vendorId);
         const proformaRequest_Id = IdVO.create(proformaRequestId);
 
-        const [profileVendorFound, proformaRequestFound] = await Promise.all([
+        const [profileVendorFound, proformaRequestFound, existingResponse] = await Promise.all([
             this.vendorProfileRepository.findById(profileVendor_Id.getValue()),
             this.proformaRequestsRepository.findById(proformaRequest_Id.getValue()),
+            this.proformaResponseRepository.findByProformaRequestIdAndProfileVendorId(proformaRequest_Id.getValue(), profileVendor_Id.getValue()),
         ]);
 
         if (!profileVendorFound) throw HttpException.notFound("Profile_Vendor not found");
+        if (!profileVendorFound.vendorId.equals(vendor_Id)) throw HttpException.notFound("You do not own this VendorProfile");
         if (!proformaRequestFound) throw HttpException.notFound("Proforma not found");
+        if (existingResponse) throw HttpException.badRequest("You already have a response to this proforma");
 
         const newProformaResponse = ProformaResponse.create({
             id: proformaResponseId,
