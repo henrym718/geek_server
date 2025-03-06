@@ -13,7 +13,8 @@ export class VendorController {
 
     async createVendor(req: Request, res: Response, next: NextFunction) {
         try {
-            const data: ReqCreateVendorDto = req.body;
+            const id = req.user?.userId;
+            const data: ReqCreateVendorDto = { ...req.body, id };
             const vendorProfile = await this.createVendorUseCase.execute(data);
             HttpResponse.success(res, vendorProfile);
         } catch (error) {
