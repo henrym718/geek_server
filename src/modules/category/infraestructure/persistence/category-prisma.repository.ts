@@ -1,15 +1,15 @@
 import { Category } from "@Core/entities/category";
 import { ICategoryRepository } from "@Category/application/interfaces/repositories/category.repository";
-import { PrismaBootstrap } from "@Bootstraps/prisma.bootsrap";
 import { CategoryMapper } from "./category.mapper";
+import { PrismaBootstrap } from "@Bootstraps/prisma.bootsrap";
 
 export class CategoryPrismaRepository implements ICategoryRepository {
-    private get prisma() {
-        return PrismaBootstrap.prisma;
+    private get db() {
+        return PrismaBootstrap.prisma.category;
     }
 
     async create(data: Category): Promise<void> {
-        await this.prisma.category.create({ data: CategoryMapper.toPersistence(data) });
+        await this.db.create({ data: CategoryMapper.toPersistence(data) });
     }
 
     async update(entity: Category): Promise<void> {
@@ -17,7 +17,7 @@ export class CategoryPrismaRepository implements ICategoryRepository {
     }
 
     async findById(id: string): Promise<Category | null> {
-        const category = await this.prisma.category.findUnique({ where: { id } });
+        const category = await this.db.findUnique({ where: { id } });
         return category ? CategoryMapper.toDomain(category) : null;
     }
 
