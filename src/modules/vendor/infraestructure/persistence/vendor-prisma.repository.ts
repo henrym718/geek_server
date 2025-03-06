@@ -19,10 +19,13 @@ export class VendorPrismaRepository implements IVendorRepository {
         throw new Error("Method not implemented.");
     }
 
+    save(entity: Vendor): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+
     async findById(id: string): Promise<Vendor | null> {
-        const response = await this.prisma.vendor.findUnique({ where: { id } });
-        if (!response) return null;
-        return VendorMapper.toDomain(response);
+        const vendor = await this.prisma.vendor.findUnique({ where: { id } });
+        return vendor ? VendorMapper.toDomain(vendor) : null;
     }
 
     async findVendorByidWithUser(id: string): Promise<{ user: User; vendor: Vendor } | null> {
