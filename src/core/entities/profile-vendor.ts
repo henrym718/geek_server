@@ -1,6 +1,6 @@
 import { IdVO, TextVO } from "@Core/value-objects";
 
-interface ProfileVendorProps {
+interface VendorProfileProps {
     id: IdVO;
     tittle: TextVO;
     aboutme: TextVO;
@@ -12,15 +12,15 @@ interface ProfileVendorProps {
     categoryId: IdVO;
 }
 
-export class ProfileVendor {
-    private constructor(private readonly props: ProfileVendorProps) {}
+export class VendorProfile {
+    private constructor(private readonly props: VendorProfileProps) {}
 
-    public static create(props: Omit<ProfileVendorProps, "isActive" | "createdAt" | "updatedAt">): ProfileVendor {
-        return new ProfileVendor({ ...props, isActive: true });
+    public static create(props: Omit<VendorProfileProps, "isActive" | "createdAt" | "updatedAt">): VendorProfile {
+        return new VendorProfile({ ...props, isActive: true });
     }
 
-    public static reconstitute(props: ProfileVendorProps): ProfileVendor {
-        return new ProfileVendor({ ...props });
+    public static reconstitute(props: VendorProfileProps): VendorProfile {
+        return new VendorProfile({ ...props });
     }
 
     public get id(): IdVO {
