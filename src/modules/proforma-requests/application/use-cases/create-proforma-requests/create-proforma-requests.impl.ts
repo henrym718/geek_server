@@ -14,6 +14,7 @@ import { SKILL_SYMBOLS } from "@Skill/infraestructure/container/skill.symbols";
 import { ISkillRepository } from "@Skill/application/repositories/skill.repository";
 import { CLIENT_SYMBOLS } from "@Client/infraestructure/container/client.symbols";
 import { IClientRepository } from "@Client/application/repositories/client.repository";
+import { HttpException } from "@Common/exceptions/http.exception";
 
 @injectable()
 export class CreateProformaRequestsUseCase implements ICreateProformaRequestsUseCase {
@@ -33,26 +34,28 @@ export class CreateProformaRequestsUseCase implements ICreateProformaRequestsUse
         const proformaRequestDescription = TextVO.create("Deescption", description);
         const proformaRequestSttaus = StatusVO.fromEnum(StatusEnum.PENDING);
         const proformaRequestSkills = skills.map((skill) => IdVO.create(skill));
-        const clientIdVO = IdVO.create(clientId);
-        const categoryIdVO = IdVO.create(categoryId);
+        const client_Id = IdVO.create(clientId);
+        const category_Id = IdVO.create(categoryId);
 
-        const [clientFound, categoryFound, skillFound] = await Promise.all([
-            this.clientRepository.findById(clientIdVO.getValue()),
-            this.categoryRepository.findById(categoryIdVO.getValue()),
+        const [clientFound, categoryFound, skillFound, areSkillsValid] = await Promise.all([
+            this.clientRepository.findById(client_Id.getValue()),
+            this.categoryRepository.findById(category_Id.getValue()),
             this.skillRepository.findByIds(proformaRequestSkills.map((skill) => skill.getValue())),
+            this.skillRepository.areSkillsValidForCategory(categoryId, skills),
         ]);
 
-        if (!clientFound) throw new Error("Cient not found");
-        if (!categoryFound) throw new Error("Category not found");
-        if (skillFound.length !== proformaRequestSkills.length) throw new Error("Some skills were not found");
+        if (!clientFound) throw HttpException.badRequest("Cient not found");
+        if (!categoryFound) throw HttpException.badRequest("Category not found");
+        if (skillFound.length !== proformaRequestSkills.length) throw HttpException.badRequest("Some skills were not found");
+        if (!areSkillsValid) throw HttpException.badRequest("Some skills do not belong to the specified category");
 
         const newProformaRequest = ProformaRequest.create({
             id: proformaRequestiD,
             budget: proformaRequestBudget,
             description: proformaRequestDescription,
             status: proformaRequestSttaus,
-            clientId: clientIdVO,
-            categoryId: categoryIdVO,
+            clientId: client_Id,
+            categoryId: category_Id,
             skills: proformaRequestSkills,
         });
 
