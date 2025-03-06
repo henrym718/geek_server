@@ -1,4 +1,4 @@
-export const PROFORMA_REQUEST_SYMBOLS = {
+export const PROFORMA_REQ_SYMBOLS = {
     ProformaRequestsRepository: "ProformaRequestsRepository",
     CreateProformaRequestsUseCase: "CreateProformaRequestsUseCase",
 };
