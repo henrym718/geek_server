@@ -18,6 +18,14 @@ export class GroupPrismaRepository implements IGroupRepository {
         await this.prisma.group.update({ where: { id: entity.id.getValue() }, data: this.toPrisma(entity) });
     }
 
+    async save(entity: Group): Promise<void> {
+        await this.prisma.group.upsert({
+            where: { id: entity.id.getValue() },
+            update: this.toPrisma(entity),
+            create: this.toPrisma(entity),
+        });
+    }
+
     async findByName(name: string): Promise<Group | null> {
         const group = await this.prisma.group.findFirst({ where: { name: { equals: name, mode: "insensitive" } } });
         return group ? this.toDomain(group) : null;
@@ -39,7 +47,7 @@ export class GroupPrismaRepository implements IGroupRepository {
 
     async findAll(): Promise<Group[]> {
         const groups = await this.prisma.group.findMany();
-        return groups.map(this.toDomain);
+        return groups.map((group) => this.toDomain(group));
     }
 
     private toPrisma(entity: Group): Prisma.GroupCreateInput {
