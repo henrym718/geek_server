@@ -12,11 +12,8 @@ export class ProformaRequestsMapper {
             category: { connect: { id: entity.categoryId.getValue() } },
             client: { connect: { id: entity.clientId.getValue() } },
             skills: {
-                connect: entity.skills.map((skillId) => ({
-                    proformaRequestId_skillId: {
-                        skillId: skillId.getValue(),
-                        proformaRequestId: entity.id.getValue(),
-                    },
+                create: entity.skills.map((skillId) => ({
+                    skill: { connect: { id: skillId.getValue() } },
                 })),
             },
         };
