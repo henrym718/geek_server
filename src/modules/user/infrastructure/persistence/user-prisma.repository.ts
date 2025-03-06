@@ -54,7 +54,7 @@ export class UserPrismaRepository implements IUserRepository {
             id: IdVO.create(client.id),
             firstName: TextVO.create("firstName", client.firstName),
             lastName: TextVO.create("photo", client.lastName),
-            photo: UrlVO.create("photo", client.photo) ?? null,
+            photo: UrlVO.create(client.photo, "s3") ?? null,
             city: TextVO.create("city", client.city),
         });
     }
