@@ -6,7 +6,7 @@ import { IdVO, PriceVO, StatusVO, TextVO } from "@Core/value-objects";
 import { IUUIDService } from "@Shared/services/uuid/uuid.service";
 import { StatusEnum } from "@Core/value-objects/status.vo";
 import { inject, injectable } from "inversify";
-import { PROFORMA_REQUEST_SYMBOLS } from "@ProformaRequests/infraestructure/container/proforma-requests.symbols";
+import { PROFORMA_REQ_SYMBOLS } from "@ProformaRequests/infraestructure/container/proforma-requests.symbols";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 import { ICategoryRepository } from "@Category/application/interfaces/repositories/category.repository";
 import { CATEGORY_SYMBOLS } from "@Category/infraestructure/container/category.symbol";
@@ -18,7 +18,7 @@ import { IClientRepository } from "@Client/application/repositories/client.repos
 @injectable()
 export class CreateProformaRequestsUseCase implements ICreateProformaRequestsUseCase {
     constructor(
-        @inject(PROFORMA_REQUEST_SYMBOLS.ProformaRequestsRepository) private readonly proformaRequestsRepository: IProformaRequestsRepository,
+        @inject(PROFORMA_REQ_SYMBOLS.ProformaRequestsRepository) private readonly proformaRequestsRepository: IProformaRequestsRepository,
         @inject(SHARED_SYMBOLS.UUIDService) private readonly idService: IUUIDService,
         @inject(CATEGORY_SYMBOLS.CategoryRepository) private readonly categoryRepository: ICategoryRepository,
         @inject(SKILL_SYMBOLS.SkillRepository) private readonly skillRepository: ISkillRepository,
