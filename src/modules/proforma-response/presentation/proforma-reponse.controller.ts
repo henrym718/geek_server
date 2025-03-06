@@ -15,7 +15,8 @@ export class ProformaReponseController {
 
     async create(req: Request, res: Response, next: NextFunction) {
         try {
-            const data: ReqCreateProformaResponseDto = req.body;
+            const vendorId = req.user?.userId;
+            const data: ReqCreateProformaResponseDto = { ...req.body, vendorId };
             const { details } = await this.createProformaResponseUseCase.execute(data);
             HttpResponse.success(res, null, details);
         } catch (error) {
