@@ -12,11 +12,8 @@ export class VendorProfileMapper {
             vendor: { connect: { id: entity.vendorId.getValue() } },
             category: { connect: { id: entity.categoryId.getValue() } },
             skills: {
-                connect: entity.skills.map((skillId) => ({
-                    profileVendorId_skillId: {
-                        profileVendorId: entity.id.getValue(),
-                        skillId: skillId.getValue(),
-                    },
+                create: entity.skills.map((skillId) => ({
+                    skill: { connect: { id: skillId.getValue() } },
                 })),
             },
         };
