@@ -23,8 +23,9 @@
             "@Vendor/*": ["modules/vendor/*"],
             "@Client/*": ["modules/client/*"],
             "@Skill/*": ["modules/skill/*"],
-            "@ProfileVendor/*": ["modules/profile-vendor/*"],
-            "@ProformaRequests/*": ["modules/proforma-requests/*"]
+            "@VendorProfile/*": ["modules/vendor-profile/*"],
+            "@ProformaRequests/*": ["modules/proforma-requests/*"],
+            "@ProformaResponse/*": ["module/proforma-response/*"]
         }
     },
     "ts-node": {
