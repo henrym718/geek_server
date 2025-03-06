@@ -3,6 +3,7 @@ export interface ReqCreateProformaResponseDto {
     message: string;
     profileVendorId: string;
     proformaRequestId: string;
+    vendorId: string;
 }
 
 export interface ResCreateProformaResponseDto {
