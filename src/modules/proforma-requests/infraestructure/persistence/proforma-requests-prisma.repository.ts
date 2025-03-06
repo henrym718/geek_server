@@ -4,12 +4,12 @@ import { IProformaRequestsRepository } from "@ProformaRequests/application/repos
 import { ProformaRequestsMapper } from "./proforma-requests.mapper";
 
 export class ProformaRequestsPrismaRepository implements IProformaRequestsRepository {
-    private get prisma() {
-        return PrismaBootstrap.prisma;
+    private get db() {
+        return PrismaBootstrap.prisma.proformaRequest;
     }
 
     async create(data: ProformaRequest): Promise<void> {
-        await this.prisma.proformaRequest.create({
+        await this.db.create({
             data: ProformaRequestsMapper.toPersistence(data),
         });
     }
@@ -18,8 +18,9 @@ export class ProformaRequestsPrismaRepository implements IProformaRequestsReposi
         throw new Error("Method not implemented.");
     }
 
-    findById(id: string): Promise<ProformaRequest | null> {
-        throw new Error("Method not implemented.");
+    async findById(id: string): Promise<ProformaRequest | null> {
+        const proformaRequest = await this.db.findUnique({ where: { id } });
+        return proformaRequest ? ProformaRequestsMapper.toDomain(proformaRequest) : null;
     }
 
     findAll(): Promise<ProformaRequest[]> {
