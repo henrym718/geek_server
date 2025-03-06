@@ -150,6 +150,7 @@ model ProformaResponse {
   vendorProfile     VendorProfile   @relation(fields: [profileVendorId], references: [id])
   profileVendorId   String
 
+  @@unique([proformaRequestId, profileVendorId])
   @@map("proforma_responses")
 }
 
