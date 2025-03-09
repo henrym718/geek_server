@@ -1,4 +1,6 @@
+import { HttpException } from "@Common/exceptions/http.exception";
 import { IdVO, PriceVO, StatusVO, TextVO } from "@Core/value-objects";
+import { StatusEnum } from "@Core/value-objects/status.vo";
 
 interface ProformaRequestProps {
     id: IdVO;
@@ -21,6 +23,20 @@ export class ProformaRequest {
 
     public static reconstitute(props: ProformaRequestProps): ProformaRequest {
         return new ProformaRequest(props);
+    }
+
+    public canceled() {
+        if (this.props.status.equals(StatusVO.fromEnum(StatusEnum.CANCELED))) {
+            throw HttpException.forbidden("La ProformaRequest ya está cancelada.");
+        }
+        this.props.status = StatusVO.fromEnum(StatusEnum.CANCELED);
+    }
+
+    public finished() {
+        if (this.props.status.equals(StatusVO.fromEnum(StatusEnum.FINISHED))) {
+            throw HttpException.forbidden("La ProformaRequest ya está finalizada.");
+        }
+        this.props.status = StatusVO.fromEnum(StatusEnum.FINISHED);
     }
 
     public get id(): IdVO {
