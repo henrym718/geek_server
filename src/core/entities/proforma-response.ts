@@ -1,4 +1,6 @@
+import { HttpException } from "@Common/exceptions/http.exception";
 import { IdVO, PriceVO, StatusVO, TextVO } from "@Core/value-objects";
+import { StatusEnum } from "@Core/value-objects/status.vo";
 
 interface ProformaResponseProps {
     id: IdVO;
@@ -19,6 +21,20 @@ export class ProformaResponse {
     }
     public static reconstitute(props: ProformaResponseProps): ProformaResponse {
         return new ProformaResponse(props);
+    }
+
+    public accepted() {
+        if (this.props.status.equals(StatusVO.fromEnum(StatusEnum.ACCEPTED))) {
+            throw HttpException.forbidden("La ProformaResponse ya está aceptada.");
+        }
+        this.props.status = StatusVO.fromEnum(StatusEnum.ACCEPTED);
+    }
+
+    public rejected() {
+        if (this.props.status.equals(StatusVO.fromEnum(StatusEnum.REJECTED))) {
+            throw HttpException.forbidden("La ProformaRequest ya está rechazada.");
+        }
+        this.props.status = StatusVO.fromEnum(StatusEnum.REJECTED);
     }
 
     public get id(): IdVO {
