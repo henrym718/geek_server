@@ -68,17 +68,17 @@ model Vendor {
 }
 
 model VendorProfile {
-  id                String                @id
+  id                String             @id
   tittle            String
   aboutme           String
-  isActive          Boolean               @default(true)
-  createdAt         DateTime              @default(now())
-  updatedAt         DateTime              @updatedAt
-  vendor            Vendor                @relation(fields: [vendorId], references: [id])
+  isActive          Boolean            @default(true)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  vendor            Vendor             @relation(fields: [vendorId], references: [id])
   vendorId          String
-  category          Category              @relation(fields: [categoryId], references: [id])
+  category          Category           @relation(fields: [categoryId], references: [id])
   categoryId        String
-  skills            ProfileVendor_Skill[]
+  skills            Skill[]
   proformaResponses ProformaResponse[]
 
   @@map("vendor_profiles")
@@ -111,28 +111,28 @@ model Category {
 }
 
 model Skill {
-  id                    String                  @id
-  name                  String
-  category              Category                @relation(fields: [categoryId], references: [id])
-  categoryId            String
-  profileVendorSkills   ProfileVendor_Skill[]
-  proformaRequestSkills ProformaRequest_Skill[]
+  id               String            @id
+  name             String
+  category         Category          @relation(fields: [categoryId], references: [id])
+  categoryId       String
+  profileVendors   VendorProfile[]
+  proformaRequests ProformaRequest[]
 
   @@map("skills")
 }
 
 model ProformaRequest {
-  id                String                  @id
+  id                String             @id
   description       String
   budget            Float
   status            Status
-  createdAt         DateTime                @default(now())
-  updatedAt         DateTime                @updatedAt
-  client            Client                  @relation(fields: [clientId], references: [id])
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  client            Client             @relation(fields: [clientId], references: [id])
   clientId          String
-  category          Category                @relation(fields: [categoryId], references: [id])
+  category          Category           @relation(fields: [categoryId], references: [id])
   categoryId        String
-  skills            ProformaRequest_Skill[]
+  skills            Skill[]
   proformaResponses ProformaResponse[]
 
   @@map("proforma_requests")
@@ -152,25 +152,4 @@ model ProformaResponse {
 
   @@unique([proformaRequestId, profileVendorId])
   @@map("proforma_responses")
-}
-
-// Relaciones muchos a muchos
-model ProfileVendor_Skill {
-  profileVendorId String
-  skillId         String
-  VendorProfile   VendorProfile @relation(fields: [profileVendorId], references: [id])
-  skill           Skill         @relation(fields: [skillId], references: [id])
-
-  @@id([profileVendorId, skillId])
-  @@map("profileVendor_skills")
-}
-
-model ProformaRequest_Skill {
-  proformaRequestId String
-  skillId           String
-  proformaRequest   ProformaRequest @relation(fields: [proformaRequestId], references: [id])
-  skill             Skill           @relation(fields: [skillId], references: [id])
-
-  @@id([proformaRequestId, skillId])
-  @@map("proformaRequest_skills")
 }
