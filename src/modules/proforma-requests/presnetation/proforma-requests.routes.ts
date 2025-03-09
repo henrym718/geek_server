@@ -9,3 +9,4 @@ export const proformarequestRoutes = Router();
 const proformaRequestController = proformaRequestsContainer.get(ProformaRequestsController);
 
 proformarequestRoutes.post("/", authenticate, checkRoles(RoleEnum.CLIENT), proformaRequestController.create);
+proformarequestRoutes.get("/", authenticate, checkRoles(RoleEnum.CLIENT), proformaRequestController.getProformaRequests);
