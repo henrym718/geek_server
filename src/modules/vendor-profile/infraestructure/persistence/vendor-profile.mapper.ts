@@ -11,11 +11,7 @@ export class VendorProfileMapper {
             isActive: entity.isActive,
             vendor: { connect: { id: entity.vendorId.getValue() } },
             category: { connect: { id: entity.categoryId.getValue() } },
-            skills: {
-                create: entity.skills.map((skillId) => ({
-                    skill: { connect: { id: skillId.getValue() } },
-                })),
-            },
+            skills: { connect: entity.skills.map((skill) => ({ id: skill.getValue() })) },
         };
     }
     public static toDomain(entity: PrismaProfileVendor): VendorProfile {
