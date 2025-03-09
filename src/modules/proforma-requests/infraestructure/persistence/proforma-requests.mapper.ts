@@ -11,15 +11,11 @@ export class ProformaRequestsMapper {
             status: entity.status.getValue(),
             category: { connect: { id: entity.categoryId.getValue() } },
             client: { connect: { id: entity.clientId.getValue() } },
-            skills: {
-                create: entity.skills.map((skillId) => ({
-                    skill: { connect: { id: skillId.getValue() } },
-                })),
-            },
+            skills: { connect: entity.skills.map((skillId) => ({ id: skillId.getValue() })) },
         };
     }
 
-    public static toDomain(entity: PrismaProformaRequest): ProformaRequest {
+    public static toDomain(entity: PrismaProformaRequest & { skills: { id: string }[] }): ProformaRequest {
         return ProformaRequest.reconstitute({
             id: IdVO.create(entity.id),
             description: TextVO.create("description", entity.description),
