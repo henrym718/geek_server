@@ -1,7 +1,9 @@
 import { HttpException } from "@Common/exceptions/http.exception";
 
 export enum StatusEnum {
-    PENDING = "PENDING",
+    ACTIVE = "ACTIVE",
+    CANCELED = "CANCELED",
+    FINISHED = "FINISHED",
     ACCEPTED = "ACCEPTED",
     REJECTED = "REJECTED",
 }
@@ -18,6 +20,10 @@ export class StatusVO {
 
     public static fromEnum(status: StatusEnum): StatusVO {
         return new StatusVO(status);
+    }
+
+    public equals(other: StatusVO): boolean {
+        return this.value === other.value;
     }
 
     public getValue(): StatusEnum {

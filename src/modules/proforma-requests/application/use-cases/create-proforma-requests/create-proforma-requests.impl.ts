@@ -32,7 +32,7 @@ export class CreateProformaRequestsUseCase implements ICreateProformaRequestsUse
         const proformaRequestiD = IdVO.create(this.idService.generateUUID());
         const proformaRequestBudget = PriceVO.create(budget);
         const proformaRequestDescription = TextVO.create("Deescption", description);
-        const proformaRequestSttaus = StatusVO.fromEnum(StatusEnum.PENDING);
+        const proformaRequestSttaus = StatusVO.fromEnum(StatusEnum.ACTIVE);
         const proformaRequestSkills = skills.map((skill) => IdVO.create(skill));
         const client_Id = IdVO.create(clientId);
         const category_Id = IdVO.create(categoryId);

@@ -50,7 +50,7 @@ export class CreateProformaResponseUseCase implements ICreateProformaResponseUse
             message: proformaResponseMessage,
             profileVendorId: profileVendor_Id,
             proformaRequestId: proformaRequest_Id,
-            status: StatusVO.fromEnum(StatusEnum.PENDING),
+            status: StatusVO.fromEnum(StatusEnum.ACTIVE),
         });
 
         await this.proformaResponseRepository.create(newProformaResponse);
