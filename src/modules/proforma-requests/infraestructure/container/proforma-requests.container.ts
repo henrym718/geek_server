@@ -17,14 +17,19 @@ import { ISkillRepository } from "@Skill/application/repositories/skill.reposito
 import { CLIENT_SYMBOLS } from "@Client/infraestructure/container/client.symbols";
 import { IClientRepository } from "@Client/application/repositories/client.repository";
 import { ClientPrismaRepository } from "@Client/infraestructure/persistence/client-prisma.repository";
+import { IGetProformaRequestsByClientIdUseCase } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-clientid/get-proforma-requests-by-clientid.use-case";
+import { GetProformaRequestByClientIdUseCase } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-clientid/get-proforma-requests-by-clientid.impl";
 
 export const proformaRequestsContainer = new Container();
 
 proformaRequestsContainer.bind<IProformaRequestsRepository>(PROFORMA_REQ_SYMBOLS.ProformaRequestsRepository).to(ProformaRequestsPrismaRepository);
-proformaRequestsContainer.bind<ICreateProformaRequestsUseCase>(PROFORMA_REQ_SYMBOLS.CreateProformaRequestsUseCase).to(CreateProformaRequestsUseCase);
 proformaRequestsContainer.bind<IUUIDService>(SHARED_SYMBOLS.UUIDService).to(UUIDServiceImpl);
 proformaRequestsContainer.bind<ICategoryRepository>(CATEGORY_SYMBOLS.CategoryRepository).to(CategoryPrismaRepository);
 proformaRequestsContainer.bind<ISkillRepository>(SKILL_SYMBOLS.SkillRepository).to(SkillPrismaRepository);
 proformaRequestsContainer.bind<IClientRepository>(CLIENT_SYMBOLS.ClientRepository).to(ClientPrismaRepository);
+proformaRequestsContainer.bind<ICreateProformaRequestsUseCase>(PROFORMA_REQ_SYMBOLS.CreateProformaRequestsUseCase).to(CreateProformaRequestsUseCase);
+proformaRequestsContainer
+    .bind<IGetProformaRequestsByClientIdUseCase>(PROFORMA_REQ_SYMBOLS.GetProformaRequestsByClientIdUseCase)
+    .to(GetProformaRequestByClientIdUseCase);
 
 proformaRequestsContainer.bind<ProformaRequestsController>(ProformaRequestsController).toSelf();
