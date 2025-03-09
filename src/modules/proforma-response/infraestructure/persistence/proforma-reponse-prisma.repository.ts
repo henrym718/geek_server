@@ -1,7 +1,12 @@
 import { PrismaBootstrap } from "@Bootstraps/prisma.bootsrap";
 import { ProformaResponse } from "@Core/entities/proforma-response";
-import { IProformaResponseRepository } from "modules/proforma-response/application/repositories/proforma-response.repository";
+import {
+    IProformaResponseRepository,
+    ProformaResponseWithVendor,
+} from "modules/proforma-response/application/repositories/proforma-response.repository";
 import { ProformaReponseMapper } from "./proforma-reponse.mapper";
+import { VendorMapper } from "@Vendor/infraestructure/persistence/vendor.mapper";
+import { VendorProfileMapper } from "@VendorProfile/infraestructure/persistence/vendor-profile.mapper";
 
 export class ProformaResponsePrismaRepository implements IProformaResponseRepository {
     private get db() {
@@ -25,6 +30,19 @@ export class ProformaResponsePrismaRepository implements IProformaResponseReposi
 
     findAll(): Promise<ProformaResponse[]> {
         throw new Error("Method not implemented.");
+    }
+
+    async findAllByRequestId(requestId: string): Promise<ProformaResponseWithVendor[]> {
+        const reponses = await this.db.findMany({
+            where: { proformaRequestId: requestId },
+            include: { vendorProfile: { include: { vendor: true } } },
+        });
+
+        return reponses.map((reponse) => ({
+            proformaResponse: ProformaReponseMapper.toDomain(reponse),
+            vendor: VendorMapper.toDomain(reponse.vendorProfile.vendor),
+            vendorProfile: VendorProfileMapper.toDomain(reponse.vendorProfile),
+        }));
     }
 
     async findByProformaRequestIdAndProfileVendorId(proformaRequestId: string, profileVendorId: string): Promise<boolean> {
