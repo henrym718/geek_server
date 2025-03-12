@@ -6,20 +6,27 @@ import { inject, injectable } from "inversify";
 import { PROFORMA_RES_SYMBOLS } from "../infraestructure/container/proforma-reponse.symbols";
 import { IGetProformaResponsesByRequestIdUseCase } from "../application/use-cases/get-proforma-responses-by-proforma-request-Id/get-proforma-responses-by-proforma-request-id.use-case";
 import { ReqGetProformaResponsesByRequestIdDto } from "../application/use-cases/get-proforma-responses-by-proforma-request-Id/get-proforma-responses-by-proforma-request-id.dto";
+import { IUpdateProformaResponseStatusByClientUseCase } from "../application/use-cases/update-proforma-response-status-by-client/update-proforma-response-status-by-client.use-case";
+import { UpdateStatusByClientRequest } from "../application/use-cases/update-proforma-response-status-by-client/update-proforma-response-status-by-client.dto";
 
 @injectable()
 export class ProformaReponseController {
     constructor(
-        @inject(PROFORMA_RES_SYMBOLS.CreateProformaResponseUseCase)
+        @inject(PROFORMA_RES_SYMBOLS.CreateProformaResponse)
         private readonly createProformaResponseUseCase: ICreateProformaResponseUseCase,
+
         @inject(PROFORMA_RES_SYMBOLS.GetproformaResponsesByRequestId)
-        private readonly getProformaResponsesByRequestIdUseCase: IGetProformaResponsesByRequestIdUseCase
+        private readonly getProformaResponsesByRequestIdUseCase: IGetProformaResponsesByRequestIdUseCase,
+
+        @inject(PROFORMA_RES_SYMBOLS.UpdateProformaResponseStatusByClient)
+        private readonly updateProformaResponseStatusByClientUseCase: IUpdateProformaResponseStatusByClientUseCase
     ) {
-        this.createProformaResponse = this.createProformaResponse.bind(this);
-        this.getpPoformaResponsesByRequestId = this.getpPoformaResponsesByRequestId.bind(this);
+        this.create = this.create.bind(this);
+        this.getAllByRequestId = this.getAllByRequestId.bind(this);
+        this.updateStatusByClient = this.updateStatusByClient.bind(this);
     }
 
-    async createProformaResponse(req: Request, res: Response, next: NextFunction) {
+    async create(req: Request, res: Response, next: NextFunction) {
         try {
             const vendorId = req.user?.userId;
             const data: ReqCreateProformaResponseDto = { ...req.body, vendorId };
@@ -30,10 +37,21 @@ export class ProformaReponseController {
         }
     }
 
-    async getpPoformaResponsesByRequestId(req: Request, res: Response, next: NextFunction) {
+    async getAllByRequestId(req: Request, res: Response, next: NextFunction) {
         try {
             const data: ReqGetProformaResponsesByRequestIdDto = { requestId: req.params.requestid };
             const responses = await this.getProformaResponsesByRequestIdUseCase.execute(data);
+            HttpResponse.success(res, responses);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async updateStatusByClient(req: Request, res: Response, next: NextFunction) {
+        try {
+            const clientId = req.user?.userId;
+            const data: UpdateStatusByClientRequest = { ...req.body, clientId };
+            const responses = await this.updateProformaResponseStatusByClientUseCase.execute(data);
             HttpResponse.success(res, responses);
         } catch (error) {
             next(error);
