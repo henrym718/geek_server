@@ -3,8 +3,8 @@ import { PROFORMA_REQ_SYMBOLS } from "./proforma-requests.symbols";
 import { IProformaRequestsRepository } from "@ProformaRequests/application/repositories/proforma-requests.repository";
 import { ProformaRequestsPrismaRepository } from "../persistence/proforma-requests-prisma.repository";
 import { ProformaRequestsController } from "@ProformaRequests/presnetation/proforma-requests.controller";
-import { ICreateProformaRequestsUseCase } from "@ProformaRequests/application/use-cases/create-proforma-requests/create-proforma-requests.use-case";
-import { CreateProformaRequestsUseCase } from "@ProformaRequests/application/use-cases/create-proforma-requests/create-proforma-requests.impl";
+import { ICreateProformaRequestsUseCase } from "@ProformaRequests/application/use-cases/create-proforma-request/create-proforma-requests.use-case";
+import { CreateProformaRequestsUseCase } from "@ProformaRequests/application/use-cases/create-proforma-request/create-proforma-requests.impl";
 import { IUUIDService } from "@Shared/services/uuid/uuid.service";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 import { UUIDServiceImpl } from "@Shared/services/uuid/uuid.service.impl";
@@ -19,17 +19,26 @@ import { IClientRepository } from "@Client/application/repositories/client.repos
 import { ClientPrismaRepository } from "@Client/infraestructure/persistence/client-prisma.repository";
 import { IGetProformaRequestsByClientIdUseCase } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-clientid/get-proforma-requests-by-clientid.use-case";
 import { GetProformaRequestByClientIdUseCase } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-clientid/get-proforma-requests-by-clientid.impl";
+import { ICanceledProformaRequestUseCase } from "@ProformaRequests/application/use-cases/canceled-proforma-request/canceled-proforma-request.use-case";
+import { CanceledProformaRequestUseCase } from "@ProformaRequests/application/use-cases/canceled-proforma-request/canceled-proforma-request.impl";
+import { IProformaResponseRepository } from "modules/proforma-response/application/repositories/proforma-response.repository";
+import { PROFORMA_RES_SYMBOLS } from "modules/proforma-response/infraestructure/container/proforma-reponse.symbols";
+import { ProformaResponsePrismaRepository } from "modules/proforma-response/infraestructure/persistence/proforma-reponse-prisma.repository";
 
 export const proformaRequestsContainer = new Container();
 
 proformaRequestsContainer.bind<IProformaRequestsRepository>(PROFORMA_REQ_SYMBOLS.ProformaRequestsRepository).to(ProformaRequestsPrismaRepository);
 proformaRequestsContainer.bind<IUUIDService>(SHARED_SYMBOLS.UUIDService).to(UUIDServiceImpl);
 proformaRequestsContainer.bind<ICategoryRepository>(CATEGORY_SYMBOLS.CategoryRepository).to(CategoryPrismaRepository);
+proformaRequestsContainer.bind<IProformaResponseRepository>(PROFORMA_RES_SYMBOLS.ProformaResponseRepository).to(ProformaResponsePrismaRepository);
 proformaRequestsContainer.bind<ISkillRepository>(SKILL_SYMBOLS.SkillRepository).to(SkillPrismaRepository);
 proformaRequestsContainer.bind<IClientRepository>(CLIENT_SYMBOLS.ClientRepository).to(ClientPrismaRepository);
 proformaRequestsContainer.bind<ICreateProformaRequestsUseCase>(PROFORMA_REQ_SYMBOLS.CreateProformaRequestsUseCase).to(CreateProformaRequestsUseCase);
 proformaRequestsContainer
     .bind<IGetProformaRequestsByClientIdUseCase>(PROFORMA_REQ_SYMBOLS.GetProformaRequestsByClientIdUseCase)
     .to(GetProformaRequestByClientIdUseCase);
+proformaRequestsContainer
+    .bind<ICanceledProformaRequestUseCase>(PROFORMA_REQ_SYMBOLS.CanceledProformaRequestUseCase)
+    .to(CanceledProformaRequestUseCase);
 
 proformaRequestsContainer.bind<ProformaRequestsController>(ProformaRequestsController).toSelf();
