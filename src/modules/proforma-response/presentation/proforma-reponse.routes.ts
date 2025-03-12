@@ -8,5 +8,6 @@ import { RoleEnum } from "@Core/value-objects";
 export const proformaResponseRoutes = Router();
 const proformaResponseController = proformaResponseContainer.get(ProformaReponseController);
 
-proformaResponseRoutes.post("/", authenticate, checkRoles(RoleEnum.VENDOR), proformaResponseController.createProformaResponse);
-proformaResponseRoutes.get("/:requestid", authenticate, checkRoles(RoleEnum.CLIENT), proformaResponseController.getpPoformaResponsesByRequestId);
+proformaResponseRoutes.post("/", authenticate, checkRoles(RoleEnum.VENDOR), proformaResponseController.create);
+proformaResponseRoutes.get("/:requestid", authenticate, checkRoles(RoleEnum.CLIENT), proformaResponseController.getAllByRequestId);
+proformaResponseRoutes.put("/", authenticate, checkRoles(RoleEnum.CLIENT), proformaResponseController.updateStatusByClient);
