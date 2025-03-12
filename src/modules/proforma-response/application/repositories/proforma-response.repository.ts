@@ -13,4 +13,5 @@ export interface ProformaResponseWithVendor {
 export interface IProformaResponseRepository extends IRepository<ProformaResponse> {
     findByProformaRequestIdAndProfileVendorId(proformaRequestId: string, profileVendorId: string): Promise<boolean>;
     findAllByRequestId(requestId: string): Promise<ProformaResponseWithVendor[]>;
+    updateMany(proformaResponses: ProformaResponse[]): Promise<void>;
 }

@@ -2,7 +2,7 @@ import { ProformaResponse } from "@Core/entities/proforma-response";
 import { IdVO, PriceVO, StatusVO, TextVO } from "@Core/value-objects";
 import { Prisma, ProformaResponse as PrismaProformaResponse } from "@prisma/client";
 
-export class ProformaReponseMapper {
+export class ProformaResponseMapper {
     public static toPersistence(entity: ProformaResponse): Prisma.ProformaResponseCreateInput {
         return {
             id: entity.id.getValue(),
