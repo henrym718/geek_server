@@ -17,8 +17,11 @@ export class ProformaResponsePrismaRepository implements IProformaResponseReposi
         await this.db.proformaResponse.create({ data: ProformaResponseMapper.toPersistence(data) });
     }
 
-    update(entity: ProformaResponse): Promise<void> {
-        throw new Error("Method not implemented.");
+    async update(entity: ProformaResponse): Promise<void> {
+        await this.db.proformaResponse.update({
+            where: { id: entity.id.getValue() },
+            data: ProformaResponseMapper.toPersistence(entity),
+        });
     }
 
     async updateMany(proformaResponses: ProformaResponse[]): Promise<void> {
