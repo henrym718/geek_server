@@ -15,7 +15,7 @@ export class ProformaRequestsMapper {
         };
     }
 
-    public static toDomain(entity: PrismaProformaRequest & { skills: { id: string }[] }): ProformaRequest {
+    public static toDomain(entity: PrismaProformaRequest): ProformaRequest {
         return ProformaRequest.reconstitute({
             id: IdVO.create(entity.id),
             description: TextVO.create("description", entity.description),
