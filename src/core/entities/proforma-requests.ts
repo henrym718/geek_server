@@ -25,18 +25,24 @@ export class ProformaRequest {
         return new ProformaRequest(props);
     }
 
-    public canceled() {
+    public canceled(): ProformaRequest {
         if (this.props.status.equals(StatusVO.fromEnum(StatusEnum.CANCELED))) {
             throw HttpException.forbidden("La ProformaRequest ya está cancelada.");
         }
-        this.props.status = StatusVO.fromEnum(StatusEnum.CANCELED);
+        return new ProformaRequest({
+            ...this.props,
+            status: StatusVO.fromEnum(StatusEnum.CANCELED),
+        });
     }
 
-    public finished() {
+    public finished(): ProformaRequest {
         if (this.props.status.equals(StatusVO.fromEnum(StatusEnum.FINISHED))) {
             throw HttpException.forbidden("La ProformaRequest ya está finalizada.");
         }
-        this.props.status = StatusVO.fromEnum(StatusEnum.FINISHED);
+        return new ProformaRequest({
+            ...this.props,
+            status: StatusVO.fromEnum(StatusEnum.FINISHED),
+        });
     }
 
     public get id(): IdVO {
