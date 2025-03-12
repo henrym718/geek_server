@@ -23,18 +23,24 @@ export class ProformaResponse {
         return new ProformaResponse(props);
     }
 
-    public accepted() {
+    public accepted(): ProformaResponse {
         if (this.props.status.equals(StatusVO.fromEnum(StatusEnum.ACCEPTED))) {
             throw HttpException.forbidden("La ProformaResponse ya está aceptada.");
         }
-        this.props.status = StatusVO.fromEnum(StatusEnum.ACCEPTED);
+        return new ProformaResponse({
+            ...this.props,
+            status: StatusVO.fromEnum(StatusEnum.ACCEPTED),
+        });
     }
 
-    public rejected() {
+    public rejected(): ProformaResponse {
         if (this.props.status.equals(StatusVO.fromEnum(StatusEnum.REJECTED))) {
             throw HttpException.forbidden("La ProformaRequest ya está rechazada.");
         }
-        this.props.status = StatusVO.fromEnum(StatusEnum.REJECTED);
+        return new ProformaResponse({
+            ...this.props,
+            status: StatusVO.fromEnum(StatusEnum.REJECTED),
+        });
     }
 
     public get id(): IdVO {
