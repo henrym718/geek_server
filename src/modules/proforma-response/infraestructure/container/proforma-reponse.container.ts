@@ -16,6 +16,8 @@ import { VendorProfilePrismaRepository } from "@VendorProfile/infraestructure/pe
 import { VENDOR_PROFILE_SYMBOLS } from "@VendorProfile/infraestructure/container/vendor-profile.symbols";
 import { IGetProformaResponsesByRequestIdUseCase } from "modules/proforma-response/application/use-cases/get-proforma-responses-by-proforma-request-Id/get-proforma-responses-by-proforma-request-id.use-case";
 import { GetProformaResponsesByRequestIdUseCase } from "modules/proforma-response/application/use-cases/get-proforma-responses-by-proforma-request-Id/get-proforma-responses-by-proforma-request-id.impl.";
+import { IUpdateProformaResponseStatusByClientUseCase } from "modules/proforma-response/application/use-cases/update-proforma-response-status-by-client/update-proforma-response-status-by-client.use-case";
+import { UpdateProformaResponseStatusByClientUseCase } from "modules/proforma-response/application/use-cases/update-proforma-response-status-by-client/update-proforma-response-status-by-client.imple";
 
 export const proformaResponseContainer = new Container();
 
@@ -23,7 +25,10 @@ proformaResponseContainer.bind<IProformaResponseRepository>(PROFORMA_RES_SYMBOLS
 proformaResponseContainer.bind<IVendorProfilesRepository>(VENDOR_PROFILE_SYMBOLS.VendorProfileRepository).to(VendorProfilePrismaRepository);
 proformaResponseContainer.bind<IProformaRequestsRepository>(PROFORMA_REQ_SYMBOLS.ProformaRequestsRepository).to(ProformaRequestsPrismaRepository);
 proformaResponseContainer.bind<IUUIDService>(SHARED_SYMBOLS.UUIDService).to(UUIDServiceImpl);
-proformaResponseContainer.bind<ICreateProformaResponseUseCase>(PROFORMA_RES_SYMBOLS.CreateProformaResponseUseCase).to(CreateProformaResponseUseCase);
+proformaResponseContainer.bind<ICreateProformaResponseUseCase>(PROFORMA_RES_SYMBOLS.CreateProformaResponse).to(CreateProformaResponseUseCase);
+proformaResponseContainer
+    .bind<IUpdateProformaResponseStatusByClientUseCase>(PROFORMA_RES_SYMBOLS.UpdateProformaResponseStatusByClient)
+    .to(UpdateProformaResponseStatusByClientUseCase);
 proformaResponseContainer
     .bind<IGetProformaResponsesByRequestIdUseCase>(PROFORMA_RES_SYMBOLS.GetproformaResponsesByRequestId)
     .to(GetProformaResponsesByRequestIdUseCase);
