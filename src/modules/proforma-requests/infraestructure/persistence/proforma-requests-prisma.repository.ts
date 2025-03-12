@@ -7,21 +7,24 @@ import { CategoryMapper } from "@Category/infraestructure/persistence/category.m
 
 export class ProformaRequestsPrismaRepository implements IProformaRequestsRepository {
     private get db() {
-        return PrismaBootstrap.prisma.proformaRequest;
+        return PrismaBootstrap.prisma;
     }
 
     async create(data: ProformaRequest): Promise<void> {
-        await this.db.create({
+        await this.db.proformaRequest.create({
             data: ProformaRequestsMapper.toPersistence(data),
         });
     }
 
-    update(entity: ProformaRequest): Promise<void> {
-        throw new Error("Method not implemented.");
+    async update(entity: ProformaRequest): Promise<void> {
+        await this.db.proformaRequest.update({
+            where: { id: entity.id.getValue() },
+            data: ProformaRequestsMapper.toPersistence(entity),
+        });
     }
 
     async findById(id: string): Promise<ProformaRequest | null> {
-        const proformaRequest = await this.db.findUnique({
+        const proformaRequest = await this.db.proformaRequest.findUnique({
             where: { id },
             include: { skills: { select: { id: true } } },
         });
@@ -33,7 +36,7 @@ export class ProformaRequestsPrismaRepository implements IProformaRequestsReposi
     }
 
     async findAllByClientId(clientId: string): Promise<ProformaRequestWithRelations[]> {
-        const proformaRequests = await this.db.findMany({
+        const proformaRequests = await this.db.proformaRequest.findMany({
             where: { clientId },
             include: { skills: true, category: true },
         });
