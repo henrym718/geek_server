@@ -14,7 +14,7 @@ export class StatusVO {
     public static fromPlainText(status: string): StatusVO {
         const normalized = status.toUpperCase();
         const statusEnum = StatusEnum[normalized as keyof typeof StatusEnum];
-        if (!statusEnum) throw HttpException.badRequest(`Invalid status: ${statusEnum}`);
+        if (!statusEnum) throw HttpException.badRequest(`Invalid status: ${normalized}`);
         return new StatusVO(statusEnum);
     }
 
