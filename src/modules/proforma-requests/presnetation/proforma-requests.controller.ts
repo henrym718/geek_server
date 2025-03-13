@@ -4,7 +4,9 @@ import { ICanceledProformaRequestUseCase } from "@ProformaRequests/application/u
 import { ReqCreateProformaRequestDto } from "@ProformaRequests/application/use-cases/create-proforma-request/create-proforma-requests.dto";
 import { ICreateProformaRequestsUseCase } from "@ProformaRequests/application/use-cases/create-proforma-request/create-proforma-requests.use-case";
 import { ReqGetProformaRequestsByClientIdDto } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-clientid/get-proforma-requests-by-clientid.dto";
-import { IGetProformaRequestsByClientIdUseCase } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-clientid/get-proforma-requests-by-clientid.use-case";
+import { IGetProformaRequestsByClientUseCase } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-clientid/get-proforma-requests-by-clientid.use-case";
+import { GetByVendorProfilerRequest } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-vendor-profile/get-proforma-requests-by-vendor-profile.dto";
+import { IGetProformaRequestsByVendorProfileUseCase } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-vendor-profile/get-proforma-requests-by-vendor-profile.use-case";
 import { PROFORMA_REQ_SYMBOLS } from "@ProformaRequests/infraestructure/container/proforma-requests.symbols";
 import { NextFunction, Request, Response } from "express";
 import { inject, injectable } from "inversify";
@@ -15,18 +17,22 @@ export class ProformaRequestsController {
         @inject(PROFORMA_REQ_SYMBOLS.CreateProformaRequestsUseCase)
         private readonly createproformaRequestUseCase: ICreateProformaRequestsUseCase,
 
-        @inject(PROFORMA_REQ_SYMBOLS.GetProformaRequestsByClientIdUseCase)
-        private readonly getProformaRequestsByClientIdUseCase: IGetProformaRequestsByClientIdUseCase,
+        @inject(PROFORMA_REQ_SYMBOLS.GetProformaRequestsByClientUseCase)
+        private readonly getProformaRequestsByClientUseCase: IGetProformaRequestsByClientUseCase,
 
         @inject(PROFORMA_REQ_SYMBOLS.CanceledProformaRequestUseCase)
-        private readonly canceledProformaRequestUseCase: ICanceledProformaRequestUseCase
+        private readonly canceledProformaRequestUseCase: ICanceledProformaRequestUseCase,
+
+        @inject(PROFORMA_REQ_SYMBOLS.GetProformaRequestsByVendorProfile)
+        private readonly getProformaRequestsByVendorProfileUseCase: IGetProformaRequestsByVendorProfileUseCase
     ) {
-        this.createProformaRequest = this.createProformaRequest.bind(this);
-        this.getProformaRequests = this.getProformaRequests.bind(this);
-        this.canceledProformaRequest = this.canceledProformaRequest.bind(this);
+        this.create = this.create.bind(this);
+        this.getAllByClient = this.getAllByClient.bind(this);
+        this.canceledByClient = this.canceledByClient.bind(this);
+        this.getAllByVendorProfile = this.getAllByVendorProfile.bind(this);
     }
 
-    async createProformaRequest(req: Request, res: Response, next: NextFunction) {
+    async create(req: Request, res: Response, next: NextFunction) {
         try {
             const data: ReqCreateProformaRequestDto = { ...req.body, clientId: req.user?.userId };
             const { detail } = await this.createproformaRequestUseCase.execute(data);
@@ -36,21 +42,31 @@ export class ProformaRequestsController {
         }
     }
 
-    async getProformaRequests(req: Request, res: Response, next: NextFunction) {
+    async getAllByClient(req: Request, res: Response, next: NextFunction) {
         try {
             const data: ReqGetProformaRequestsByClientIdDto = { clientId: req.user?.userId! };
-            const proforomarequestList = await this.getProformaRequestsByClientIdUseCase.execute(data);
+            const proforomarequestList = await this.getProformaRequestsByClientUseCase.execute(data);
             HttpResponse.success(res, proforomarequestList);
         } catch (error) {
             next(error);
         }
     }
 
-    async canceledProformaRequest(req: Request, res: Response, next: NextFunction) {
+    async canceledByClient(req: Request, res: Response, next: NextFunction) {
         try {
             const data: ReqCanceledProformaRequest = { ...req.body, clientId: req.user?.userId! };
             const { details } = await this.canceledProformaRequestUseCase.execute(data);
             HttpResponse.success(res, null, details);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async getAllByVendorProfile(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data: GetByVendorProfilerRequest = { ...req.body, vendorId: req.user?.userId };
+            const response = await this.getProformaRequestsByVendorProfileUseCase.execute(data);
+            HttpResponse.success(res, response);
         } catch (error) {
             next(error);
         }
