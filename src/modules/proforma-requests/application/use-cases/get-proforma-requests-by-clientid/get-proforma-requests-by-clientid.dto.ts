@@ -12,12 +12,12 @@ export interface ResGetProformaRequestsByClientIdDto {
     categoty: Category;
 }
 
-interface SKills {
+type SKills = {
     id: string;
     name: string;
-}
+};
 
-interface Category {
+type Category = {
     id: string;
     name: string;
-}
+};

@@ -1,5 +1,5 @@
 import { ReqGetProformaRequestsByClientIdDto, ResGetProformaRequestsByClientIdDto } from "./get-proforma-requests-by-clientid.dto";
 
-export interface IGetProformaRequestsByClientIdUseCase {
+export interface IGetProformaRequestsByClientUseCase {
     execute(data: ReqGetProformaRequestsByClientIdDto): Promise<ResGetProformaRequestsByClientIdDto[]>;
 }
