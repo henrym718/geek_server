@@ -5,11 +5,11 @@ import { VendorProfileMapper } from "./vendor-profile.mapper";
 
 export class VendorProfilePrismaRepository implements IVendorProfilesRepository {
     get db() {
-        return PrismaBootstrap.prisma.vendorProfile;
+        return PrismaBootstrap.prisma;
     }
 
     async create(entity: VendorProfile): Promise<void> {
-        await this.db.create({ data: VendorProfileMapper.toPersistence(entity) });
+        await this.db.vendorProfile.create({ data: VendorProfileMapper.toPersistence(entity) });
     }
 
     update(entity: VendorProfile): Promise<void> {
@@ -17,8 +17,13 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
     }
 
     async findById(id: string): Promise<VendorProfile | null> {
-        const response = await this.db.findUnique({ where: { id } });
+        const response = await this.db.vendorProfile.findUnique({ where: { id } });
         return response ? VendorProfileMapper.toDomain(response) : null;
+    }
+
+    async findByIdWithSkillsId(id: string): Promise<VendorProfile | null> {
+        const response = await this.db.vendorProfile.findUnique({ where: { id }, include: { skills: true } });
+        return response ? VendorProfileMapper.toDomain(response, response.skills) : null;
     }
 
     findAll(): Promise<VendorProfile[]> {
