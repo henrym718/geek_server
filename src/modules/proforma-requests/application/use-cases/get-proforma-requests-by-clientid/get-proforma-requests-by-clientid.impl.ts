@@ -1,12 +1,12 @@
 import { IProformaRequestsRepository } from "@ProformaRequests/application/repositories/proforma-requests.repository";
 import { ReqGetProformaRequestsByClientIdDto, ResGetProformaRequestsByClientIdDto } from "./get-proforma-requests-by-clientid.dto";
-import { IGetProformaRequestsByClientIdUseCase } from "./get-proforma-requests-by-clientid.use-case";
+import { IGetProformaRequestsByClientUseCase } from "./get-proforma-requests-by-clientid.use-case";
 import { inject, injectable } from "inversify";
 import { PROFORMA_REQ_SYMBOLS } from "@ProformaRequests/infraestructure/container/proforma-requests.symbols";
 import { IdVO } from "@Core/value-objects";
 
 @injectable()
-export class GetProformaRequestByClientIdUseCase implements IGetProformaRequestsByClientIdUseCase {
+export class GetProformaRequestByClientIdUseCase implements IGetProformaRequestsByClientUseCase {
     constructor(
         @inject(PROFORMA_REQ_SYMBOLS.ProformaRequestsRepository)
         private readonly proformaRequestsRepository: IProformaRequestsRepository
