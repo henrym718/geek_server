@@ -1,0 +1,75 @@
+import { inject, injectable } from "inversify";
+import { IdVO } from "@Core/value-objects";
+import { IProformaRequestsRepository } from "@ProformaRequests/application/repositories/proforma-requests.repository";
+import { GetByVendorProfilerRequest, GetByVendorProfilerResponse } from "./get-proforma-requests-by-vendor-profile.dto";
+import { IGetProformaRequestsByVendorProfileUseCase } from "./get-proforma-requests-by-vendor-profile.use-case";
+import { PROFORMA_REQ_SYMBOLS } from "@ProformaRequests/infraestructure/container/proforma-requests.symbols";
+import { VENDOR_PROFILE_SYMBOLS } from "@VendorProfile/infraestructure/container/vendor-profile.symbols";
+import { IVendorProfilesRepository } from "@VendorProfile/aplication/repositories/vendor-profile.repository";
+import { HttpException } from "@Common/exceptions/http.exception";
+
+/**
+ * Caso de uso: Obtener solicitudes de proforma asociadas a un perfil de vendedor.
+ * Este caso de uso recupera las solicitudes de proforma filtradas por perfil de vendedor
+ * y sus habilidades asociadas, verificando permisos de acceso y pertenencia.
+ */
+
+@injectable()
+export class GetProformaRequestsByVendorProfileUseCase implements IGetProformaRequestsByVendorProfileUseCase {
+    // Constructor que inyecta los repositorios necesarios para ejecutar el caso de uso
+    constructor(
+        // Inyecta el repositorio de solicitudes de proforma
+        @inject(PROFORMA_REQ_SYMBOLS.ProformaRequestsRepository)
+        private readonly proformaRequestRepository: IProformaRequestsRepository,
+
+        // Inyecta el repositorio de perfiles de vendedores
+        @inject(VENDOR_PROFILE_SYMBOLS.VendorProfileRepository)
+        private readonly vendorProfileRepository: IVendorProfilesRepository
+    ) {}
+
+    /**
+     * @param data - Datos de entrada con el ID del vendedor y el ID del perfil de vendedor.
+     * @returns Una lista de respuestas que contienen los detalles de las solicitudes de proforma.
+     * @throws {HttpException} - Si el perfil no existe o no pertenece al vendedor.
+     */
+
+    async execute(data: GetByVendorProfilerRequest): Promise<GetByVendorProfilerResponse[]> {
+        // Crea objetos de valor (Value Objects) para el ID del vendedor y el ID del perfil de vendedor
+        const vendorId = IdVO.create(data.vendorId);
+        const vendorProfileId = IdVO.create(data.vendorProfileId);
+
+        // Recupera el perfil del vendedor junto con los IDs de sus habilidades
+        const vendorProfile = await this.vendorProfileRepository.findByIdWithSkillsId(vendorProfileId.getValue());
+
+        // Verifica si el perfil de vendedor existe
+        if (!vendorProfile) throw HttpException.notFound("Vendor Profile not found");
+
+        // Verifica si el perfil de vendedor pertenece al vendedor proporcionado
+        if (!vendorProfile.vendorId.equals(vendorId)) {
+            throw HttpException.forbidden("Vendor Profile does not belong to the vendor");
+        }
+
+        // Obtiene las solicitudes de proforma filtradas por la categoría del perfil y sus habilidades
+        const request = await this.proformaRequestRepository.findByCategoryIdAndSkills(
+            vendorProfile.categoryId.getValue(),
+            vendorProfile.skills.map((id) => id.getValue())
+        );
+
+        // Mapea las solicitudes obtenidas en el formato de respuesta esperado
+        return request.map(({ proformaRequest, category, skills }) => ({
+            id: proformaRequest.id.getValue(),
+            budget: proformaRequest.budget.getValue(),
+            description: proformaRequest.description.getValue(),
+            status: proformaRequest.status.getValue(),
+            createdAt: proformaRequest.createdAt,
+            categoty: {
+                id: category.id.getValue(),
+                name: category.name.getValue(),
+            },
+            skills: skills.map((skill) => ({
+                id: skill.id.getValue(),
+                name: skill.name.getValue(),
+            })),
+        }));
+    }
+}
