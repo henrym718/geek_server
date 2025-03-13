@@ -31,6 +31,28 @@ export class ProformaRequestsPrismaRepository implements IProformaRequestsReposi
         return proformaRequest ? ProformaRequestsMapper.toDomain(proformaRequest) : null;
     }
 
+    async findByCategoryIdAndSkills(categoryId: string, skillIds: string[]): Promise<ProformaRequestWithRelations[]> {
+        const requests = await this.db.proformaRequest.findMany({
+            where: {
+                AND: [
+                    { categoryId },
+                    { status: "ACTIVE" },
+
+                    {
+                        skills: { some: { id: { in: skillIds } } },
+                    },
+                ],
+            },
+            include: { skills: true, category: true },
+        });
+
+        return requests.map((item) => ({
+            proformaRequest: ProformaRequestsMapper.toDomain(item),
+            skills: item.skills.map((skill) => SkillMapper.toDomain(skill)),
+            category: CategoryMapper.toDomain(item.category),
+        }));
+    }
+
     findAll(): Promise<ProformaRequest[]> {
         throw new Error("Method not implemented.");
     }
