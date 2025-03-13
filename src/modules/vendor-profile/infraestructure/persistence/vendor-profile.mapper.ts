@@ -14,12 +14,13 @@ export class VendorProfileMapper {
             skills: { connect: entity.skills.map((skill) => ({ id: skill.getValue() })) },
         };
     }
-    public static toDomain(entity: PrismaProfileVendor): VendorProfile {
+
+    public static toDomain(entity: PrismaProfileVendor, skillsId?: { id: string }[]): VendorProfile {
         return VendorProfile.reconstitute({
             id: IdVO.create(entity.id),
             aboutme: TextVO.create("aboutme", entity.aboutme),
             tittle: TextVO.create("tittle", entity.tittle),
-            skills: [],
+            skills: skillsId ? skillsId.map((skill) => IdVO.create(skill.id)) : [],
             isActive: entity.isActive,
             categoryId: IdVO.create(entity.categoryId),
             vendorId: IdVO.create(entity.vendorId),
