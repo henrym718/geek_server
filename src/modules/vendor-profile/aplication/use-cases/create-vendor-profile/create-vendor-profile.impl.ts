@@ -1,5 +1,5 @@
 import { IdVO, TextVO } from "@Core/value-objects";
-import { IVendorProfilesRepository } from "../repositories/vendor-profile.repository";
+import { IVendorProfilesRepository } from "@VendorProfile/aplication/repositories/vendor-profile.repository";
 import { ReqCreateVendorProfileDto, ResCreateVendorProfileDto } from "./create-vendor-profile.dto";
 import { ICreateVendorProfileUseCase } from "./create-vendor-profile.use-case";
 import { VendorProfile } from "@Core/entities/profile-vendor";
