@@ -1,3 +1,4 @@
+export { StatusEnum } from "./status.vo";
 export { RoleEnum } from "./role.vo";
 export { ProviderEnum } from "./provider.vo";
 export { IdVO } from "./id.vo";

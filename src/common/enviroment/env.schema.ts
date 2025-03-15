@@ -11,6 +11,9 @@ export const envSchema = z.object({
     KEY_SECRET_TOKEN: z.string().min(32),
     ACCESS_TOKEN_EXPIRATION: z.string(),
     REFRESH_TOKEN_EXPIRATION: z.string(),
+
+    // Filtros de consulktas
+    LIMIT_PER_QUERY: z.string().min(1).transform(Number),
 });
 
 export type Env = z.infer<typeof envSchema>;
