@@ -8,4 +8,5 @@ import { RoleEnum } from "@Core/value-objects";
 export const vendorProfileRoutes = Router();
 const vendorProfileController = vendorProfileContainer.get(VendorProfileController);
 
-vendorProfileRoutes.post("/", authenticate, checkRoles(RoleEnum.VENDOR), vendorProfileController.create);
+vendorProfileRoutes.post("/", authenticate, checkRoles(RoleEnum.VENDOR), vendorProfileController.createVendorprofile);
+vendorProfileRoutes.get("/", vendorProfileController.searchVendorProfiles);
