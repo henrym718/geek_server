@@ -1,4 +1,5 @@
 export const VENDOR_PROFILE_SYMBOLS = {
     VendorProfileRepository: Symbol.for("VendorProfileRepository"),
-    CreateVendorProfileUseCase: Symbol.for("CreateVendorProfileUseCase"),
+    CreateVendorProfile: Symbol.for("CreateVendorProfile"),
+    SearchVendorProfiles: Symbol.for("SearchVendorProfiles"),
 };

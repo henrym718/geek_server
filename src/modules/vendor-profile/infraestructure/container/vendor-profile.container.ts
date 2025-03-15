@@ -2,8 +2,8 @@ import { IVendorProfilesRepository } from "@VendorProfile/aplication/repositorie
 import { Container } from "inversify";
 import { VENDOR_PROFILE_SYMBOLS } from "./vendor-profile.symbols";
 import { VendorProfilePrismaRepository } from "../persistence/vendor-profile-prisma.repository";
-import { ICreateVendorProfileUseCase } from "@VendorProfile/aplication/use-cases/create-vendor-profile.use-case";
-import { CreateVendorProfileUseCase } from "@VendorProfile/aplication/use-cases/create-vendor-profile.impl";
+import { ICreateVendorProfileUseCase } from "@VendorProfile/aplication/use-cases/create-vendor-profile/create-vendor-profile.use-case";
+import { CreateVendorProfileUseCase } from "@VendorProfile/aplication/use-cases/create-vendor-profile/create-vendor-profile.impl";
 import { VendorProfileController } from "@VendorProfile/presentation/vendor-profile.controller";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 import { CATEGORY_SYMBOLS } from "@Category/infraestructure/container/category.symbol";
@@ -17,6 +17,8 @@ import { ISkillRepository } from "@Skill/application/repositories/skill.reposito
 import { SkillPrismaRepository } from "@Skill/infraestructure/persistence/skill-prisma.repository";
 import { IVendorRepository } from "@Vendor/application/repositories/vendor.repository";
 import { VendorPrismaRepository } from "@Vendor/infraestructure/persistence/vendor-prisma.repository";
+import { ISearchVendorProfilesUseCase } from "@VendorProfile/aplication/use-cases/search-vendor-profiles/search-vendor-profiles.use-case";
+import { SearchVendorProfilesUseCase } from "@VendorProfile/aplication/use-cases/search-vendor-profiles/search-vendor-profiles.impl";
 
 export const vendorProfileContainer = new Container();
 
@@ -25,5 +27,6 @@ vendorProfileContainer.bind<IUUIDService>(SHARED_SYMBOLS.UUIDService).to(UUIDSer
 vendorProfileContainer.bind<ICategoryRepository>(CATEGORY_SYMBOLS.CategoryRepository).to(CategoryPrismaRepository).inSingletonScope();
 vendorProfileContainer.bind<ISkillRepository>(SKILL_SYMBOLS.SkillRepository).to(SkillPrismaRepository).inSingletonScope();
 vendorProfileContainer.bind<IVendorRepository>(VENDOR_SYMBOLS.VendorRepository).to(VendorPrismaRepository).inSingletonScope();
-vendorProfileContainer.bind<ICreateVendorProfileUseCase>(VENDOR_PROFILE_SYMBOLS.CreateVendorProfileUseCase).to(CreateVendorProfileUseCase);
+vendorProfileContainer.bind<ICreateVendorProfileUseCase>(VENDOR_PROFILE_SYMBOLS.CreateVendorProfile).to(CreateVendorProfileUseCase);
+vendorProfileContainer.bind<ISearchVendorProfilesUseCase>(VENDOR_PROFILE_SYMBOLS.SearchVendorProfiles).to(SearchVendorProfilesUseCase);
 vendorProfileContainer.bind<VendorProfileController>(VendorProfileController).toSelf();
