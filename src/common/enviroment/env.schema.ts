@@ -12,8 +12,11 @@ export const envSchema = z.object({
     ACCESS_TOKEN_EXPIRATION: z.string(),
     REFRESH_TOKEN_EXPIRATION: z.string(),
 
-    // Filtros de consulktas
-    LIMIT_PER_QUERY: z.string().min(1).transform(Number),
+    // Filtros de consulta de Profiles
+    LIMIT_PER_QUERY_PROFILES: z.string().min(1).transform(Number),
+
+    // Filtros de consulktas de suggestions skill
+    LIMIT_PER_QUEY_SKILLS: z.string().min(1).transform(Number),
 });
 
 export type Env = z.infer<typeof envSchema>;
