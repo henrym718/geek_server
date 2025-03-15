@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
 import { ISkillRepository } from "@Skill/application/repositories/skill.repository";
-import { ReqCreateSkillDto, ResCreateSkillDto } from "@Skill/application/use-case/create/create-skill.dto";
-import { ICreateSkillUseCase } from "@Skill/application/use-case/create/create-skill.use-case";
+import { ReqCreateSkillDto, ResCreateSkillDto } from "./create-skill.dto";
+import { ICreateSkillUseCase } from "./create-skill.use-case";
 import { SKILL_SYMBOLS } from "@Skill/infraestructure/container/skill.symbols";
 import { ICategoryRepository } from "@Category/application/interfaces/repositories/category.repository";
 import { CATEGORY_SYMBOLS } from "@Category/infraestructure/container/category.symbol";
