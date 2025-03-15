@@ -5,11 +5,11 @@ import { SkillMapper } from "./skill.mapper";
 
 export class SkillPrismaRepository implements ISkillRepository {
     private get db() {
-        return PrismaBootstrap.prisma.skill;
+        return PrismaBootstrap.prisma;
     }
 
     async create(data: Skill): Promise<void> {
-        await this.db.create({ data: SkillMapper.toPersistence(data) });
+        await this.db.skill.create({ data: SkillMapper.toPersistence(data) });
     }
 
     update(entity: Skill): Promise<void> {
@@ -21,8 +21,17 @@ export class SkillPrismaRepository implements ISkillRepository {
     }
 
     async findByIds(ids: string[]): Promise<Skill[]> {
-        const skills = await this.db.findMany({ where: { id: { in: ids } } });
+        const skills = await this.db.skill.findMany({ where: { id: { in: ids } } });
         return skills.map(SkillMapper.toDomain);
+    }
+
+    async findAllBySearchText(searchText: string, limit: number): Promise<Skill[]> {
+        const skills = await this.db.skill.findMany({
+            where: { name: { contains: searchText, mode: "insensitive" } },
+            take: limit,
+        });
+
+        return skills.map((skill) => SkillMapper.toDomain(skill));
     }
 
     findAll(): Promise<Skill[]> {
@@ -30,7 +39,7 @@ export class SkillPrismaRepository implements ISkillRepository {
     }
 
     async areSkillsValidForCategory(categoryId: string, skillIds: string[]): Promise<boolean> {
-        const skills = await this.db.findMany({
+        const skills = await this.db.skill.findMany({
             where: {
                 id: { in: skillIds },
                 categoryId: categoryId,
