@@ -32,7 +32,7 @@ export class SearchVendorProfilesUseCase implements ISearchVendorProfilesUseCase
             query: data.query as string,
             categoryName: data.categoryName as string,
             city: data.city as string,
-            limit: Number(data.limit) || EnvBootstrap.ENV.LIMIT_PER_QUERY,
+            limit: Number(data.limit) || EnvBootstrap.ENV.LIMIT_PER_QUERY_PROFILES,
             order: (data.order as "asc" | "desc") ?? "asc",
             page: Number(data.page) || 1,
             skills: data.skills as string,
@@ -42,8 +42,8 @@ export class SearchVendorProfilesUseCase implements ISearchVendorProfilesUseCase
         const { results, vendorProfiles } = await this.vendorProfileRepository.searchVendorProfiles(filter);
 
         // Cálculo de la paginación
-        const currentPage = Number(data.page) || 1;
-        const pages = Math.ceil(results / (data.limit ?? EnvBootstrap.ENV.LIMIT_PER_QUERY));
+        const currentPage = Number(filter.page) || 1;
+        const pages = Math.ceil(results / filter.limit);
         const nextPage = currentPage < pages ? currentPage + 1 : null;
         const prevPage = currentPage > 1 ? currentPage - 1 : null;
 
