@@ -13,6 +13,7 @@ import { skillRoutes } from "modules/skill/presentation/skill.routes";
 import { vendorProfileRoutes } from "@VendorProfile/presentation/vendor-profile.routes";
 import { proformarequestRoutes } from "@ProformaRequests/presnetation/proforma-requests.routes";
 import { proformaResponseRoutes } from "modules/proforma-response/presentation/proforma-reponse.routes";
+import { suggestionRoutes } from "modules/suggestion/presentation/suggestion.routes";
 
 export class ServerBootstrap {
     private readonly app: Application;
@@ -56,6 +57,7 @@ export class ServerBootstrap {
         this.app.use("/profile-vendor", vendorProfileRoutes);
         this.app.use("/proforma-request", proformarequestRoutes);
         this.app.use("/proforma-response", proformaResponseRoutes);
+        this.app.use("/suggestion", suggestionRoutes);
     }
 
     private setupErrorHandling() {
