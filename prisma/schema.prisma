@@ -108,6 +108,7 @@ model Category {
   profiles         VendorProfile[]
   skills           Skill[]
   proformaRequests ProformaRequest[]
+  SearchSuggestion Suggestion[]
 
   @@map("categories")
 }
@@ -119,8 +120,21 @@ model Skill {
   categoryId       String
   profileVendors   VendorProfile[]
   proformaRequests ProformaRequest[]
+  SearchSuggestion Suggestion[]
 
   @@map("skills")
+}
+
+model Suggestion {
+  id         String   @id
+  text       String
+  skill      Skill    @relation(fields: [skillId], references: [id])
+  skillId    String
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+
+  @@index([text], map: "idx_search_text")
+  @@map("suggestions")
 }
 
 model ProformaRequest {
