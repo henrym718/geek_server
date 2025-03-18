@@ -14,25 +14,23 @@ export interface SearchResponse {
     pages: number;
     nextPage: number | null;
     prevPage: number | null;
-    data: VendorProfileView[];
-}
-
-interface VendorProfileView {
-    vendor: {
-        id: string;
-        firstName: string;
-        lastName: string;
-        city: string;
-        phone: string;
-        photo: string;
-    };
-    vendorProfile: {
-        id: string;
-        title: string;
-        aboutme: string;
-        createdAt: Date | undefined;
-    };
-    skills: {
-        name: string;
-    };
+    data: {
+        vendor: {
+            id: string;
+            firstName: string;
+            lastName: string;
+            city: string;
+            phone: string;
+            photo: string;
+        };
+        vendorProfile: {
+            id: string;
+            title: string;
+            aboutme: string;
+            createdAt: Date | undefined;
+        };
+        skills: {
+            name: string;
+        };
+    }[];
 }
