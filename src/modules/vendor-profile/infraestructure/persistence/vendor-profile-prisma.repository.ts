@@ -43,7 +43,7 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
                 { tittle: { contains: query, mode: "insensitive" as const } },
                 { skills: { some: { name: { contains: query, mode: "insensitive" as const } } } },
             ],
-            category: { name: categoryName },
+            category: { name: { contains: categoryName, mode: "insensitive" as const } },
             vendor: { city: { contains: city, mode: "insensitive" as const } },
             AND: skills?.split(",").map((skill) => ({ skills: { some: { name: skill } } })),
             isActive: true,
@@ -55,7 +55,7 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
                 orderBy: { createdAt: order },
                 take,
                 skip,
-                include: { skills: true, vendor: true },
+                include: { skills: true, vendor: true, category: true },
             }),
 
             this.db.vendorProfile.count({
