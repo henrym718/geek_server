@@ -16,13 +16,16 @@ import { LoginLocalUserCase } from "@Auth/application/use-cases/login-local/logi
 import { IGetCurrentAccountUseCase } from "@Auth/application/use-cases/get-current-account/get-current-account.use-case";
 import { GetCurrentAccountUseCase } from "@Auth/application/use-cases/get-current-account/get-current-account.impl";
 import { sharedContainer } from "@Shared/container/shared.container";
+import { ICheckEmailExistsUseCase } from "@Auth/application/use-cases/check-email-exist/check-email-exists.use-case";
+import { CheckEmailExistsUseCase } from "@Auth/application/use-cases/check-email-exist/check-email-exists.impl";
 
 export const authContainer = new Container();
 authContainer.parent = sharedContainer;
 
 authContainer.bind<IHashService>(AUTH_SYMBOL.HashService).to(HashServiceImpl);
-authContainer.bind<IRegisterLocalUseCase>(AUTH_SYMBOL.RegisterUserUseCase).to(RegisterUserUseCase);
-authContainer.bind<ILoginLocalUseCase>(AUTH_SYMBOL.LoginUserUseCase).to(LoginLocalUserCase);
-authContainer.bind<IGetCurrentAccountUseCase>(AUTH_SYMBOL.GetCurrentAccountUseCase).to(GetCurrentAccountUseCase);
+authContainer.bind<IRegisterLocalUseCase>(AUTH_SYMBOL.RegisterUser).to(RegisterUserUseCase);
+authContainer.bind<ILoginLocalUseCase>(AUTH_SYMBOL.LoginUser).to(LoginLocalUserCase);
+authContainer.bind<IGetCurrentAccountUseCase>(AUTH_SYMBOL.GetCurrentAccount).to(GetCurrentAccountUseCase);
+authContainer.bind<ICheckEmailExistsUseCase>(AUTH_SYMBOL.CheckEmailExists).to(CheckEmailExistsUseCase);
 authContainer.bind<IUserRepository>(AUTH_SYMBOL.UserRepository).to(UserPrismaRepository).inSingletonScope();
 authContainer.bind<AuthController>(AuthController).toSelf();
