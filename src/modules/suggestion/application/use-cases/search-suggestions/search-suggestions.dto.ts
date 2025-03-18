@@ -1,8 +1,9 @@
 export type SearchRequest = {
     searchText: string;
+    limit: number;
 };
 export type SearchResponse = {
     suggestions: string;
-    categoryId: string;
-    skillId: string;
+    categoryName: string;
+    query: string;
 };
