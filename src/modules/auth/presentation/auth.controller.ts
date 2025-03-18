@@ -9,17 +9,21 @@ import { ReqLoginLocalDto } from "@Auth/application/use-cases/login-local/login-
 import { IGetCurrentAccountUseCase } from "@Auth/application/use-cases/get-current-account/get-current-account.use-case";
 import { ReqGetCurrentAccountDTO } from "@Auth/application/use-cases/get-current-account/get-current-account.dto";
 import { HttpException } from "@Common/exceptions/http.exception";
+import { CheckEmailRequest } from "@Auth/application/use-cases/check-email-exist/check-email-exists.dto";
+import { ICheckEmailExistsUseCase } from "@Auth/application/use-cases/check-email-exist/check-email-exists.use-case";
 
 @injectable()
 export class AuthController {
     constructor(
-        @inject(AUTH_SYMBOL.RegisterUserUseCase) private readonly registerUserCase: IRegisterLocalUseCase,
-        @inject(AUTH_SYMBOL.LoginUserUseCase) private readonly loginUserCase: ILoginLocalUseCase,
-        @inject(AUTH_SYMBOL.GetCurrentAccountUseCase) private readonly getCurrentAccountUseCase: IGetCurrentAccountUseCase
+        @inject(AUTH_SYMBOL.RegisterUser) private readonly registerUserCase: IRegisterLocalUseCase,
+        @inject(AUTH_SYMBOL.LoginUser) private readonly loginUserCase: ILoginLocalUseCase,
+        @inject(AUTH_SYMBOL.GetCurrentAccount) private readonly getCurrentAccountUseCase: IGetCurrentAccountUseCase,
+        @inject(AUTH_SYMBOL.CheckEmailExists) private readonly checkEmailExistsUseCase: ICheckEmailExistsUseCase
     ) {
         this.registerUserLocal = this.registerUserLocal.bind(this);
         this.loginUserLocal = this.loginUserLocal.bind(this);
         this.getCurrentAccount = this.getCurrentAccount.bind(this);
+        this.checkEmailExists = this.checkEmailExists.bind(this);
     }
 
     async registerUserLocal(req: Request, res: Response, next: NextFunction) {
@@ -48,6 +52,16 @@ export class AuthController {
             const userId: ReqGetCurrentAccountDTO = { email: req.user.email };
             const response = await this.getCurrentAccountUseCase.execute(userId);
             HttpResponse.success(res, response);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async checkEmailExists(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data: CheckEmailRequest = req.body;
+            const { exists } = await this.checkEmailExistsUseCase.execute(data);
+            HttpResponse.success(res, exists);
         } catch (error) {
             next(error);
         }
