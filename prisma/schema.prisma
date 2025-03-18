@@ -88,7 +88,7 @@ model VendorProfile {
 
 model Group {
   id         String     @id
-  name       String
+  name       String     @unique
   isActive   Boolean    @default(true)
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
@@ -99,7 +99,7 @@ model Group {
 
 model Category {
   id               String            @id
-  name             String
+  name             String            @unique
   isActive         Boolean           @default(true)
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
@@ -115,7 +115,7 @@ model Category {
 
 model Skill {
   id               String            @id
-  name             String
+  name             String            @unique
   category         Category          @relation(fields: [categoryId], references: [id])
   categoryId       String
   profileVendors   VendorProfile[]
