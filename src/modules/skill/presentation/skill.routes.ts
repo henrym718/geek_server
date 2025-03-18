@@ -6,4 +6,3 @@ export const skillRoutes = Router();
 const skillController = skillContainer.get(SkillController);
 
 skillRoutes.post("/", skillController.createSkill);
-skillRoutes.get("/suggestions", skillController.searchSkillsSuggestions);

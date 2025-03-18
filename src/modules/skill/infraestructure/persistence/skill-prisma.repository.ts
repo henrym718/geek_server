@@ -25,15 +25,6 @@ export class SkillPrismaRepository implements ISkillRepository {
         return skills.map(SkillMapper.toDomain);
     }
 
-    async findAllBySearchText(searchText: string, limit: number): Promise<Skill[]> {
-        const skills = await this.db.skill.findMany({
-            where: { name: { contains: searchText, mode: "insensitive" } },
-            take: limit,
-        });
-
-        return skills.map((skill) => SkillMapper.toDomain(skill));
-    }
-
     findAll(): Promise<Skill[]> {
         throw new Error("Method not implemented.");
     }
