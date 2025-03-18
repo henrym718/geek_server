@@ -1,0 +1,55 @@
+groupName,categoryName,skillName,suggestion
+Servicios Tecnológicos,Desarrollo de aplicaciones web,React,React básico
+Servicios Tecnológicos,Desarrollo de aplicaciones web,React,React avanzado
+Servicios Tecnológicos,Desarrollo de aplicaciones web,Angular,Angular básico
+Servicios Tecnológicos,Desarrollo de aplicaciones web,Angular,Angular avanzado
+Servicios Tecnológicos,Desarrollo de aplicaciones web,Vue,Vue básico
+Servicios Tecnológicos,Desarrollo de aplicaciones web,Vue,Vue avanzado
+Servicios Tecnológicos,Desarrollo de aplicaciones móviles,Flutter,Flutter básico
+Servicios Tecnológicos,Desarrollo de aplicaciones móviles,Flutter,Flutter avanzado
+Servicios Tecnológicos,Desarrollo de aplicaciones móviles,React Native,React Native básico
+Servicios Tecnológicos,Desarrollo de aplicaciones móviles,React Native,React Native avanzado
+Servicios Tecnológicos,Desarrollo de aplicaciones móviles,Ionic,Ionic básico
+Servicios Tecnológicos,Desarrollo de aplicaciones móviles,Ionic,Ionic avanzado
+Servicios Tecnológicos,Administración de sistemas,Linux,Linux básico
+Servicios Tecnológicos,Administración de sistemas,Linux,Linux avanzado
+Servicios Tecnológicos,Administración de sistemas,Windows Server,Windows Server básico
+Servicios Tecnológicos,Administración de sistemas,Windows Server,Windows Server avanzado
+Servicios Tecnológicos,Administración de sistemas,Docker,Docker básico
+Servicios Tecnológicos,Administración de sistemas,Docker,Docker avanzado
+Artesanía y Manualidades,Joyería artesanal,Collares,Collares básico
+Artesanía y Manualidades,Joyería artesanal,Collares,Collares avanzado
+Artesanía y Manualidades,Joyería artesanal,Pulseras,Pulseras básico
+Artesanía y Manualidades,Joyería artesanal,Pulseras,Pulseras avanzado
+Artesanía y Manualidades,Joyería artesanal,Anillos,Anillos básico
+Artesanía y Manualidades,Joyería artesanal,Anillos,Anillos avanzado
+Artesanía y Manualidades,Decoración artesanal,Macramé,Macramé básico
+Artesanía y Manualidades,Decoración artesanal,Macramé,Macramé avanzado
+Artesanía y Manualidades,Decoración artesanal,Cerámica,Cerámica básico
+Artesanía y Manualidades,Decoración artesanal,Cerámica,Cerámica avanzado
+Artesanía y Manualidades,Decoración artesanal,Tejido,Tejido básico
+Artesanía y Manualidades,Decoración artesanal,Tejido,Tejido avanzado
+Artesanía y Manualidades,Arte en madera,Tallado,Tallado básico
+Artesanía y Manualidades,Arte en madera,Tallado,Tallado avanzado
+Artesanía y Manualidades,Arte en madera,Marquetería,Marquetería básico
+Artesanía y Manualidades,Arte en madera,Marquetería,Marquetería avanzado
+Artesanía y Manualidades,Arte en madera,Pirograbado,Pirograbado básico
+Artesanía y Manualidades,Arte en madera,Pirograbado,Pirograbado avanzado
+Educación,Clases de Programación,React,React básico
+Educación,Clases de Programación,React,React avanzado
+Educación,Clases de Programación,Python,Python básico
+Educación,Clases de Programación,Python,Python avanzado
+Educación,Clases de Programación,JavaScript,JavaScript básico
+Educación,Clases de Programación,JavaScript,JavaScript avanzado
+Educación,Idiomas,Inglés,Inglés básico
+Educación,Idiomas,Inglés,Inglés avanzado
+Educación,Idiomas,Francés,Francés básico
+Educación,Idiomas,Francés,Francés avanzado
+Educación,Idiomas,Alemán,Alemán básico
+Educación,Idiomas,Alemán,Alemán avanzado
+Educación,Música,Guitarra,Guitarra básico
+Educación,Música,Guitarra,Guitarra avanzado
+Educación,Música,Piano,Piano básico
+Educación,Música,Piano,Piano avanzado
+Educación,Música,Violín,Violín básico
+Educación,Música,Violín,Violín avanzado
