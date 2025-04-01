@@ -4,7 +4,7 @@ import { logger } from "@Common/logs/logger";
 export class PrismaBootstrap {
     private static prismaClient: PrismaClient | null;
 
-    async inizialized(): Promise<void> {
+    async inizialize(): Promise<void> {
         try {
             PrismaBootstrap.prismaClient = new PrismaClient();
             await PrismaBootstrap.prismaClient.$connect();
