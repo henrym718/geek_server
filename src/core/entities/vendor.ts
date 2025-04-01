@@ -5,7 +5,7 @@ export interface VendorProps {
     readonly id: IdVO;
     readonly firstName: TextVO;
     readonly lastName: TextVO;
-    readonly photo: UrlVO;
+    readonly photo?: UrlVO | null;
     readonly phone: PhoneVO;
     readonly city: TextVO;
 }
@@ -36,8 +36,8 @@ export class Vendor {
         return this.props.phone;
     }
 
-    get photo(): UrlVO {
-        return this.props.photo;
+    get photo(): UrlVO | null {
+        return this.props.photo ?? null;
     }
 
     get city(): TextVO {
