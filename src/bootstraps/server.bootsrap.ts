@@ -4,32 +4,28 @@ import http, { Server } from "http";
 import { logger } from "@Common/logs/logger";
 import { errorHandler } from "@Common/middlewares/errorHandler";
 import cors from "cors";
-import { authRoutes } from "@Auth/presentation/auth.routes";
-import { groupRoutes } from "@Group/presentation/group.routes";
-import { categoryRoutes } from "@Category/presentation/category.routes";
-import { vendorRoutes } from "@Vendor/presnetation/vendor.routes";
-import { clientRoutes } from "@Client/presentation/client.routes";
-import { skillRoutes } from "modules/skill/presentation/skill.routes";
-import { vendorProfileRoutes } from "@VendorProfile/presentation/vendor-profile.routes";
-import { proformarequestRoutes } from "@ProformaRequests/presnetation/proforma-requests.routes";
-import { proformaResponseRoutes } from "modules/proforma-response/presentation/proforma-reponse.routes";
-import { suggestionRoutes } from "modules/suggestion/presentation/suggestion.routes";
+import { configureAuthRoutes } from "@Auth/presentation/auth.routes";
+import { configureGroupRoutes } from "@Group/presentation/group.routes";
+import { configureCategoryRoutes } from "@Category/presentation/category.routes";
+import { configureVendorRoutes } from "@Vendor/presnetation/vendor.routes";
+import { configureClientRoutes } from "@Client/presentation/client.routes";
+import { configureSkillRoutes } from "modules/skill/presentation/skill.routes";
+import { configureVendorProfileRoutes } from "@VendorProfile/presentation/vendor-profile.routes";
+import { configureProformaRequestRoutes } from "@ProformaRequests/presnetation/proforma-requests.routes";
+import { configureProformaResponseRoutes } from "modules/proforma-response/presentation/proforma-reponse.routes";
+import { configureSuggestionRoutes } from "modules/suggestion/presentation/suggestion.routes";
 
 export class ServerBootstrap {
-    private readonly app: Application;
+    private app: Application | null = null;
     private server: Server | null = null;
-
-    constructor() {
-        this.app = express();
-        this.setupGeneralMiddlewares();
-        this.setupRoutes();
-        this.setupErrorHandling();
-    }
 
     public async initialize(): Promise<void> {
         return new Promise((resolve, reject) => {
+            this.app = express();
             this.server = http.createServer(this.app);
-
+            this.setupGeneralMiddlewares(this.app);
+            this.setupRoutes(this.app);
+            this.setupErrorHandling(this.app);
             this.server
                 .listen(4000)
                 .on("listening", () => {
@@ -42,26 +38,26 @@ export class ServerBootstrap {
         });
     }
 
-    private setupGeneralMiddlewares() {
-        this.app.use(express.json());
-        this.app.use(cors());
+    private setupGeneralMiddlewares(app: Application) {
+        app.use(express.json());
+        app.use(cors({ origin: "http://localhost:3000" }));
     }
 
-    private setupRoutes() {
-        this.app.use("/authenticate", authRoutes);
-        this.app.use("/group", groupRoutes);
-        this.app.use("/category", categoryRoutes);
-        this.app.use("/vendor", vendorRoutes);
-        this.app.use("/client", clientRoutes);
-        this.app.use("/skill", skillRoutes);
-        this.app.use("/profile-vendor", vendorProfileRoutes);
-        this.app.use("/proforma-request", proformarequestRoutes);
-        this.app.use("/proforma-response", proformaResponseRoutes);
-        this.app.use("/suggestion", suggestionRoutes);
+    private setupRoutes(app: Application) {
+        app.use("/authenticate", configureAuthRoutes());
+        app.use("/group", configureGroupRoutes());
+        app.use("/category", configureCategoryRoutes());
+        app.use("/vendor", configureVendorRoutes());
+        app.use("/client", configureClientRoutes());
+        app.use("/skill", configureSkillRoutes());
+        app.use("/profile-vendor", configureVendorProfileRoutes());
+        app.use("/proforma-request", configureProformaRequestRoutes());
+        app.use("/proforma-response", configureProformaResponseRoutes());
+        app.use("/suggestion", configureSuggestionRoutes());
     }
 
-    private setupErrorHandling() {
-        this.app.use(errorHandler);
+    private setupErrorHandling(app: Application) {
+        app.use(errorHandler);
     }
 
     public async close(): Promise<void> {
