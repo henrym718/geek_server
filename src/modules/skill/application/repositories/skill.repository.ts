@@ -1,5 +1,5 @@
 import { Skill } from "@Core/entities/skill";
-import { IRepository } from "@Shared/repositories/repository";
+import { IRepository } from "@Shared/interfaces/repository";
 
 export interface ISkillRepository extends IRepository<Skill> {
     findByIds(ids: string[]): Promise<Skill[]>;

@@ -1,8 +1,12 @@
 import { Router } from "express";
-import { skillContainer } from "../infraestructure/container/skill.container";
 import { SkillController } from "./skill.controller";
+import { ContainerBootstrap, IDENTIFIERS } from "@Bootstraps/container.bootstrap";
 
-export const skillRoutes = Router();
-const skillController = skillContainer.get(SkillController);
+export function configureSkillRoutes(): Router {
+    const skillRoutes = Router();
+    const skillController = ContainerBootstrap.getModuleContainer(IDENTIFIERS.Skill).get(SkillController);
 
-skillRoutes.post("/", skillController.createSkill);
+    skillRoutes.post("/", skillController.createSkill);
+
+    return skillRoutes;
+}
