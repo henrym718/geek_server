@@ -1,15 +1,17 @@
 import { authenticate } from "@Common/middlewares/authenticate";
-import { authContainer } from "../infraestructure/container/auth-container";
 import { AuthController } from "./auth.controller";
 import { Router } from "express";
+import { ContainerBootstrap, IDENTIFIERS } from "@Bootstraps/container.bootstrap";
 
-const authController = authContainer.get(AuthController);
+export function configureAuthRoutes(): Router {
+    const router = Router();
 
-const router = Router();
+    const authController = ContainerBootstrap.getModuleContainer(IDENTIFIERS.Auth).get(AuthController);
 
-router.post("/local/register", authController.registerUserLocal);
-router.post("/local/login", authController.loginUserLocal);
-router.get("/me", authenticate, authController.getCurrentAccount);
-router.get("/check-email", authController.checkEmailExists);
+    router.post("/local/register", authController.registerUserLocal);
+    router.post("/local/login", authController.loginUserLocal);
+    router.get("/me", authenticate, authController.getCurrentAccount);
+    router.post("/check-email", authController.checkEmailExists);
 
-export const authRoutes = router;
+    return router;
+}

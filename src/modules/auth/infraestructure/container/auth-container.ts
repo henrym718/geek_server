@@ -1,31 +1,34 @@
 import "reflect-metadata";
 import { Container } from "inversify";
 import { AUTH_SYMBOL } from "./auth.symbol";
-
-import { IHashService } from "@Auth/application/services/hash.service";
-import { HashServiceImpl } from "@Auth/infraestructure/services/hash.service.impl";
-
-import { IRegisterLocalUseCase } from "@Auth/application/use-cases/register-local/register-local.use-case";
-import { ILoginLocalUseCase } from "@Auth/application/use-cases/login-local/login-local.use-case";
 import { RegisterUserUseCase } from "@Auth/application/use-cases/register-local/register-local-impl";
-
 import { AuthController } from "../../presentation/auth.controller";
-import { IUserRepository } from "@User/application/ports/user.repository";
-import { UserPrismaRepository } from "@User/infrastructure/persistence/user-prisma.repository";
 import { LoginLocalUserCase } from "@Auth/application/use-cases/login-local/login-local-impl";
-import { IGetCurrentAccountUseCase } from "@Auth/application/use-cases/get-current-account/get-current-account.use-case";
 import { GetCurrentAccountUseCase } from "@Auth/application/use-cases/get-current-account/get-current-account.impl";
-import { sharedContainer } from "@Shared/container/shared.container";
-import { ICheckEmailExistsUseCase } from "@Auth/application/use-cases/check-email-exist/check-email-exists.use-case";
 import { CheckEmailExistsUseCase } from "@Auth/application/use-cases/check-email-exist/check-email-exists.impl";
+import { USER_SYMBOLS } from "@User/infrastructure/container/user.symbol";
+import { CreateUserUseCase } from "@User/application/use-cases/create-user/create-user.imple";
+import { CLIENT_SYMBOLS } from "@Client/infraestructure/container/client.symbols";
+import { CreateClientUseCase } from "@Client/application/use-cases/create-client/create-client.impl";
+import { VENDOR_SYMBOLS } from "@Vendor/infraestructure/container/vendor.symbol";
+import { CreateVendorUseCase } from "@Vendor/application/use-cases/create-vendor/create-vendor.impl";
+import { registerControllers, registerUseCases } from "@Common/utils/container-utils";
 
-export const authContainer = new Container();
-authContainer.parent = sharedContainer;
+export function createAuthContainer(parentContainer: Container): Container {
+    const container = new Container();
+    container.parent = parentContainer;
 
-authContainer.bind<IHashService>(AUTH_SYMBOL.HashService).to(HashServiceImpl);
-authContainer.bind<IRegisterLocalUseCase>(AUTH_SYMBOL.RegisterUser).to(RegisterUserUseCase);
-authContainer.bind<ILoginLocalUseCase>(AUTH_SYMBOL.LoginUser).to(LoginLocalUserCase);
-authContainer.bind<IGetCurrentAccountUseCase>(AUTH_SYMBOL.GetCurrentAccount).to(GetCurrentAccountUseCase);
-authContainer.bind<ICheckEmailExistsUseCase>(AUTH_SYMBOL.CheckEmailExists).to(CheckEmailExistsUseCase);
-authContainer.bind<IUserRepository>(AUTH_SYMBOL.UserRepository).to(UserPrismaRepository).inSingletonScope();
-authContainer.bind<AuthController>(AuthController).toSelf();
+    registerUseCases(container, [
+        { symbol: AUTH_SYMBOL.LoginUser, implementation: LoginLocalUserCase },
+        { symbol: AUTH_SYMBOL.CheckEmailExists, implementation: CheckEmailExistsUseCase },
+        { symbol: AUTH_SYMBOL.GetCurrentAccount, implementation: GetCurrentAccountUseCase },
+        { symbol: AUTH_SYMBOL.RegisterUser, implementation: RegisterUserUseCase },
+        { symbol: VENDOR_SYMBOLS.CreateVendor, implementation: CreateVendorUseCase },
+        { symbol: CLIENT_SYMBOLS.CreateClient, implementation: CreateClientUseCase },
+        { symbol: USER_SYMBOLS.CreateUser, implementation: CreateUserUseCase },
+    ]);
+
+    registerControllers(container, [AuthController]);
+
+    return container;
+}

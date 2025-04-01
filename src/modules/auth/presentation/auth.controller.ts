@@ -2,7 +2,7 @@ import { HttpResponse } from "@Common/response/http.response";
 import { NextFunction, Request, Response } from "express";
 import { inject, injectable } from "inversify";
 import { AUTH_SYMBOL } from "../infraestructure/container/auth.symbol";
-import { ReqRegisterLocalDto } from "@Auth/application/use-cases/register-local/register-local.dto";
+import { RegisterLocalRequest } from "@Auth/application/use-cases/register-local/register-local.dto";
 import { IRegisterLocalUseCase } from "@Auth/application/use-cases/register-local/register-local.use-case";
 import { ILoginLocalUseCase } from "@Auth/application/use-cases/login-local/login-local.use-case";
 import { ReqLoginLocalDto } from "@Auth/application/use-cases/login-local/login-local.dto";
@@ -28,9 +28,9 @@ export class AuthController {
 
     async registerUserLocal(req: Request, res: Response, next: NextFunction) {
         try {
-            const data: ReqRegisterLocalDto = req.body;
-            const { accessToken } = await this.registerUserCase.execute(data);
-            HttpResponse.success(res, { accessToken });
+            const data: RegisterLocalRequest = req.body;
+            const response = await this.registerUserCase.execute(data);
+            HttpResponse.success(res, response);
         } catch (error) {
             next(error);
         }
@@ -60,8 +60,8 @@ export class AuthController {
     async checkEmailExists(req: Request, res: Response, next: NextFunction) {
         try {
             const data: CheckEmailRequest = req.body;
-            const { exists } = await this.checkEmailExistsUseCase.execute(data);
-            HttpResponse.success(res, exists);
+            const response = await this.checkEmailExistsUseCase.execute(data);
+            HttpResponse.success(res, response);
         } catch (error) {
             next(error);
         }
