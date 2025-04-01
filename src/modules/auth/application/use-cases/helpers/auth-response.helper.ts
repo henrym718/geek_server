@@ -3,19 +3,22 @@ import { User } from "@Core/entities/user";
 import { Client } from "@Core/entities/client";
 import { Vendor } from "@Core/entities/vendor";
 
-export function buildResGetCurrentAccount(user: User, client?: Client, vendor?: Vendor): ResGetCurrentAccountDTO {
+export function buildResGetCurrentAccount(user: User, client?: Client, vendor?: Vendor) {
     const response: ResGetCurrentAccountDTO = {
-        id: user.id.getValue(),
-        email: user.email.getValue(),
-        role: user.role.getValue(),
-        isActive: user.isActive,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-        profileCompleted: !!client || !!vendor,
+        user: {
+            id: user.id.getValue(),
+            email: user.email.getValue(),
+            role: user.role.getValue(),
+            isActive: user.isActive,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
+            profileCompleted: !!client || !!vendor,
+        },
     };
 
     if (client) {
         response.clientProfile = {
+            id: client.id.getValue(),
             firstName: client.firstName.getValue(),
             lastName: client.lastName.getValue(),
             city: client.city.getValue(),
@@ -25,10 +28,10 @@ export function buildResGetCurrentAccount(user: User, client?: Client, vendor?: 
 
     if (vendor) {
         response.vendorProfile = {
+            id: vendor.id.getValue(),
             firstName: vendor.firstName.getValue(),
             lastName: vendor.lastName.getValue(),
             city: vendor.city.getValue(),
-            phone: vendor.phone.getValue(),
             photo: vendor.photo?.getValue(),
         };
     }
