@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import { CheckEmailRequest, CheckEmailResponse } from "./check-email-exists.dto";
 import { ICheckEmailExistsUseCase } from "./check-email-exists.use-case";
 import { AUTH_SYMBOL } from "@Auth/infraestructure/container/auth.symbol";
-import { IUserRepository } from "@User/application/ports/user.repository";
+import { IUserRepository } from "@User/application/repositories/user.repository";
 import { EmailVO } from "@Core/value-objects";
 
 @injectable()
