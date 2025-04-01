@@ -1,19 +1,19 @@
 import { PrismaBootstrap } from "@Bootstraps/prisma.bootsrap";
-import { IdVO, TextVO, UrlVO } from "@Core/value-objects";
-import { IUserRepository } from "@User/application/ports/user.repository";
+import { IUserRepository } from "@User/application/repositories/user.repository";
 import { User } from "@Core/entities/user";
 import { Client } from "@Core/entities/client";
 import { Vendor } from "@Core/entities/vendor";
 import { VendorMapper } from "@Vendor/infraestructure/persistence/vendor.mapper";
 import { UserMapper } from "./user.mapper";
+import { ClientMapper } from "@Client/infraestructure/persistence/client.mapper";
 
 export class UserPrismaRepository implements IUserRepository {
     private get prisma() {
         return PrismaBootstrap.prisma;
     }
-
-    async create(user: User): Promise<void> {
-        await this.prisma.user.create({ data: UserMapper.toPrisma(user) });
+    async create(user: User, ctx?: any): Promise<void> {
+        const client = ctx || this.prisma;
+        await client.user.create({ data: UserMapper.toPrisma(user) });
     }
 
     findById(id: string): Promise<User | null> {
@@ -28,7 +28,7 @@ export class UserPrismaRepository implements IUserRepository {
         return {
             user: UserMapper.toDomain(userData),
             vendor: vendor ? VendorMapper.toDomain(vendor) : null,
-            client: client ? this.toClientDomain(client) : null,
+            client: client ? ClientMapper.toDomain(client) : null,
         };
     }
 
@@ -47,15 +47,5 @@ export class UserPrismaRepository implements IUserRepository {
         const userFound = await this.prisma.user.findUnique({ where: { email } });
         if (!userFound) return null;
         return UserMapper.toDomain(userFound);
-    }
-
-    private toClientDomain(client: any): Client {
-        return Client.reconstitute({
-            id: IdVO.create(client.id),
-            firstName: TextVO.create("firstName", client.firstName),
-            lastName: TextVO.create("photo", client.lastName),
-            photo: UrlVO.create(client.photo, "s3") ?? null,
-            city: TextVO.create("city", client.city),
-        });
     }
 }
