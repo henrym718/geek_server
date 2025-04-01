@@ -12,7 +12,8 @@ export class UrlVO {
         return new UrlVO(url);
     }
 
-    private static validateUrl(type: "standard" | "s3", url: string) {
+    private static validateUrl(type: "standard" | "s3", url: string | undefined | null) {
+        if (!url) throw HttpException.badRequest("Url is required");
         const isValid = type === "standard" ? this.STANDARD_REGEX.test(url) : this.S3_REGEX.test(url);
         if (!isValid) throw HttpException.badRequest("Url not valid");
     }
