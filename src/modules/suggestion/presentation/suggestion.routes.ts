@@ -1,8 +1,12 @@
 import { Router } from "express";
-import { suggestionContainer } from "../infraestructure/container/suggestion.container";
 import { SuggestionController } from "./suggestion.controller";
+import { ContainerBootstrap, IDENTIFIERS } from "@Bootstraps/container.bootstrap";
 
-export const suggestionRoutes = Router();
-const suggetionController = suggestionContainer.get(SuggestionController);
+export function configureSuggestionRoutes(): Router {
+    const suggestionRoutes = Router();
+    const suggetionController = ContainerBootstrap.getModuleContainer(IDENTIFIERS.Suggestion).get(SuggestionController);
 
-suggestionRoutes.get("/", suggetionController.searchSuggetions);
+    suggestionRoutes.get("/", suggetionController.searchSuggetions);
+
+    return suggestionRoutes;
+}

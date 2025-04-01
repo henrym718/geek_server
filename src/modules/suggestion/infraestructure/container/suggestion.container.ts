@@ -1,13 +1,19 @@
 import { Container } from "inversify";
-import { ISuggestionRepository } from "modules/suggestion/application/repositories/suggestion.repository";
 import { SUGGESTIONS_SYMBOLS } from "./suggestion.symbols";
 import { SuggestionPrismaRepository } from "../persistence/suggestion-prisma.repository";
-import { ISearchSuggestionsUseCase } from "modules/suggestion/application/use-cases/search-suggestions/search-suggestions.use-case";
 import { SearchSuggestionsUseCase } from "modules/suggestion/application/use-cases/search-suggestions/search-suggestions.impl";
 import { SuggestionController } from "modules/suggestion/presentation/suggestion.controller";
+import { registerUseCases, registerControllers } from "@Common/utils/container-utils";
 
-export const suggestionContainer = new Container();
+export function configureSuggestionContainer(parentContainer: Container): Container {
+    const container = new Container();
+    container.parent = parentContainer;
 
-suggestionContainer.bind<ISuggestionRepository>(SUGGESTIONS_SYMBOLS.SuggestionRepository).to(SuggestionPrismaRepository);
-suggestionContainer.bind<ISearchSuggestionsUseCase>(SUGGESTIONS_SYMBOLS.SearchSuggestions).to(SearchSuggestionsUseCase);
-suggestionContainer.bind<SuggestionController>(SuggestionController).toSelf();
+    registerUseCases(container, [
+        { symbol: SUGGESTIONS_SYMBOLS.SuggestionRepository, implementation: SuggestionPrismaRepository },
+        { symbol: SUGGESTIONS_SYMBOLS.SearchSuggestions, implementation: SearchSuggestionsUseCase },
+    ]);
+    registerControllers(container, [SuggestionController]);
+
+    return container;
+}
