@@ -1,21 +1,20 @@
 import { inject, injectable } from "inversify";
 import { UpdateStatusByClientRequest, UpdateStatusByClientResponse } from "./update-proforma-response-status-by-client.dto";
 import { IUpdateProformaResponseStatusByClientUseCase } from "./update-proforma-response-status-by-client.use-case";
-import { PROFORMA_RES_SYMBOLS } from "modules/proforma-response/infraestructure/container/proforma-reponse.symbols";
 import { IProformaResponseRepository } from "../../repositories/proforma-response.repository";
 import { IProformaRequestsRepository } from "@ProformaRequests/application/repositories/proforma-requests.repository";
-import { PROFORMA_REQ_SYMBOLS } from "@ProformaRequests/infraestructure/container/proforma-requests.symbols";
 import { IdVO, StatusVO } from "@Core/value-objects";
 import { HttpException } from "@Common/exceptions/http.exception";
 import { StatusEnum } from "@Core/value-objects/status.vo";
+import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 
 @injectable()
 export class UpdateProformaResponseStatusByClientUseCase implements IUpdateProformaResponseStatusByClientUseCase {
     constructor(
-        @inject(PROFORMA_RES_SYMBOLS.ProformaResponseRepository)
+        @inject(SHARED_SYMBOLS.ProformaResponseRepository)
         private readonly proformaResponseRepository: IProformaResponseRepository,
 
-        @inject(PROFORMA_REQ_SYMBOLS.ProformaRequestsRepository)
+        @inject(SHARED_SYMBOLS.ProformaRequestRepository)
         private readonly proformaRequestRepository: IProformaRequestsRepository
     ) {}
     async execute(data: UpdateStatusByClientRequest): Promise<UpdateStatusByClientResponse> {
