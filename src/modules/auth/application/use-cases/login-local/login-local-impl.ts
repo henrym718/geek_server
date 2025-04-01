@@ -1,5 +1,5 @@
-import { IUserRepository } from "@User/application/ports/user.repository";
-import { IHashService } from "@Auth/application/services/hash.service";
+import { IUserRepository } from "@User/application/repositories/user.repository";
+import { IHashService } from "@Shared/services/hash/hash.service";
 import { ITokenService } from "@Shared/services/token/token.service";
 import { ILoginLocalUseCase } from "@Auth/application/use-cases/login-local/login-local.use-case";
 import { ReqLoginLocalDto, ResLoginLocalDto } from "@Auth/application/use-cases/login-local/login-local.dto";
