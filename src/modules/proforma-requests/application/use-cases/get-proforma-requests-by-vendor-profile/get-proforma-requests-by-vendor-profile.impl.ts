@@ -3,10 +3,9 @@ import { IdVO } from "@Core/value-objects";
 import { IProformaRequestsRepository } from "@ProformaRequests/application/repositories/proforma-requests.repository";
 import { GetByVendorProfilerRequest, GetByVendorProfilerResponse } from "./get-proforma-requests-by-vendor-profile.dto";
 import { IGetProformaRequestsByVendorProfileUseCase } from "./get-proforma-requests-by-vendor-profile.use-case";
-import { PROFORMA_REQ_SYMBOLS } from "@ProformaRequests/infraestructure/container/proforma-requests.symbols";
-import { VENDOR_PROFILE_SYMBOLS } from "@VendorProfile/infraestructure/container/vendor-profile.symbols";
 import { IVendorProfilesRepository } from "@VendorProfile/aplication/repositories/vendor-profile.repository";
 import { HttpException } from "@Common/exceptions/http.exception";
+import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 
 /**
  * Caso de uso: Obtener solicitudes de proforma asociadas a un perfil de vendedor.
@@ -19,11 +18,11 @@ export class GetProformaRequestsByVendorProfileUseCase implements IGetProformaRe
     // Constructor que inyecta los repositorios necesarios para ejecutar el caso de uso
     constructor(
         // Inyecta el repositorio de solicitudes de proforma
-        @inject(PROFORMA_REQ_SYMBOLS.ProformaRequestsRepository)
+        @inject(SHARED_SYMBOLS.ProformaRequestRepository)
         private readonly proformaRequestRepository: IProformaRequestsRepository,
 
         // Inyecta el repositorio de perfiles de vendedores
-        @inject(VENDOR_PROFILE_SYMBOLS.VendorProfileRepository)
+        @inject(SHARED_SYMBOLS.VendorProfileRepository)
         private readonly vendorProfileRepository: IVendorProfilesRepository
     ) {}
 

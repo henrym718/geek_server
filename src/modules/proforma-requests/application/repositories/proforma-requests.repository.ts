@@ -1,7 +1,7 @@
 import { ProformaRequest } from "@Core/entities/proforma-requests";
 import { Skill } from "@Core/entities/skill";
 import { Category } from "@Core/entities/category";
-import { IRepository } from "@Shared/repositories/repository";
+import { IRepository } from "@Shared/interfaces/repository";
 
 export interface ProformaRequestWithRelations {
     proformaRequest: ProformaRequest;

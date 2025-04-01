@@ -6,24 +6,20 @@ import { IdVO, PriceVO, StatusVO, TextVO } from "@Core/value-objects";
 import { IUUIDService } from "@Shared/services/uuid/uuid.service";
 import { StatusEnum } from "@Core/value-objects/status.vo";
 import { inject, injectable } from "inversify";
-import { PROFORMA_REQ_SYMBOLS } from "@ProformaRequests/infraestructure/container/proforma-requests.symbols";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 import { ICategoryRepository } from "@Category/application/interfaces/repositories/category.repository";
-import { CATEGORY_SYMBOLS } from "@Category/infraestructure/container/category.symbol";
-import { SKILL_SYMBOLS } from "@Skill/infraestructure/container/skill.symbols";
 import { ISkillRepository } from "@Skill/application/repositories/skill.repository";
-import { CLIENT_SYMBOLS } from "@Client/infraestructure/container/client.symbols";
 import { IClientRepository } from "@Client/application/repositories/client.repository";
 import { HttpException } from "@Common/exceptions/http.exception";
 
 @injectable()
 export class CreateProformaRequestsUseCase implements ICreateProformaRequestsUseCase {
     constructor(
-        @inject(PROFORMA_REQ_SYMBOLS.ProformaRequestsRepository) private readonly proformaRequestsRepository: IProformaRequestsRepository,
+        @inject(SHARED_SYMBOLS.ProformaRequestRepository) private readonly proformaRequestsRepository: IProformaRequestsRepository,
         @inject(SHARED_SYMBOLS.UUIDService) private readonly idService: IUUIDService,
-        @inject(CATEGORY_SYMBOLS.CategoryRepository) private readonly categoryRepository: ICategoryRepository,
-        @inject(SKILL_SYMBOLS.SkillRepository) private readonly skillRepository: ISkillRepository,
-        @inject(CLIENT_SYMBOLS.ClientRepository) private readonly clientRepository: IClientRepository
+        @inject(SHARED_SYMBOLS.CategoryRepository) private readonly categoryRepository: ICategoryRepository,
+        @inject(SHARED_SYMBOLS.SkillRepository) private readonly skillRepository: ISkillRepository,
+        @inject(SHARED_SYMBOLS.ClientRepository) private readonly clientRepository: IClientRepository
     ) {}
 
     async execute(data: ReqCreateProformaRequestDto): Promise<ResCreateProformaRequestDto> {

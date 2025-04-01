@@ -1,13 +1,12 @@
 import { inject, injectable } from "inversify";
 import { ReqCanceledProformaRequest, ResCanceledProformaRequest } from "./canceled-proforma-request.dto";
 import { ICanceledProformaRequestUseCase } from "./canceled-proforma-request.use-case";
-import { PROFORMA_REQ_SYMBOLS } from "@ProformaRequests/infraestructure/container/proforma-requests.symbols";
 import { IProformaRequestsRepository } from "@ProformaRequests/application/repositories/proforma-requests.repository";
 import { IdVO } from "@Core/value-objects";
 import { HttpException } from "@Common/exceptions/http.exception";
-import { PROFORMA_RES_SYMBOLS } from "modules/proforma-response/infraestructure/container/proforma-reponse.symbols";
 import { IProformaResponseRepository } from "modules/proforma-response/application/repositories/proforma-response.repository";
 import { ProformaResponse } from "@Core/entities/proforma-response";
+import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 
 /**
  * @class CanceledProformaRequestUseCase
@@ -21,10 +20,10 @@ export class CanceledProformaRequestUseCase implements ICanceledProformaRequestU
      * @param {IProformaResponseRepository} proformaResponseRepository - Repositorio de respuestas de proforma.
      */
     constructor(
-        @inject(PROFORMA_REQ_SYMBOLS.ProformaRequestsRepository)
+        @inject(SHARED_SYMBOLS.ProformaRequestRepository)
         private readonly proformaRequestsRepository: IProformaRequestsRepository,
 
-        @inject(PROFORMA_RES_SYMBOLS.ProformaResponseRepository)
+        @inject(SHARED_SYMBOLS.ProformaResponseRepository)
         private readonly proformaResponseRepository: IProformaResponseRepository
     ) {}
 

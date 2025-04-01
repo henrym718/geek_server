@@ -2,7 +2,7 @@ import { ProformaResponse } from "@Core/entities/proforma-response";
 import { Vendor } from "@Core/entities/vendor";
 import { VendorProfile } from "@Core/entities/profile-vendor";
 
-import { IRepository } from "@Shared/repositories/repository";
+import { IRepository } from "@Shared/interfaces/repository";
 
 export interface ProformaResponseWithVendor {
     proformaResponse: ProformaResponse;
