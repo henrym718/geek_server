@@ -1,15 +1,15 @@
-import { IUserRepository } from "@User/application/ports/user.repository";
+import { IUserRepository } from "@User/application/repositories/user.repository";
 import { ReqGetCurrentAccountDTO, ResGetCurrentAccountDTO } from "./get-current-account.dto";
 import { IGetCurrentAccountUseCase } from "./get-current-account.use-case";
 import { inject, injectable } from "inversify";
-import { AUTH_SYMBOL } from "@Auth/infraestructure/container/auth.symbol";
 import { EmailVO } from "@Core/value-objects";
 import { HttpException } from "@Common/exceptions/http.exception";
 import { buildResGetCurrentAccount } from "../helpers/auth-response.helper";
+import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 
 @injectable()
 export class GetCurrentAccountUseCase implements IGetCurrentAccountUseCase {
-    constructor(@inject(AUTH_SYMBOL.UserRepository) private readonly userRepository: IUserRepository) {}
+    constructor(@inject(SHARED_SYMBOLS.UserRepository) private readonly userRepository: IUserRepository) {}
 
     async execute(data: ReqGetCurrentAccountDTO): Promise<ResGetCurrentAccountDTO> {
         const userEmail = EmailVO.create(data.email).getValue();

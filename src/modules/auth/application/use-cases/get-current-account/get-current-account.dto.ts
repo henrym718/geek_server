@@ -1,32 +1,29 @@
-import { RoleEnum } from "@Core/value-objects/role.vo";
-
 export interface ReqGetCurrentAccountDTO {
     email: string;
 }
 
 export interface ResGetCurrentAccountDTO {
-    id: string;
-    email: string;
-    role: RoleEnum;
-    profileCompleted: boolean;
-    createdAt: Date;
-    updatedAt: Date | null;
-    isActive: boolean;
-    clientProfile?: ClientProfile;
-    vendorProfile?: VendorProfile;
-}
-
-interface ClientProfile {
-    firstName: string;
-    lastName: string;
-    photo?: string | null;
-    city: string;
-}
-
-interface VendorProfile {
-    firstName: string;
-    lastName: string;
-    photo?: string;
-    phone: string;
-    city: string;
+    user: {
+        id: string;
+        email: string;
+        role: string;
+        profileCompleted: boolean;
+        createdAt: Date;
+        updatedAt: Date | null;
+        isActive: boolean;
+    };
+    clientProfile?: {
+        id: string;
+        firstName: string;
+        lastName: string;
+        photo?: string | null;
+        city: string;
+    };
+    vendorProfile?: {
+        id: string;
+        firstName: string;
+        lastName: string;
+        photo?: string | null;
+        city: string;
+    };
 }
