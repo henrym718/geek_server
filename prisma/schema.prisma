@@ -47,6 +47,7 @@ model Client {
   firstName        String
   lastName         String
   photo            String?
+  phone            String
   city             String
   isActive         Boolean           @default(true)
   user             User              @relation(fields: [id], references: [id])
@@ -59,7 +60,7 @@ model Vendor {
   id             String          @id
   firstName      String
   lastName       String
-  photo          String
+  photo          String?
   phone          String
   city           String
   isActive       Boolean         @default(true)
