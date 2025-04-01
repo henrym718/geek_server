@@ -8,20 +8,16 @@ import { ICategoryRepository } from "@Category/application/interfaces/repositori
 import { IVendorRepository } from "@Vendor/application/repositories/vendor.repository";
 import { ISkillRepository } from "@Skill/application/repositories/skill.repository";
 import { inject, injectable } from "inversify";
-import { VENDOR_PROFILE_SYMBOLS } from "@VendorProfile/infraestructure/container/vendor-profile.symbols";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
-import { CATEGORY_SYMBOLS } from "@Category/infraestructure/container/category.symbol";
-import { VENDOR_SYMBOLS } from "@Vendor/infraestructure/container/vendor.symbol";
-import { SKILL_SYMBOLS } from "@Skill/infraestructure/container/skill.symbols";
 
 @injectable()
 export class CreateVendorProfileUseCase implements ICreateVendorProfileUseCase {
     constructor(
-        @inject(VENDOR_PROFILE_SYMBOLS.VendorProfileRepository) private readonly vendorProfileRepository: IVendorProfilesRepository,
+        @inject(SHARED_SYMBOLS.VendorProfileRepository) private readonly vendorProfileRepository: IVendorProfilesRepository,
         @inject(SHARED_SYMBOLS.UUIDService) private readonly idSaervice: IUUIDService,
-        @inject(CATEGORY_SYMBOLS.CategoryRepository) private readonly categoryRepository: ICategoryRepository,
-        @inject(VENDOR_SYMBOLS.VendorRepository) private readonly vendorRepository: IVendorRepository,
-        @inject(SKILL_SYMBOLS.SkillRepository) private readonly skillRepository: ISkillRepository
+        @inject(SHARED_SYMBOLS.CategoryRepository) private readonly categoryRepository: ICategoryRepository,
+        @inject(SHARED_SYMBOLS.VendorRepository) private readonly vendorRepository: IVendorRepository,
+        @inject(SHARED_SYMBOLS.SkillRepository) private readonly skillRepository: ISkillRepository
     ) {}
 
     async execute(data: ReqCreateVendorProfileDto): Promise<ResCreateVendorProfileDto> {

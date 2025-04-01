@@ -61,7 +61,7 @@ export class SearchVendorProfilesUseCase implements ISearchVendorProfilesUseCase
                     lastName: vendor.lastName.getValue(),
                     city: vendor.city.getValue(),
                     phone: vendor.phone.getValue(),
-                    photo: vendor.photo.getValue(),
+                    photo: vendor.photo?.getValue() ?? "",
                 },
                 vendorProfile: {
                     id: vendorProfile.id.getValue(),
