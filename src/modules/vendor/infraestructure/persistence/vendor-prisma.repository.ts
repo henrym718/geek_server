@@ -5,14 +5,17 @@ import { VendorMapper } from "./vendor.mapper";
 import { UserMapper } from "@User/infrastructure/persistence/user.mapper";
 import { User } from "@Core/entities/user";
 import { HttpException } from "@Common/exceptions/http.exception";
+import { Prisma } from "@prisma/client";
 
 export class VendorPrismaRepository implements IVendorRepository {
     private get prisma() {
         return PrismaBootstrap.prisma;
     }
 
-    async create(data: Vendor): Promise<void> {
-        await this.prisma.vendor.create({ data: VendorMapper.toPersistece(data) });
+    async create(data: Vendor, ctx?: Prisma.TransactionClient): Promise<void> {
+        const client = ctx || this.prisma;
+
+        await client.vendor.create({ data: VendorMapper.toPersistece(data) });
     }
 
     async update(entity: Vendor): Promise<void> {

@@ -1,5 +1,5 @@
-import { ReqCreateVendorDto, ResCreateVendorDto } from "./create-vendor.dto";
+import { CreateVendorRequest, CreateVendorResponse } from "./create-vendor.dto";
 
 export interface ICreateVendorUseCase {
-    execute(data: ReqCreateVendorDto): Promise<ResCreateVendorDto>;
+    execute(data: CreateVendorRequest): Promise<CreateVendorResponse>;
 }

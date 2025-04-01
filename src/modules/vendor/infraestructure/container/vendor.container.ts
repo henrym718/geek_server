@@ -1,13 +1,15 @@
-import { IVendorRepository } from "@Vendor/application/repositories/vendor.repository";
 import { Container } from "inversify";
 import { VENDOR_SYMBOLS } from "./vendor.symbol";
-import { VendorPrismaRepository } from "../persistence/vendor-prisma.repository";
-import { ICreateVendorUseCase } from "@Vendor/application/use-cases/create-vendor/create-vendor.use-case";
 import { CreateVendorUseCase } from "@Vendor/application/use-cases/create-vendor/create-vendor.impl";
 import { VendorController } from "@Vendor/presnetation/vendor.controller";
+import { registerUseCases, registerControllers } from "@Common/utils/container-utils";
 
-export const vendorContainer = new Container();
+export function createVendorContainer(parentContainer: Container): Container {
+    const container = new Container();
+    container.parent = parentContainer;
 
-vendorContainer.bind<IVendorRepository>(VENDOR_SYMBOLS.VendorRepository).to(VendorPrismaRepository);
-vendorContainer.bind<ICreateVendorUseCase>(VENDOR_SYMBOLS.CreateVendorUseCase).to(CreateVendorUseCase);
-vendorContainer.bind<VendorController>(VendorController).toSelf();
+    registerUseCases(container, [{ symbol: VENDOR_SYMBOLS.CreateVendor, implementation: CreateVendorUseCase }]);
+    registerControllers(container, [VendorController]);
+
+    return container;
+}

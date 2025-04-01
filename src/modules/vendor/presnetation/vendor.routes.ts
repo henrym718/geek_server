@@ -1,12 +1,15 @@
 import { Router } from "express";
-import { vendorContainer } from "@Vendor/infraestructure/container/vendor.container";
 import { VendorController } from "./vendor.controller";
 import { authenticate } from "@Common/middlewares/authenticate";
 import { checkRoles } from "@Common/middlewares/checkRoles";
 import { RoleEnum } from "@Core/value-objects";
+import { ContainerBootstrap, IDENTIFIERS } from "@Bootstraps/container.bootstrap";
 
-const vendorcontroller = vendorContainer.get(VendorController);
+export function configureVendorRoutes(): Router {
+    const vendorRoutes = Router();
+    const vendorController = ContainerBootstrap.getModuleContainer(IDENTIFIERS.Vendor).get(VendorController);
 
-export const vendorRoutes = Router();
+    vendorRoutes.post("/create", authenticate, checkRoles(RoleEnum.VENDOR), vendorController.createVendor);
 
-vendorRoutes.post("/create", authenticate, checkRoles(RoleEnum.VENDOR), vendorcontroller.createVendor);
+    return vendorRoutes;
+}
