@@ -1,4 +1,16 @@
 export const SHARED_SYMBOLS = {
     TokenService: Symbol.for("TokenService"),
     UUIDService: Symbol.for("UUIDService"),
+    HashService: Symbol.for("HashService"),
+    TransactionManager: Symbol.for("TransactionManager"),
+    PrismaClient: Symbol.for("PrismaClient"),
+    UserRepository: Symbol.for("UserRepository"),
+    ClientRepository: Symbol.for("ClientRepository"),
+    VendorRepository: Symbol.for("VendorRepository"),
+    SkillRepository: Symbol.for("SkillRepository"),
+    VendorProfileRepository: Symbol.for("VendorProfileRepository"),
+    GroupRepository: Symbol.for("GroupRepository"),
+    CategoryRepository: Symbol.for("CategoryRepository"),
+    ProformaRequestRepository: Symbol.for("ProformaRequestRepository"),
+    ProformaResponseRepository: Symbol.for("ProformaResponseRepository"),
 };
