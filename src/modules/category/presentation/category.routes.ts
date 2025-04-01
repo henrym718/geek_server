@@ -1,8 +1,12 @@
 import { Router } from "express";
-import { categoryContainer } from "@Category/infraestructure/container/category.container";
 import { CategoryController } from "./category.controller";
+import { ContainerBootstrap, IDENTIFIERS } from "@Bootstraps/container.bootstrap";
 
-export const categoryRoutes = Router();
-const categoryController = categoryContainer.get(CategoryController);
+export function configureCategoryRoutes(): Router {
+    const categoryRoutes = Router();
+    const categoryController = ContainerBootstrap.getModuleContainer(IDENTIFIERS.Category).get(CategoryController);
 
-categoryRoutes.post("/", categoryController.createCategory);
+    categoryRoutes.post("/", categoryController.createCategory);
+
+    return categoryRoutes;
+}

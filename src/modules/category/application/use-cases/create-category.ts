@@ -7,14 +7,14 @@ import { IUUIDService } from "@Shared/services/uuid/uuid.service";
 import { IdVO, TextVO } from "@Core/value-objects";
 import { Category } from "@Core/entities/category";
 import { inject, injectable } from "inversify";
-import { CATEGORY_SYMBOLS } from "@Category/infraestructure/container/category.symbol";
+import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 
 @injectable()
 export class CreateCategory implements ICreateCategotyUseCase {
     constructor(
-        @inject(CATEGORY_SYMBOLS.CategoryRepository) private readonly categoryRepository: ICategoryRepository,
-        @inject(CATEGORY_SYMBOLS.GroupRepository) private readonly groupRepository: IGroupRepository,
-        @inject(CATEGORY_SYMBOLS.IdService) private readonly idService: IUUIDService
+        @inject(SHARED_SYMBOLS.CategoryRepository) private readonly categoryRepository: ICategoryRepository,
+        @inject(SHARED_SYMBOLS.GroupRepository) private readonly groupRepository: IGroupRepository,
+        @inject(SHARED_SYMBOLS.UUIDService) private readonly idService: IUUIDService
     ) {}
 
     async execute(data: ReqCreateCategoryDTO): Promise<void> {

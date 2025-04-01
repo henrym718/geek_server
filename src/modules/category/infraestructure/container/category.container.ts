@@ -1,19 +1,15 @@
 import { Container } from "inversify";
 import { CATEGORY_SYMBOLS } from "./category.symbol";
-import { ICategoryRepository } from "@Category/application/interfaces/repositories/category.repository";
-import { CategoryPrismaRepository } from "../persistence/category-prisma.repository";
-import { IGroupRepository } from "@Group/application/interfaces/repositories/group.repository";
-import { GroupPrismaRepository } from "@Group/infraestructure/persistence/group-prisma.repository";
-import { IUUIDService } from "@Shared/services/uuid/uuid.service";
-import { UUIDServiceImpl } from "@Shared/services/uuid/uuid.service.impl";
-import { ICreateCategotyUseCase } from "@Category/application/interfaces/use-cases/create-category.use-case";
 import { CreateCategory } from "@Category/application/use-cases/create-category";
 import { CategoryController } from "@Category/presentation/category.controller";
+import { registerControllers, registerUseCases } from "@Common/utils/container-utils";
 
-export const categoryContainer = new Container();
+export function configureCategoryContainer(parentContainer: Container): Container {
+    const container = new Container();
+    container.parent = parentContainer;
 
-categoryContainer.bind<ICategoryRepository>(CATEGORY_SYMBOLS.CategoryRepository).to(CategoryPrismaRepository);
-categoryContainer.bind<IGroupRepository>(CATEGORY_SYMBOLS.GroupRepository).to(GroupPrismaRepository);
-categoryContainer.bind<IUUIDService>(CATEGORY_SYMBOLS.IdService).to(UUIDServiceImpl);
-categoryContainer.bind<ICreateCategotyUseCase>(CATEGORY_SYMBOLS.CreateCategotyUseCase).to(CreateCategory);
-categoryContainer.bind<CategoryController>(CategoryController).toSelf();
+    registerUseCases(container, [{ symbol: CATEGORY_SYMBOLS.CreateCategotyUseCase, implementation: CreateCategory }]);
+    registerControllers(container, [CategoryController]);
+
+    return container;
+}
