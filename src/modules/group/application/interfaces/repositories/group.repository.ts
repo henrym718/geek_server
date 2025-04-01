@@ -1,4 +1,4 @@
-import { IRepository } from "@Shared/repositories/repository";
+import { IRepository } from "@Shared/interfaces/repository";
 import { Group } from "@Core/entities/group";
 import { Category } from "@Core/entities/category";
 

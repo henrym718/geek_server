@@ -1,11 +1,16 @@
 import { Router } from "express";
-import { groupContainer } from "@Group/infraestructure/container/group.container";
 import { GroupController } from "./group.controller";
+import { ContainerBootstrap, IDENTIFIERS } from "@Bootstraps/container.bootstrap";
 
-export const groupRoutes = Router();
-const groupController = groupContainer.get(GroupController);
+export function configureGroupRoutes(): Router {
+    const groupRoutes = Router();
+    const groupController = ContainerBootstrap.getModuleContainer(IDENTIFIERS.Group).get(GroupController);
 
-groupRoutes.get("/", groupController.ListGroup);
-groupRoutes.post("/", groupController.createGroup);
-groupRoutes.put("/", groupController.updateGroup);
-groupRoutes.get("/:id", groupController.getGroupWithCategories);
+    groupRoutes.get("/", groupController.ListGroup);
+    groupRoutes.get("/", groupController.ListGroup);
+    groupRoutes.post("/", groupController.createGroup);
+    groupRoutes.put("/", groupController.updateGroup);
+    groupRoutes.get("/:id", groupController.getGroupWithCategories);
+
+    return groupRoutes;
+}

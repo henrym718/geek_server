@@ -6,13 +6,13 @@ import { IdVO, TextVO } from "@Core/value-objects";
 import { HttpException } from "@Common/exceptions/http.exception";
 import { IUUIDService } from "@Shared/services/uuid/uuid.service";
 import { inject, injectable } from "inversify";
-import { GROUP_SYMBOLS } from "modules/group/infraestructure/container/group.symbol";
+import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 
 @injectable()
 export class CreateGroup implements ICreateGroupUseCase {
     constructor(
-        @inject(GROUP_SYMBOLS.GroupRepository) private readonly groupRepository: IGroupRepository,
-        @inject(GROUP_SYMBOLS.IdService) private readonly idService: IUUIDService
+        @inject(SHARED_SYMBOLS.GroupRepository) private readonly groupRepository: IGroupRepository,
+        @inject(SHARED_SYMBOLS.UUIDService) private readonly idService: IUUIDService
     ) {}
 
     async execute(data: ReqCreateGroupDTO): Promise<void> {
