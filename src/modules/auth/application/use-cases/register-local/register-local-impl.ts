@@ -1,63 +1,110 @@
-import { IUserRepository } from "@User/application/ports/user.repository";
-import { IHashService } from "@Auth/application/services/hash.service";
-import { ITokenService } from "@Shared/services/token/token.service";
-import { IUUIDService } from "@Shared/services/uuid/uuid.service";
 import { IRegisterLocalUseCase } from "./register-local.use-case";
-import { ReqRegisterLocalDto, ResRegisterLocalDto } from "./register-local.dto";
-import { HttpException } from "@Common/exceptions/http.exception";
-import { User } from "@Core/entities/user";
-import { EmailVO, IdVO, PasswordVO, ProviderEnum, ProviderVO, RoleVO, TokenVO } from "@Core/value-objects";
+import { RegisterLocalRequest, RegisterLocalResponse } from "./register-local.dto";
 import { injectable, inject } from "inversify";
-import { AUTH_SYMBOL } from "@Auth/infraestructure/container/auth.symbol";
+import { USER_SYMBOLS } from "@User/infrastructure/container/user.symbol";
+import { ICreateUserUseCase } from "@User/application/use-cases/create-user/create-user.use-case";
+import { ICreateClientUseCase } from "@Client/application/use-cases/create-client/create-client.use-case";
+import { CLIENT_SYMBOLS } from "@Client/infraestructure/container/client.symbols";
+import { VENDOR_SYMBOLS } from "@Vendor/infraestructure/container/vendor.symbol";
+import { ICreateVendorUseCase } from "@Vendor/application/use-cases/create-vendor/create-vendor.use-case";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
-import { buildAuthResponse } from "../helpers/auth-response.helper";
-import { sharedContainer } from "@Shared/container/shared.container";
-
+import { ITransactionManager } from "@Shared/services/transaction/transaction-manager.interface";
+import { IUserRepository } from "@User/application/repositories/user.repository";
+import { IClientRepository } from "@Client/application/repositories/client.repository";
+import { IVendorRepository } from "@Vendor/application/repositories/vendor.repository";
+import { RoleEnum } from "@Core/value-objects";
+import { HttpException } from "@Common/exceptions/http.exception";
+import { Client } from "@Core/entities/client";
+import { Vendor } from "@Core/entities/vendor";
+import { User } from "@Core/entities/user";
+import { Prisma } from "@prisma/client";
 @injectable()
 export class RegisterUserUseCase implements IRegisterLocalUseCase {
     constructor(
-        @inject(AUTH_SYMBOL.UserRepository) private readonly userRepository: IUserRepository,
-        @inject(AUTH_SYMBOL.HashService) private readonly hashService: IHashService,
-        @inject(SHARED_SYMBOLS.TokenService) private readonly tokenService: ITokenService,
-        @inject(SHARED_SYMBOLS.UUIDService) private readonly idService: IUUIDService
+        @inject(SHARED_SYMBOLS.UserRepository) private readonly userRepository: IUserRepository,
+        @inject(SHARED_SYMBOLS.VendorRepository) private readonly vendorRepository: IVendorRepository,
+        @inject(SHARED_SYMBOLS.ClientRepository) private readonly clientRepository: IClientRepository,
+        @inject(SHARED_SYMBOLS.TransactionManager) private readonly transactionManager: ITransactionManager,
+        @inject(USER_SYMBOLS.CreateUser) private readonly createUserUseCase: ICreateUserUseCase,
+        @inject(CLIENT_SYMBOLS.CreateClient) private readonly createClientUseCase: ICreateClientUseCase,
+        @inject(VENDOR_SYMBOLS.CreateVendor) private readonly createVendorUseCase: ICreateVendorUseCase
     ) {}
+    async execute(registerData: RegisterLocalRequest): Promise<RegisterLocalResponse> {
+        const { email, password, role, firstName, lastName, city, phone, photo } = registerData;
 
-    async execute(registerData: ReqRegisterLocalDto): Promise<ResRegisterLocalDto> {
-        const { email, password, role } = registerData;
+        const userEntityData = await this.createUserUseCase.execute({ email, password, role });
+        const userEntity = userEntityData.user;
+        const accessToken = userEntityData.accessToken;
 
-        const existingUser = await this.userRepository.findbyEmail(email.toLowerCase());
-        if (existingUser) throw HttpException.badRequest("User already exists");
+        await this.transactionManager.runInTransaction(async (ctx: Prisma.TransactionClient) => {
+            await this.userRepository.create(userEntity, ctx);
 
-        const userId = IdVO.create(this.idService.generateUUID());
-        const emailVO = EmailVO.create(email);
-        const roleVO = RoleVO.fromPlainText(role);
-        const passwordVO = PasswordVO.fromPlainText(password);
-        const providerVO = ProviderVO.fromEnum(ProviderEnum.LOCAL);
+            if (userEntity.role.getValue() === RoleEnum.CLIENT) {
+                const { client } = await this.createClientUseCase.execute({
+                    id: userEntity.id.getValue(),
+                    firstName,
+                    lastName,
+                    city,
+                    phone,
+                    photo,
+                });
+                await this.clientRepository.create(client, ctx);
+            }
 
-        const hashedPassword = await this.hashService.hash(passwordVO.getValue());
-        const hashedPasswordVO = PasswordVO.fromHash(hashedPassword);
-
-        const tokenPayload = { userId: userId.getValue(), email: emailVO.getValue(), role: roleVO.getValue() };
-
-        const tokenService = sharedContainer.get<ITokenService>(SHARED_SYMBOLS.TokenService);
-
-        const accessToken = tokenService.generateAccessToken(tokenPayload);
-        const refreshToken = tokenService.generateRefreshToken(tokenPayload);
-        const refreshTokenVO = TokenVO.create(refreshToken);
-
-        const newUser = User.create({
-            id: userId,
-            email: emailVO,
-            provider: providerVO,
-            password: hashedPasswordVO,
-            role: roleVO,
-            refreshToken: refreshTokenVO,
+            if (userEntity.role.getValue() === RoleEnum.VENDOR) {
+                const { vendor } = await this.createVendorUseCase.execute({
+                    id: userEntity.id.getValue(),
+                    firstName,
+                    lastName,
+                    city,
+                    phone,
+                    photo,
+                });
+                await this.vendorRepository.create(vendor, ctx);
+            }
         });
 
-        await this.userRepository.create(newUser);
-        const foundUser = await this.userRepository.findUserByEmailWithProfile(emailVO.getValue());
-        if (!foundUser) throw HttpException.badRequest("User not exists");
-        const { user, client, vendor } = foundUser;
-        return buildAuthResponse(user, accessToken, client ?? undefined, vendor ?? undefined);
+        const userWithProfile = await this.userRepository.findUserByEmailWithProfile(userEntity.email.getValue());
+        if (!userWithProfile) throw HttpException.badRequest("Error al crear el usuario");
+        const { user, vendor, client } = userWithProfile;
+        return this.buildResponse(user, accessToken, vendor ?? undefined, client ?? undefined);
+    }
+
+    private buildResponse(user: User, accessToken: string, vendor?: Vendor, client?: Client): RegisterLocalResponse {
+        const response: RegisterLocalResponse = {
+            accessToken,
+            user: {
+                id: user.id.getValue(),
+                email: user.email.getValue(),
+                role: user.role.getValue(),
+                profileCompleted: !!client || !!vendor,
+                createdAt: user.createdAt,
+                updatedAt: user.updatedAt,
+                isActive: user.isActive,
+            },
+        };
+
+        if (client) {
+            response.client = {
+                id: client.id.getValue(),
+                firstName: client.firstName.getValue(),
+                lastName: client.lastName.getValue(),
+                city: client.city.getValue(),
+                phone: client.phone.getValue(),
+                photo: client.photo?.getValue(),
+            };
+        }
+
+        if (vendor) {
+            response.vendor = {
+                id: vendor.id.getValue(),
+                firstName: vendor.firstName.getValue(),
+                lastName: vendor.lastName.getValue(),
+                city: vendor.city.getValue(),
+                phone: vendor.phone.getValue(),
+                photo: vendor.photo?.getValue(),
+            };
+        }
+        return response;
     }
 }

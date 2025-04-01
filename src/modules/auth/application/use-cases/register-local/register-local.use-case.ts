@@ -1,5 +1,5 @@
-import { ReqRegisterLocalDto, ResRegisterLocalDto } from "./register-local.dto";
+import { RegisterLocalRequest, RegisterLocalResponse } from "./register-local.dto";
 
 export interface IRegisterLocalUseCase {
-    execute(registerData: ReqRegisterLocalDto): Promise<ResRegisterLocalDto>;
+    execute(registerData: RegisterLocalRequest): Promise<RegisterLocalResponse>;
 }
