@@ -11,8 +11,10 @@ export class ClientPrismaRepository implements IClientRepository {
         return PrismaBootstrap.prisma;
     }
 
-    async create(data: Client): Promise<void> {
-        await this.prisma.client.create({ data: ClientMapper.toPersistence(data) });
+    async create(data: Client, ctx?: any): Promise<void> {
+        const db = ctx || this.prisma;
+
+        await db.client.create({ data: ClientMapper.toPersistence(data) });
     }
 
     update(entity: Client): Promise<void> {

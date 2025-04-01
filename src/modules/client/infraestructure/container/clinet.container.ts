@@ -1,13 +1,15 @@
-import { IClientRepository } from "@Client/application/repositories/client.repository";
 import { Container } from "inversify";
 import { CLIENT_SYMBOLS } from "./client.symbols";
-import { ClientPrismaRepository } from "../persistence/client-prisma.repository";
-import { ICreateClientUseCase } from "@Client/application/use-cases/create-client/create-client.use-case";
 import { CreateClientUseCase } from "@Client/application/use-cases/create-client/create-client.impl";
 import { ClientController } from "@Client/presentation/client.controller";
+import { registerUseCases, registerControllers } from "@Common/utils/container-utils";
 
-export const clientContainer = new Container();
+export function createClientContainer(parentContainer: Container): Container {
+    const container = new Container();
+    container.parent = parentContainer;
 
-clientContainer.bind<IClientRepository>(CLIENT_SYMBOLS.ClientRepository).to(ClientPrismaRepository);
-clientContainer.bind<ICreateClientUseCase>(CLIENT_SYMBOLS.CreateClientUseCase).to(CreateClientUseCase);
-clientContainer.bind<ClientController>(ClientController).toSelf();
+    registerUseCases(container, [{ symbol: CLIENT_SYMBOLS.CreateClient, implementation: CreateClientUseCase }]);
+    registerControllers(container, [ClientController]);
+
+    return container;
+}

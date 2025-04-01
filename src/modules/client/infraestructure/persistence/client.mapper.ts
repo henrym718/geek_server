@@ -1,5 +1,6 @@
 import { Client } from "@Core/entities/client";
 import { IdVO, TextVO, UrlVO } from "@Core/value-objects";
+import { PhoneVO } from "@Core/value-objects/phone.vo";
 import { Prisma, Client as ClientPrisma } from "@prisma/client";
 
 export class ClientMapper {
@@ -10,6 +11,7 @@ export class ClientMapper {
             lastName: client.lastName.getValue(),
             city: client.city.getValue(),
             photo: client.photo?.getValue() ?? null,
+            phone: client.phone.getValue(),
         };
     }
 
@@ -20,6 +22,7 @@ export class ClientMapper {
             lastName: TextVO.create("lastName", client.lastName),
             city: TextVO.create("city", client.city),
             photo: client.photo ? UrlVO.create(client.photo, "s3") : null,
+            phone: PhoneVO.create(client.phone),
         });
     }
 }
