@@ -17,7 +17,7 @@ export function buildResGetCurrentAccount(user: User, client?: Client, vendor?: 
     };
 
     if (client) {
-        response.clientProfile = {
+        response.client = {
             id: client.id.getValue(),
             firstName: client.firstName.getValue(),
             lastName: client.lastName.getValue(),
@@ -27,7 +27,7 @@ export function buildResGetCurrentAccount(user: User, client?: Client, vendor?: 
     }
 
     if (vendor) {
-        response.vendorProfile = {
+        response.vendor = {
             id: vendor.id.getValue(),
             firstName: vendor.firstName.getValue(),
             lastName: vendor.lastName.getValue(),

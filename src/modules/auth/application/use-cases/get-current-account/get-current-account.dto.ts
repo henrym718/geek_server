@@ -12,14 +12,14 @@ export interface ResGetCurrentAccountDTO {
         updatedAt: Date | null;
         isActive: boolean;
     };
-    clientProfile?: {
+    client?: {
         id: string;
         firstName: string;
         lastName: string;
         photo?: string | null;
         city: string;
     };
-    vendorProfile?: {
+    vendor?: {
         id: string;
         firstName: string;
         lastName: string;
