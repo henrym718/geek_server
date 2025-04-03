@@ -13,10 +13,6 @@ import { IUserRepository } from "@User/application/repositories/user.repository"
 import { IClientRepository } from "@Client/application/repositories/client.repository";
 import { IVendorRepository } from "@Vendor/application/repositories/vendor.repository";
 import { RoleEnum } from "@Core/value-objects";
-import { HttpException } from "@Common/exceptions/http.exception";
-import { Client } from "@Core/entities/client";
-import { Vendor } from "@Core/entities/vendor";
-import { User } from "@Core/entities/user";
 import { Prisma } from "@prisma/client";
 @injectable()
 export class RegisterUserUseCase implements IRegisterLocalUseCase {
@@ -30,18 +26,14 @@ export class RegisterUserUseCase implements IRegisterLocalUseCase {
         @inject(VENDOR_SYMBOLS.CreateVendor) private readonly createVendorUseCase: ICreateVendorUseCase
     ) {}
     async execute(registerData: RegisterLocalRequest): Promise<RegisterLocalResponse> {
-        const { email, password, role, firstName, lastName, city, phone, photo } = registerData;
-
-        const userEntityData = await this.createUserUseCase.execute({ email, password, role });
-        const userEntity = userEntityData.user;
-        const accessToken = userEntityData.accessToken;
-
+        const { email, password, username, role, firstName, lastName, city, phone, photo } = registerData;
+        const { user, accessToken } = await this.createUserUseCase.execute({ email, password, username, role });
         await this.transactionManager.runInTransaction(async (ctx: Prisma.TransactionClient) => {
-            await this.userRepository.create(userEntity, ctx);
+            await this.userRepository.create(user, ctx);
 
-            if (userEntity.role.getValue() === RoleEnum.CLIENT) {
+            if (user.role.getValue() === RoleEnum.CLIENT) {
                 const { client } = await this.createClientUseCase.execute({
-                    id: userEntity.id.getValue(),
+                    id: user.id.getValue(),
                     firstName,
                     lastName,
                     city,
@@ -51,9 +43,9 @@ export class RegisterUserUseCase implements IRegisterLocalUseCase {
                 await this.clientRepository.create(client, ctx);
             }
 
-            if (userEntity.role.getValue() === RoleEnum.VENDOR) {
+            if (user.role.getValue() === RoleEnum.VENDOR) {
                 const { vendor } = await this.createVendorUseCase.execute({
-                    id: userEntity.id.getValue(),
+                    id: user.id.getValue(),
                     firstName,
                     lastName,
                     city,
@@ -64,47 +56,6 @@ export class RegisterUserUseCase implements IRegisterLocalUseCase {
             }
         });
 
-        const userWithProfile = await this.userRepository.findUserByEmailWithProfile(userEntity.email.getValue());
-        if (!userWithProfile) throw HttpException.badRequest("Error al crear el usuario");
-        const { user, vendor, client } = userWithProfile;
-        return this.buildResponse(user, accessToken, vendor ?? undefined, client ?? undefined);
-    }
-
-    private buildResponse(user: User, accessToken: string, vendor?: Vendor, client?: Client): RegisterLocalResponse {
-        const response: RegisterLocalResponse = {
-            accessToken,
-            user: {
-                id: user.id.getValue(),
-                email: user.email.getValue(),
-                role: user.role.getValue(),
-                profileCompleted: !!client || !!vendor,
-                createdAt: user.createdAt,
-                updatedAt: user.updatedAt,
-                isActive: user.isActive,
-            },
-        };
-
-        if (client) {
-            response.client = {
-                id: client.id.getValue(),
-                firstName: client.firstName.getValue(),
-                lastName: client.lastName.getValue(),
-                city: client.city.getValue(),
-                phone: client.phone.getValue(),
-                photo: client.photo?.getValue(),
-            };
-        }
-
-        if (vendor) {
-            response.vendor = {
-                id: vendor.id.getValue(),
-                firstName: vendor.firstName.getValue(),
-                lastName: vendor.lastName.getValue(),
-                city: vendor.city.getValue(),
-                phone: vendor.phone.getValue(),
-                photo: vendor.photo?.getValue(),
-            };
-        }
-        return response;
+        return { accessToken };
     }
 }
