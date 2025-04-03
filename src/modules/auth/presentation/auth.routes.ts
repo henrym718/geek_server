@@ -8,10 +8,11 @@ export function configureAuthRoutes(): Router {
 
     const authController = ContainerBootstrap.getModuleContainer(IDENTIFIERS.Auth).get(AuthController);
 
-    router.post("/local/register", authController.registerUserLocal);
-    router.post("/local/login", authController.loginUserLocal);
+    router.post("/register", authController.registerUserLocal);
+    router.post("/login", authController.loginUserLocal);
     router.get("/me", authenticate, authController.getCurrentAccount);
     router.post("/check-email", authController.checkEmailExists);
+    router.post("/check-username", authController.checkUsernameExists);
 
     return router;
 }

@@ -8,9 +8,10 @@ import { ILoginLocalUseCase } from "@Auth/application/use-cases/login-local/logi
 import { ReqLoginLocalDto } from "@Auth/application/use-cases/login-local/login-local.dto";
 import { IGetCurrentAccountUseCase } from "@Auth/application/use-cases/get-current-account/get-current-account.use-case";
 import { ReqGetCurrentAccountDTO } from "@Auth/application/use-cases/get-current-account/get-current-account.dto";
-import { HttpException } from "@Common/exceptions/http.exception";
-import { CheckEmailRequest } from "@Auth/application/use-cases/check-email-exist/check-email-exists.dto";
-import { ICheckEmailExistsUseCase } from "@Auth/application/use-cases/check-email-exist/check-email-exists.use-case";
+import { CheckEmailRequest } from "@Auth/application/use-cases/check-email-exists/check-email-exists.dto";
+import { ICheckEmailExistsUseCase } from "@Auth/application/use-cases/check-email-exists/check-email-exists.use-case";
+import { CheckUsernameExistsRequest } from "@Auth/application/use-cases/check-username-exists/check-username-exists.dto";
+import { ICheckUsernameExistsUseCase } from "@Auth/application/use-cases/check-username-exists/check-username-exists.use-case";
 
 @injectable()
 export class AuthController {
@@ -18,12 +19,14 @@ export class AuthController {
         @inject(AUTH_SYMBOL.RegisterUser) private readonly registerUserCase: IRegisterLocalUseCase,
         @inject(AUTH_SYMBOL.LoginUser) private readonly loginUserCase: ILoginLocalUseCase,
         @inject(AUTH_SYMBOL.GetCurrentAccount) private readonly getCurrentAccountUseCase: IGetCurrentAccountUseCase,
-        @inject(AUTH_SYMBOL.CheckEmailExists) private readonly checkEmailExistsUseCase: ICheckEmailExistsUseCase
+        @inject(AUTH_SYMBOL.CheckEmailExists) private readonly checkEmailExistsUseCase: ICheckEmailExistsUseCase,
+        @inject(AUTH_SYMBOL.CheckUsernameExists) private readonly checkUsernameExistsUseCase: ICheckUsernameExistsUseCase
     ) {
         this.registerUserLocal = this.registerUserLocal.bind(this);
         this.loginUserLocal = this.loginUserLocal.bind(this);
         this.getCurrentAccount = this.getCurrentAccount.bind(this);
         this.checkEmailExists = this.checkEmailExists.bind(this);
+        this.checkUsernameExists = this.checkUsernameExists.bind(this);
     }
 
     async registerUserLocal(req: Request, res: Response, next: NextFunction) {
@@ -48,9 +51,8 @@ export class AuthController {
 
     async getCurrentAccount(req: Request, res: Response, next: NextFunction) {
         try {
-            if (!req.user?.userId) throw HttpException.badRequest("Invalid user data or userId");
-            const userId: ReqGetCurrentAccountDTO = { email: req.user.email };
-            const response = await this.getCurrentAccountUseCase.execute(userId);
+            const email: ReqGetCurrentAccountDTO = { email: req.user?.email! };
+            const response = await this.getCurrentAccountUseCase.execute(email);
             HttpResponse.success(res, response);
         } catch (error) {
             next(error);
@@ -61,6 +63,16 @@ export class AuthController {
         try {
             const data: CheckEmailRequest = req.body;
             const response = await this.checkEmailExistsUseCase.execute(data);
+            HttpResponse.success(res, response);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async checkUsernameExists(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data: CheckUsernameExistsRequest = req.body;
+            const response = await this.checkUsernameExistsUseCase.execute(data);
             HttpResponse.success(res, response);
         } catch (error) {
             next(error);
