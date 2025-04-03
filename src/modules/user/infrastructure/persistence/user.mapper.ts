@@ -1,5 +1,6 @@
 import { User } from "@Core/entities/user";
-import { EmailVO, IdVO, PasswordVO, ProviderVO, RoleVO, TokenVO } from "@Core/value-objects";
+import { EmailVO, IdVO, PasswordVO, ProviderVO, RoleVO, TextVO, TokenVO } from "@Core/value-objects";
+import { UsernameVO } from "@Core/value-objects/usernamevo";
 import { Prisma, User as UserPrisma } from "@prisma/client";
 
 export class UserMapper {
@@ -12,6 +13,7 @@ export class UserMapper {
             role: user.role.getValue(),
             refresToken: user.refreshToken.getValue(),
             tokenProvider: user.tokenProvider?.getValue() ?? null,
+            username: user.username.getValue(),
         };
     }
 
@@ -27,6 +29,7 @@ export class UserMapper {
             tokenProvider: user.tokenProvider ? TokenVO.create(user.tokenProvider) : null,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
+            username: UsernameVO.create(user.username),
         });
     }
 }

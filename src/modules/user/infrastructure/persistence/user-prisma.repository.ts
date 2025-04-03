@@ -20,6 +20,12 @@ export class UserPrismaRepository implements IUserRepository {
         throw new Error("Method not implemented.");
     }
 
+    async findByUsername(username: string): Promise<User | null> {
+        const userFound = await this.prisma.user.findUnique({ where: { username } });
+        if (!userFound) return null;
+        return UserMapper.toDomain(userFound);
+    }
+
     async findUserByEmailWithProfile(email: string): Promise<{ user: User; vendor?: Vendor | null; client?: Client | null } | null> {
         const userFound = await this.prisma.user.findUnique({ where: { email }, include: { client: true, vendor: true } });
 
@@ -45,6 +51,7 @@ export class UserPrismaRepository implements IUserRepository {
 
     async findbyEmail(email: string): Promise<User | null> {
         const userFound = await this.prisma.user.findUnique({ where: { email } });
+        console.log(userFound, "desde repository");
         if (!userFound) return null;
         return UserMapper.toDomain(userFound);
     }

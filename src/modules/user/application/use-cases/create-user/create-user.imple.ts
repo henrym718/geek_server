@@ -9,6 +9,7 @@ import { ITokenService } from "@Shared/services/token/token.service";
 import { IUUIDService } from "@Shared/services/uuid/uuid.service";
 import { IHashService } from "@Shared/services/hash/hash.service";
 import { User } from "@Core/entities/user";
+import { UsernameVO } from "@Core/value-objects/usernamevo";
 
 @injectable()
 export class CreateUserUseCase implements ICreateUserUseCase {
@@ -27,8 +28,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
     ) {}
 
     async execute(data: CreateUserRequest): Promise<CreateUserResponse> {
-        const { role, email, password } = data;
-
+        const { role, email, password, username } = data;
         const existingUser = await this.userRepository.findbyEmail(email.toLowerCase());
         if (existingUser) throw HttpException.badRequest("User already exists");
 
@@ -37,6 +37,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
         const roleVO = RoleVO.fromPlainText(role);
         const emailVO = EmailVO.create(email);
         const passwordVO = PasswordVO.fromPlainText(password);
+        const usernameVO = UsernameVO.create(username);
 
         const hashedPassword = await this.hashService.hash(passwordVO.getValue());
         const hashedPasswordVO = PasswordVO.fromHash(hashedPassword);
@@ -49,11 +50,13 @@ export class CreateUserUseCase implements ICreateUserUseCase {
 
         const newUser = User.create({
             id: userId,
-            provider: providerVO,
+            username: usernameVO,
             email: emailVO,
             password: hashedPasswordVO,
+            provider: providerVO,
             role: roleVO,
             refreshToken: refreshTokenVO,
+            tokenProvider: null,
         });
 
         return {
