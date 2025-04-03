@@ -7,7 +7,6 @@ import { HttpException } from "@Common/exceptions/http.exception";
 import { EmailVO, PasswordVO, TokenVO } from "@Core/value-objects";
 import { AUTH_SYMBOL } from "@Auth/infraestructure/container/auth.symbol";
 import { inject, injectable } from "inversify";
-import { buildAuthResponse } from "../helpers/auth-response.helper";
 
 @injectable()
 export class LoginLocalUserCase implements ILoginLocalUseCase {
@@ -23,13 +22,12 @@ export class LoginLocalUserCase implements ILoginLocalUseCase {
         const userEmail = EmailVO.create(email);
         const userPassword = PasswordVO.fromPlainText(password);
 
-        const foundUser = await this.userRepository.findUserByEmailWithProfile(userEmail.getValue());
+        const user = await this.userRepository.findbyEmail(userEmail.getValue());
 
-        if (!foundUser) {
+        if (!user) {
             throw HttpException.badRequest("User not exists");
         }
 
-        const { user, client, vendor } = foundUser;
         const isPasswordValid = await this.hashService.check(userPassword.getValue(), user.password?.getValue() ?? "");
         if (!isPasswordValid) {
             throw HttpException.badRequest("Credentials are incorrects");
@@ -42,6 +40,6 @@ export class LoginLocalUserCase implements ILoginLocalUseCase {
         const updatedUser = user.updateRefreshToken(TokenVO.create(refreshToken));
         await this.userRepository.update(updatedUser);
 
-        return buildAuthResponse(user, accessToken, client ?? undefined, vendor ?? undefined);
+        return { accessToken };
     }
 }
