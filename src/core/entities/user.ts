@@ -1,44 +1,31 @@
-import { HttpException } from "@Common/exceptions/http.exception";
-import { EmailVO, IdVO, PasswordVO, ProviderVO, RoleVO, TokenVO } from "../value-objects";
-
-interface UserCreateProps {
-    readonly id: IdVO;
-    readonly email: EmailVO;
-    readonly provider: ProviderVO;
-    readonly role: RoleVO;
-    readonly refreshToken: TokenVO;
-    readonly password?: PasswordVO;
-    readonly tokenProvider?: TokenVO;
-}
+import { UsernameVO } from "@Core/value-objects/usernamevo";
+import { EmailVO, IdVO, PasswordVO, ProviderVO, RoleVO, TextVO, TokenVO } from "../value-objects";
 
 interface UserProps {
     readonly id: IdVO;
+    readonly username: UsernameVO;
     readonly email: EmailVO;
-    readonly provider: ProviderVO;
-    readonly role: RoleVO;
     readonly password: PasswordVO | null;
+    readonly provider: ProviderVO;
     readonly tokenProvider: TokenVO | null;
+    readonly role: RoleVO;
     readonly refreshToken: TokenVO;
     readonly isActive: boolean;
     readonly createdAt: Date;
-    readonly updatedAt: Date | null;
+    readonly updatedAt: Date;
 }
 
 export class User {
     private constructor(private readonly props: UserProps) {}
 
-    static create(props: UserCreateProps): User {
-        if ((props.password && props.tokenProvider) || (!props.password && !props.tokenProvider)) {
-            throw HttpException.badRequest("Debe proporcionar password o tokenProvider, pero no ambos");
-        }
-        const now = new Date();
+    static create(props: Omit<UserProps, "createdAt" | "updatedAt" | "isActive">): User {
         return new User({
             ...props,
             password: props.password || null,
             tokenProvider: props.tokenProvider || null,
             isActive: true,
-            createdAt: now,
-            updatedAt: null,
+            createdAt: new Date(),
+            updatedAt: new Date(),
         });
     }
 
@@ -81,7 +68,10 @@ export class User {
     get createdAt(): Date {
         return this.props.createdAt;
     }
-    get updatedAt(): Date | null {
+    get updatedAt(): Date {
         return this.props.updatedAt;
+    }
+    get username(): UsernameVO {
+        return this.props.username;
     }
 }
