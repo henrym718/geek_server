@@ -9,11 +9,11 @@ import { EmailVO } from "@Core/value-objects";
 export class CheckEmailExistsUseCase implements ICheckEmailExistsUseCase {
     constructor(
         @inject(AUTH_SYMBOL.UserRepository)
-        private readonly authRepository: IUserRepository
+        private readonly userRepository: IUserRepository
     ) {}
     async execute(data: CheckEmailRequest): Promise<CheckEmailResponse> {
         const email = EmailVO.create(data.email);
-        const auth = await this.authRepository.findbyEmail(email.getValue());
-        return { exists: !!auth?.email.getValue() };
+        const user = await this.userRepository.findbyEmail(email.getValue());
+        return { exists: !!user };
     }
 }
