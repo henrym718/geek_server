@@ -2,6 +2,7 @@ export type TokenPayload = {
     userId: string;
     email: string;
     role: string;
+    username: string;
 };
 
 export interface ITokenService {
