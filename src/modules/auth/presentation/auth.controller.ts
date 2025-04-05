@@ -12,6 +12,7 @@ import { CheckEmailRequest } from "@Auth/application/use-cases/check-email-exist
 import { ICheckEmailExistsUseCase } from "@Auth/application/use-cases/check-email-exists/check-email-exists.use-case";
 import { CheckUsernameExistsRequest } from "@Auth/application/use-cases/check-username-exists/check-username-exists.dto";
 import { ICheckUsernameExistsUseCase } from "@Auth/application/use-cases/check-username-exists/check-username-exists.use-case";
+import { EnvBootstrap } from "@Bootstraps/env.bootstrap";
 
 @injectable()
 export class AuthController {
@@ -33,6 +34,13 @@ export class AuthController {
         try {
             const data: RegisterLocalRequest = req.body;
             const response = await this.registerUserCase.execute(data);
+
+            if (req.headers["user-agent"]?.includes("Mozilla")) {
+                res.cookie("accessToken", response.accessToken, EnvBootstrap.ENV.COOKIE_OPTIONS);
+                HttpResponse.success(res, "Cookie set successfully");
+                return;
+            }
+
             HttpResponse.success(res, response);
         } catch (error) {
             next(error);
@@ -43,6 +51,13 @@ export class AuthController {
         try {
             const data: ReqLoginLocalDto = req.body;
             const response = await this.loginUserCase.execute(data);
+
+            if (req.headers["user-agent"]?.includes("Mozilla")) {
+                res.cookie("accessToken", response.accessToken, EnvBootstrap.ENV.COOKIE_OPTIONS);
+                HttpResponse.success(res, "Cookie set successfully");
+                return;
+            }
+
             HttpResponse.success(res, response);
         } catch (error) {
             next(error);
