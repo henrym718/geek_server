@@ -42,7 +42,12 @@ export class CreateUserUseCase implements ICreateUserUseCase {
         const hashedPassword = await this.hashService.hash(passwordVO.getValue());
         const hashedPasswordVO = PasswordVO.fromHash(hashedPassword);
 
-        const tokenPayload = { userId: userId.getValue(), email: emailVO.getValue(), role: roleVO.getValue() };
+        const tokenPayload = {
+            userId: userId.getValue(),
+            email: emailVO.getValue(),
+            role: roleVO.getValue(),
+            username: usernameVO.getValue(),
+        };
 
         const accessToken = this.tokenService.generateAccessToken(tokenPayload);
         const refreshToken = this.tokenService.generateRefreshToken(tokenPayload);
