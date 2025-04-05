@@ -1,4 +1,4 @@
-import { IGroupRepository } from "@Group/application/interfaces/repositories/group.repository";
+import { IGroupRepository } from "@Group/application/repositories/group.repository";
 import { ReqCreateCategoryDTO } from "../dtos/req-create-category.dto";
 import { ICategoryRepository } from "../interfaces/repositories/category.repository";
 import { ICreateCategotyUseCase } from "../interfaces/use-cases/create-category.use-case";
