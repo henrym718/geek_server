@@ -3,7 +3,7 @@ import { ISkillRepository } from "@Skill/application/repositories/skill.reposito
 import { ReqCreateSkillDto, ResCreateSkillDto } from "./create-skill.dto";
 import { ICreateSkillUseCase } from "./create-skill.use-case";
 import { SKILL_SYMBOLS } from "@Skill/infraestructure/container/skill.symbols";
-import { ICategoryRepository } from "@Category/application/interfaces/repositories/category.repository";
+import { ICategoryRepository } from "@Category/application/repositories/category.repository";
 import { CATEGORY_SYMBOLS } from "@Category/infraestructure/container/category.symbol";
 import { HttpException } from "@Common/exceptions/http.exception";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
