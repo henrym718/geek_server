@@ -14,7 +14,7 @@ import { configureVendorProfileRoutes } from "@VendorProfile/presentation/vendor
 import { configureProformaRequestRoutes } from "@ProformaRequests/presnetation/proforma-requests.routes";
 import { configureProformaResponseRoutes } from "modules/proforma-response/presentation/proforma-reponse.routes";
 import { configureSuggestionRoutes } from "modules/suggestion/presentation/suggestion.routes";
-
+import cookieParser from "cookie-parser";
 export class ServerBootstrap {
     private app: Application | null = null;
     private server: Server | null = null;
@@ -40,7 +40,8 @@ export class ServerBootstrap {
 
     private setupGeneralMiddlewares(app: Application) {
         app.use(express.json());
-        app.use(cors({ origin: "http://localhost:3000" }));
+        app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+        app.use(cookieParser());
     }
 
     private setupRoutes(app: Application) {
@@ -50,7 +51,7 @@ export class ServerBootstrap {
         app.use("/vendor", configureVendorRoutes());
         app.use("/client", configureClientRoutes());
         app.use("/skill", configureSkillRoutes());
-        app.use("/profile-vendor", configureVendorProfileRoutes());
+        app.use("/vendor-profile", configureVendorProfileRoutes());
         app.use("/proforma-request", configureProformaRequestRoutes());
         app.use("/proforma-response", configureProformaResponseRoutes());
         app.use("/suggestion", configureSuggestionRoutes());
