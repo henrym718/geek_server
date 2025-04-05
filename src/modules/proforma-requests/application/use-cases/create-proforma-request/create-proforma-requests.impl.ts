@@ -7,7 +7,7 @@ import { IUUIDService } from "@Shared/services/uuid/uuid.service";
 import { StatusEnum } from "@Core/value-objects/status.vo";
 import { inject, injectable } from "inversify";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
-import { ICategoryRepository } from "@Category/application/interfaces/repositories/category.repository";
+import { ICategoryRepository } from "@Category/application/repositories/category.repository";
 import { ISkillRepository } from "@Skill/application/repositories/skill.repository";
 import { IClientRepository } from "@Client/application/repositories/client.repository";
 import { HttpException } from "@Common/exceptions/http.exception";

@@ -1,5 +1,5 @@
 import { Category } from "@Core/entities/category";
-import { ICategoryRepository } from "@Category/application/interfaces/repositories/category.repository";
+import { ICategoryRepository } from "@Category/application/repositories/category.repository";
 import { CategoryMapper } from "./category.mapper";
 import { PrismaBootstrap } from "@Bootstraps/prisma.bootsrap";
 
