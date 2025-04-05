@@ -5,11 +5,11 @@ import { PrismaBootstrap } from "@Bootstraps/prisma.bootsrap";
 
 export class CategoryPrismaRepository implements ICategoryRepository {
     private get db() {
-        return PrismaBootstrap.prisma.category;
+        return PrismaBootstrap.prisma;
     }
 
     async create(data: Category): Promise<void> {
-        await this.db.create({ data: CategoryMapper.toPersistence(data) });
+        await this.db.category.create({ data: CategoryMapper.toPersistence(data) });
     }
 
     async update(entity: Category): Promise<void> {
@@ -17,8 +17,13 @@ export class CategoryPrismaRepository implements ICategoryRepository {
     }
 
     async findById(id: string): Promise<Category | null> {
-        const category = await this.db.findUnique({ where: { id } });
+        const category = await this.db.category.findUnique({ where: { id } });
         return category ? CategoryMapper.toDomain(category) : null;
+    }
+
+    async findByGroupId(groupId: string): Promise<Category[]> {
+        const response = await this.db.category.findMany({ where: { groupId } });
+        return response.map((category) => CategoryMapper.toDomain(category));
     }
 
     async findAll(): Promise<Category[]> {
