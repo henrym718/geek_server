@@ -13,7 +13,6 @@ export class GetCurrentAccountUseCase implements IGetCurrentAccountUseCase {
 
     async execute(data: ReqGetCurrentAccountDTO): Promise<ResGetCurrentAccountDTO> {
         const userEmail = EmailVO.create(data.email).getValue();
-
         const userFounded = await this.userRepository.findUserByEmailWithProfile(userEmail);
         if (!userFounded) throw HttpException.notFound("User not found");
         const { user, client, vendor } = userFounded;

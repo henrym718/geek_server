@@ -7,9 +7,11 @@ export interface ResGetCurrentAccountDTO {
         id: string;
         email: string;
         role: string;
+        username: string;
         profileCompleted: boolean;
         createdAt: Date;
         updatedAt: Date | null;
+
         isActive: boolean;
     };
     client?: {
