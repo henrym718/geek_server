@@ -24,6 +24,8 @@ export class VendorProfileMapper {
             isActive: entity.isActive,
             categoryId: IdVO.create(entity.categoryId),
             vendorId: IdVO.create(entity.vendorId),
+            createdAt: entity.createdAt,
+            updatedAt: entity.updatedAt,
         });
     }
 }

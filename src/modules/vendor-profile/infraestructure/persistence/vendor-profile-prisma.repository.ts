@@ -7,6 +7,8 @@ import { Skill } from "@Core/entities/skill";
 import { SearchRequest } from "@VendorProfile/aplication/use-cases/search-vendor-profiles/search-vendor-profiles.dto";
 import { SkillMapper } from "@Skill/infraestructure/persistence/skill.mapper";
 import { VendorMapper } from "@Vendor/infraestructure/persistence/vendor.mapper";
+import { Category } from "@Core/entities/category";
+import { CategoryMapper } from "@Category/infraestructure/persistence/category.mapper";
 
 export class VendorProfilePrismaRepository implements IVendorProfilesRepository {
     get db() {
@@ -24,6 +26,18 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
     async findById(id: string): Promise<VendorProfile | null> {
         const response = await this.db.vendorProfile.findUnique({ where: { id } });
         return response ? VendorProfileMapper.toDomain(response) : null;
+    }
+
+    async findByVendorId(vendorId: string): Promise<{ vendorProfile: VendorProfile; skills: Skill[]; category: Category }[] | null> {
+        const response = await this.db.vendorProfile.findMany({ where: { vendorId }, include: { skills: true, category: true } });
+
+        if (!response) return null;
+
+        return response.map(({ skills, category, ...vendorProfile }) => ({
+            vendorProfile: VendorProfileMapper.toDomain(vendorProfile),
+            category: CategoryMapper.toDomain(category),
+            skills: skills.map((skill) => SkillMapper.toDomain(skill)),
+        }));
     }
 
     async findByIdWithSkillsId(id: string): Promise<VendorProfile | null> {

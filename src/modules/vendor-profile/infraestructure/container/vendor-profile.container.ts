@@ -6,6 +6,8 @@ import { VendorProfileController } from "@VendorProfile/presentation/vendor-prof
 
 import { ISearchVendorProfilesUseCase } from "@VendorProfile/aplication/use-cases/search-vendor-profiles/search-vendor-profiles.use-case";
 import { SearchVendorProfilesUseCase } from "@VendorProfile/aplication/use-cases/search-vendor-profiles/search-vendor-profiles.impl";
+import { IGetVendorProfilesUseCase } from "@VendorProfile/aplication/use-cases/get-vendor-profiles-by-username/get-vendor-profiles.use-case";
+import { GetVendorProfilesUseCase } from "@VendorProfile/aplication/use-cases/get-vendor-profiles-by-username/get-vendor-profiles.impl";
 
 export function configureVendorProfileContainer(parentContainer: Container): Container {
     const container = new Container();
@@ -13,6 +15,7 @@ export function configureVendorProfileContainer(parentContainer: Container): Con
 
     container.bind<ICreateVendorProfileUseCase>(VENDOR_PROFILE_SYMBOLS.CreateVendorProfile).to(CreateVendorProfileUseCase);
     container.bind<ISearchVendorProfilesUseCase>(VENDOR_PROFILE_SYMBOLS.SearchVendorProfiles).to(SearchVendorProfilesUseCase);
+    container.bind<IGetVendorProfilesUseCase>(VENDOR_PROFILE_SYMBOLS.GetVendorProfiles).to(GetVendorProfilesUseCase);
     container.bind<VendorProfileController>(VendorProfileController).toSelf();
 
     return container;
