@@ -1,5 +1,5 @@
 import { IdVO, TextVO } from "@Core/value-objects";
-import { IGroupRepository } from "modules/group/application/interfaces/repositories/group.repository";
+import { IGroupRepository } from "@Group/application/repositories/group.repository";
 import { PrismaBootstrap } from "@Bootstraps/prisma.bootsrap";
 import { Prisma, Group as PrismaGroup, Category as PrismaCategory } from "@prisma/client";
 import { Group } from "@Core/entities/group";

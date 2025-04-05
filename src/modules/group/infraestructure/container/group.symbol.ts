@@ -1,8 +1,6 @@
 export const GROUP_SYMBOLS = {
-    GroupRepository: Symbol.for("GroupRepository"),
-    IdService: Symbol.for("IdService"),
-    CreateGroupUseCase: Symbol.for("CreateGroupUseCase"),
-    UpdateGroupUseCase: Symbol.for("UpdateGroupUseCase"),
-    ListGroupUseCase: Symbol.for("ListGroupUseCase"),
-    GroupWithCategoriesUseCase: Symbol.for("GroupWithCategoriesUseCase"),
+    CreateGroup: Symbol.for("CreateGroup"),
+    UpdateGroup: Symbol.for("UpdateGroup"),
+    GetAllGroups: Symbol.for("GetAllGroups"),
+    GetGroupWithCategories: Symbol.for("GetGroupWithCategories"),
 };

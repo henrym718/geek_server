@@ -1,10 +1,10 @@
 import { HttpResponse } from "@Common/response/http.response";
-import { ReqCreateGroupDTO } from "@Group/application/dtos/req-create-group.dto";
-import { ReqUpdateGroupDTO } from "@Group/application/dtos/req-update-group.dto.";
-import { ICreateGroupUseCase } from "@Group/application/interfaces/use-cases/create-group.use-case";
-import { IGroupWithCategoriesUseCase } from "@Group/application/interfaces/use-cases/group-with-categories.use-case";
-import { IListGroupsUseCase } from "@Group/application/interfaces/use-cases/list-groups.use-case";
-import { IUpdateGroupUseCase } from "@Group/application/interfaces/use-cases/update-group.use-case";
+import { CreateGroupRequest } from "@Group/application/use-cases/create-group/create-group.dto";
+import { ICreateGroupUseCase } from "@Group/application/use-cases/create-group/create-group.use-case";
+import { IGetAllGroupsUseCase } from "@Group/application/use-cases/get-all-groups/get-all-groups.use-case";
+import { IGetGroupWithCategoriesUseCase } from "@Group/application/use-cases/get-group-with-categories/get-group-with-categories.use-case";
+import { UpdateGroupRequest } from "@Group/application/use-cases/update-group/update-group.dto";
+import { IUpdateGroupUseCase } from "@Group/application/use-cases/update-group/update-group.use.case";
 import { GROUP_SYMBOLS } from "@Group/infraestructure/container/group.symbol";
 import { NextFunction, Request, Response } from "express";
 import { inject, injectable } from "inversify";
@@ -12,20 +12,20 @@ import { inject, injectable } from "inversify";
 @injectable()
 export class GroupController {
     constructor(
-        @inject(GROUP_SYMBOLS.CreateGroupUseCase) private readonly createGroupUseCase: ICreateGroupUseCase,
-        @inject(GROUP_SYMBOLS.UpdateGroupUseCase) private readonly updateGroupUseCase: IUpdateGroupUseCase,
-        @inject(GROUP_SYMBOLS.ListGroupUseCase) private readonly listGroupUseCase: IListGroupsUseCase,
-        @inject(GROUP_SYMBOLS.GroupWithCategoriesUseCase) private readonly groupWithCategoriesUseCase: IGroupWithCategoriesUseCase
+        @inject(GROUP_SYMBOLS.CreateGroup) private readonly createGroupUseCase: ICreateGroupUseCase,
+        @inject(GROUP_SYMBOLS.UpdateGroup) private readonly updateGroupUseCase: IUpdateGroupUseCase,
+        @inject(GROUP_SYMBOLS.GetAllGroups) private readonly getAllGroupsUseCase: IGetAllGroupsUseCase,
+        @inject(GROUP_SYMBOLS.GetGroupWithCategories) private readonly groupWithCategoriesUseCase: IGetGroupWithCategoriesUseCase
     ) {
         this.createGroup = this.createGroup.bind(this);
         this.updateGroup = this.updateGroup.bind(this);
-        this.ListGroup = this.ListGroup.bind(this);
+        this.getAllGroups = this.getAllGroups.bind(this);
         this.getGroupWithCategories = this.getGroupWithCategories.bind(this);
     }
 
     async createGroup(req: Request, res: Response, next: NextFunction) {
         try {
-            const data: ReqCreateGroupDTO = req.body;
+            const data: CreateGroupRequest = req.body;
             await this.createGroupUseCase.execute(data);
             HttpResponse.success(res, null, "Rgeistro creado correctamente");
         } catch (error) {
@@ -35,7 +35,7 @@ export class GroupController {
 
     async updateGroup(req: Request, res: Response, next: NextFunction) {
         try {
-            const data: ReqUpdateGroupDTO = req.body;
+            const data: UpdateGroupRequest = req.body;
             await this.updateGroupUseCase.execute(data);
             HttpResponse.success(res, null, "Rgeistro actualizado correctamente");
         } catch (error) {
@@ -43,9 +43,9 @@ export class GroupController {
         }
     }
 
-    async ListGroup(req: Request, res: Response, next: NextFunction) {
+    async getAllGroups(req: Request, res: Response, next: NextFunction) {
         try {
-            const groupsFound = await this.listGroupUseCase.execute();
+            const groupsFound = await this.getAllGroupsUseCase.execute();
             HttpResponse.success(res, groupsFound);
         } catch (error) {
             next(error);
@@ -55,7 +55,7 @@ export class GroupController {
     async getGroupWithCategories(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
-            const groupWithCategories = await this.groupWithCategoriesUseCase.execute(id);
+            const groupWithCategories = await this.groupWithCategoriesUseCase.execute({ id });
             HttpResponse.success(res, groupWithCategories);
         } catch (error) {
             next(error);
