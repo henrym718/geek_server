@@ -79,7 +79,7 @@ model VendorProfile {
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
   vendor            Vendor             @relation(fields: [vendorId], references: [id])
-  vendorId          String
+  vendorId          String             @unique
   category          Category           @relation(fields: [categoryId], references: [id])
   categoryId        String
   skills            Skill[]
