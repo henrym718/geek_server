@@ -4,7 +4,7 @@ import { ReqCreateVendorProfileDto, ResCreateVendorProfileDto } from "./create-v
 import { ICreateVendorProfileUseCase } from "./create-vendor-profile.use-case";
 import { VendorProfile } from "@Core/entities/profile-vendor";
 import { IUUIDService } from "@Shared/services/uuid/uuid.service";
-import { ICategoryRepository } from "@Category/application/interfaces/repositories/category.repository";
+import { ICategoryRepository } from "@Category/application/repositories/category.repository";
 import { IVendorRepository } from "@Vendor/application/repositories/vendor.repository";
 import { ISkillRepository } from "@Skill/application/repositories/skill.repository";
 import { inject, injectable } from "inversify";
