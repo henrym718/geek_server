@@ -12,6 +12,7 @@ export function buildResGetCurrentAccount(user: User, client?: Client, vendor?: 
             isActive: user.isActive,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
+            username: user.username.getValue(),
             profileCompleted: !!client || !!vendor,
         },
     };
