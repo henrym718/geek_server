@@ -1,5 +1,5 @@
 export interface ReqCreateVendorProfileDto {
-    tittle: string;
+    title: string;
     skills: string[];
     aboutme: string;
     vendorId: string;

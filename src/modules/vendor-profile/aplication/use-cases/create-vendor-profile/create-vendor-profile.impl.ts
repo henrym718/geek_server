@@ -21,10 +21,10 @@ export class CreateVendorProfileUseCase implements ICreateVendorProfileUseCase {
     ) {}
 
     async execute(data: ReqCreateVendorProfileDto): Promise<ResCreateVendorProfileDto> {
-        const { aboutme, skills, tittle, categoryId, vendorId } = data;
+        const { aboutme, skills, title, categoryId, vendorId } = data;
 
         const aboutmeVO = TextVO.create(aboutme, "aboutme");
-        const tittleVO = TextVO.create(tittle, "tittle");
+        const titleVO = TextVO.create(title, "title");
         const skillsVO = skills.map((skill) => IdVO.create(skill));
         const categoryIdVO = IdVO.create(categoryId);
         const vendorIdVO = IdVO.create(vendorId);
@@ -42,7 +42,7 @@ export class CreateVendorProfileUseCase implements ICreateVendorProfileUseCase {
         const newProfileVendor = VendorProfile.create({
             id: IdVO.create(this.idSaervice.generateUUID()),
             aboutme: aboutmeVO,
-            tittle: tittleVO,
+            title: titleVO,
             skills: skillsVO,
             categoryId: categoryIdVO,
             vendorId: vendorIdVO,

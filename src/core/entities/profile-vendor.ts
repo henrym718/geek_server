@@ -2,7 +2,7 @@ import { IdVO, TextVO } from "@Core/value-objects";
 
 interface VendorProfileProps {
     id: IdVO;
-    tittle: TextVO;
+    title: TextVO;
     aboutme: TextVO;
     isActive: boolean;
     skills: IdVO[];
@@ -28,7 +28,7 @@ export class VendorProfile {
     }
 
     public get title(): TextVO {
-        return this.props.tittle;
+        return this.props.title;
     }
 
     public get aboutme(): TextVO {

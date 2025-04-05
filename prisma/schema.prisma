@@ -73,7 +73,7 @@ model Vendor {
 
 model VendorProfile {
   id                String             @id
-  tittle            String
+  title             String
   aboutme           String
   isActive          Boolean            @default(true)
   createdAt         DateTime           @default(now())
