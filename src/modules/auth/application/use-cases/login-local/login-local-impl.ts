@@ -33,7 +33,7 @@ export class LoginLocalUserCase implements ILoginLocalUseCase {
             throw HttpException.badRequest("Credentials are incorrects");
         }
 
-        const payload = { email: user.email.getValue(), role: user.role.getValue(), userId: user.id.getValue() };
+        const payload = { email: user.email.getValue(), role: user.role.getValue(), userId: user.id.getValue(), username: user.username.getValue() };
         const accessToken = this.tokenService.generateAccessToken(payload);
         const refreshToken = this.tokenService.generateRefreshToken(payload);
 
