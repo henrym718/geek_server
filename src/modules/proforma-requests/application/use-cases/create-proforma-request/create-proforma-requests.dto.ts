@@ -1,4 +1,5 @@
 export interface ReqCreateProformaRequestDto {
+    title: string;
     description: string;
     budget: number;
     clientId: string;
