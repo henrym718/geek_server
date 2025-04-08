@@ -20,6 +20,11 @@ export class SkillPrismaRepository implements ISkillRepository {
         throw new Error("Method not implemented.");
     }
 
+    async getSkillsByCategoryId(categoryId: string): Promise<Skill[]> {
+        const response = await this.db.skill.findMany({ where: { categoryId } });
+        return response.map(SkillMapper.toDomain);
+    }
+
     async findByIds(ids: string[]): Promise<Skill[]> {
         const skills = await this.db.skill.findMany({ where: { id: { in: ids } } });
         return skills.map(SkillMapper.toDomain);

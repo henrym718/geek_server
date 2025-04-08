@@ -2,7 +2,6 @@ import { inject, injectable } from "inversify";
 import { ISkillRepository } from "@Skill/application/repositories/skill.repository";
 import { ReqCreateSkillDto, ResCreateSkillDto } from "./create-skill.dto";
 import { ICreateSkillUseCase } from "./create-skill.use-case";
-import { SKILL_SYMBOLS } from "@Skill/infraestructure/container/skill.symbols";
 import { ICategoryRepository } from "@Category/application/repositories/category.repository";
 import { HttpException } from "@Common/exceptions/http.exception";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
@@ -13,7 +12,7 @@ import { Skill } from "@Core/entities/skill";
 @injectable()
 export class CreateSkillUseCase implements ICreateSkillUseCase {
     constructor(
-        @inject(SKILL_SYMBOLS.SkillRepository) private readonly skillRepository: ISkillRepository,
+        @inject(SHARED_SYMBOLS.SkillRepository) private readonly skillRepository: ISkillRepository,
         @inject(SHARED_SYMBOLS.CategoryRepository) private readonly categoryRepository: ICategoryRepository,
         @inject(SHARED_SYMBOLS.UUIDService) private readonly idService: IUUIDService
     ) {}

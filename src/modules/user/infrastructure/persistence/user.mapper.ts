@@ -1,6 +1,6 @@
 import { User } from "@Core/entities/user";
 import { EmailVO, IdVO, PasswordVO, ProviderVO, RoleVO, TextVO, TokenVO } from "@Core/value-objects";
-import { UsernameVO } from "@Core/value-objects/usernamevo";
+import { UsernameVO } from "@Core/value-objects/username.vo";
 import { Prisma, User as UserPrisma } from "@prisma/client";
 
 export class UserMapper {

@@ -1,4 +1,4 @@
-import { UsernameVO } from "@Core/value-objects/usernamevo";
+import { UsernameVO } from "@Core/value-objects/username.vo";
 import { EmailVO, IdVO, PasswordVO, ProviderVO, RoleVO, TokenVO } from "../value-objects";
 
 interface UserProps {

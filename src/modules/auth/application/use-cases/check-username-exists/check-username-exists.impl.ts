@@ -3,7 +3,7 @@ import { CheckUsernameExistsRequest, CheckUsernameExistsResponse } from "./check
 import { ICheckUsernameExistsUseCase } from "./check-username-exists.use-case";
 import { inject, injectable } from "inversify";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
-import { UsernameVO } from "@Core/value-objects/usernamevo";
+import { UsernameVO } from "@Core/value-objects/username.vo";
 
 @injectable()
 export class CheckUsernameExistsUseCase implements ICheckUsernameExistsUseCase {

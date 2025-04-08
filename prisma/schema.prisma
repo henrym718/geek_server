@@ -79,7 +79,7 @@ model VendorProfile {
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
   vendor            Vendor             @relation(fields: [vendorId], references: [id])
-  vendorId          String             @unique
+  vendorId          String
   category          Category           @relation(fields: [categoryId], references: [id])
   categoryId        String
   skills            Skill[]
@@ -141,6 +141,7 @@ model Suggestion {
 
 model ProformaRequest {
   id                String             @id
+  title             String
   description       String
   budget            Float
   status            Status

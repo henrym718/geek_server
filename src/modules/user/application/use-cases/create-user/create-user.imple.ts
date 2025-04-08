@@ -9,7 +9,7 @@ import { ITokenService } from "@Shared/services/token/token.service";
 import { IUUIDService } from "@Shared/services/uuid/uuid.service";
 import { IHashService } from "@Shared/services/hash/hash.service";
 import { User } from "@Core/entities/user";
-import { UsernameVO } from "@Core/value-objects/usernamevo";
+import { UsernameVO } from "@Core/value-objects/username.vo";
 
 @injectable()
 export class CreateUserUseCase implements ICreateUserUseCase {

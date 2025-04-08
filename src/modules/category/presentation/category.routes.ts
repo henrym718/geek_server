@@ -7,7 +7,7 @@ export function configureCategoryRoutes(): Router {
     const categoryController = ContainerBootstrap.getModuleContainer(IDENTIFIERS.Category).get(CategoryController);
 
     categoryRoutes.post("/", categoryController.createCategory);
-    categoryRoutes.get("/", categoryController.getCategoriesByGroupId);
+    categoryRoutes.get("/:groupId", categoryController.getCategoriesByGroupId);
 
     return categoryRoutes;
 }

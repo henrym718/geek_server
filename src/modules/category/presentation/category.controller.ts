@@ -29,7 +29,7 @@ export class CategoryController {
 
     async getCategoriesByGroupId(req: Request, res: Response, next: NextFunction) {
         try {
-            const data: GetCategoriesByGroupIdRequest = req.body;
+            const data: GetCategoriesByGroupIdRequest = { groupId: req.params.groupId };
             const response = await this.getCategoriesByGroupIdUseCase.execute(data);
             HttpResponse.success(res, response, "Categorías obtenidas correctamente");
         } catch (error) {

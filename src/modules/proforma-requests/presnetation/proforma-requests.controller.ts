@@ -64,7 +64,7 @@ export class ProformaRequestsController {
 
     async getAllByVendorProfile(req: Request, res: Response, next: NextFunction) {
         try {
-            const data: GetByVendorProfilerRequest = { ...req.body, vendorId: req.user?.userId };
+            const data: GetByVendorProfilerRequest = { vendorProfileId: req.params?.profileid, vendorId: req.user?.userId! };
             const response = await this.getProformaRequestsByVendorProfileUseCase.execute(data);
             HttpResponse.success(res, response);
         } catch (error) {

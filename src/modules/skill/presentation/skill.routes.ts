@@ -7,6 +7,6 @@ export function configureSkillRoutes(): Router {
     const skillController = ContainerBootstrap.getModuleContainer(IDENTIFIERS.Skill).get(SkillController);
 
     skillRoutes.post("/", skillController.createSkill);
-
+    skillRoutes.get("/:categoryId", skillController.getSkillsByCategoryId);
     return skillRoutes;
 }

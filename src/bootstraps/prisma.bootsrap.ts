@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { logger } from "@Common/logs/logger";
 
-export class PrismaBootstrap {
+export class PrismaBootstrap extends PrismaClient {
     private static prismaClient: PrismaClient | null;
 
     async inizialize(): Promise<void> {
