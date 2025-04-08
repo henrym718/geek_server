@@ -23,8 +23,8 @@ export class CreateVendorProfileUseCase implements ICreateVendorProfileUseCase {
     async execute(data: ReqCreateVendorProfileDto): Promise<ResCreateVendorProfileDto> {
         const { aboutme, skills, title, categoryId, vendorId } = data;
 
-        const aboutmeVO = TextVO.create(aboutme, "aboutme");
-        const titleVO = TextVO.create(title, "title");
+        const aboutmeVO = TextVO.create("aboutme", aboutme);
+        const titleVO = TextVO.create("title", title);
         const skillsVO = skills.map((skill) => IdVO.create(skill));
         const categoryIdVO = IdVO.create(categoryId);
         const vendorIdVO = IdVO.create(vendorId);
