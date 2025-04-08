@@ -6,6 +6,7 @@ export class ProformaRequestsMapper {
     public static toPersistence(entity: ProformaRequest): Prisma.ProformaRequestCreateInput {
         return {
             id: entity.id.getValue(),
+            title: entity.title.getValue(),
             description: entity.description.getValue(),
             budget: entity.budget.getValue(),
             status: entity.status.getValue(),
@@ -18,6 +19,7 @@ export class ProformaRequestsMapper {
     public static toDomain(entity: PrismaProformaRequest): ProformaRequest {
         return ProformaRequest.reconstitute({
             id: IdVO.create(entity.id),
+            title: TextVO.create("title", entity.title),
             description: TextVO.create("description", entity.description),
             budget: PriceVO.create(entity.budget),
             status: StatusVO.fromPlainText(entity.status),
