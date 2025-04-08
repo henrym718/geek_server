@@ -4,20 +4,17 @@ export interface ReqGetProformaRequestsByClientIdDto {
 
 export interface ResGetProformaRequestsByClientIdDto {
     id: string;
+    title: string;
     description: string;
     budget: number;
     status: string;
     createdAt: Date | undefined;
-    skills: SKills[];
-    categoty: Category;
+    skills: {
+        id: string;
+        name: string;
+    }[];
+    categoty: {
+        id: string;
+        name: string;
+    };
 }
-
-type SKills = {
-    id: string;
-    name: string;
-};
-
-type Category = {
-    id: string;
-    name: string;
-};
