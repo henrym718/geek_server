@@ -7,6 +7,7 @@ export interface ResGetProformaRequestsByClientIdDto {
     title: string;
     description: string;
     budget: number;
+    scope: string;
     status: string;
     createdAt: Date | undefined;
     skills: {

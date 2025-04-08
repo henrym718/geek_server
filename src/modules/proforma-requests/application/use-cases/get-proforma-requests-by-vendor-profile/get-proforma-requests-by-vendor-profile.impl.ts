@@ -58,6 +58,7 @@ export class GetProformaRequestsByVendorProfileUseCase implements IGetProformaRe
         return request.map(({ proformaRequest, category, skills }) => ({
             id: proformaRequest.id.getValue(),
             title: proformaRequest.title.getValue(),
+            scope: proformaRequest.scope.getValue(),
             budget: proformaRequest.budget.getValue(),
             description: proformaRequest.description.getValue(),
             status: proformaRequest.status.getValue(),

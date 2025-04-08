@@ -23,10 +23,11 @@ export class CreateProformaRequestsUseCase implements ICreateProformaRequestsUse
     ) {}
 
     async execute(data: ReqCreateProformaRequestDto): Promise<ResCreateProformaRequestDto> {
-        const { clientId, categoryId, budget, description, skills, title } = data;
+        const { clientId, categoryId, budget, description, skills, title, scope } = data;
 
-        const proformaRequestTitle = TextVO.create("Title", title);
         const proformaRequestiD = IdVO.create(this.idService.generateUUID());
+        const proformaRequestTitle = TextVO.create("Title", title);
+        const proformaRequestScope = TextVO.create("Scope", scope);
         const proformaRequestBudget = PriceVO.create(budget);
         const proformaRequestDescription = TextVO.create("Deescption", description);
         const proformaRequestSttaus = StatusVO.fromEnum(StatusEnum.ACTIVE);
@@ -55,6 +56,7 @@ export class CreateProformaRequestsUseCase implements ICreateProformaRequestsUse
             categoryId: category_Id,
             skills: proformaRequestSkills,
             title: proformaRequestTitle,
+            scope: proformaRequestScope,
         });
 
         await this.proformaRequestsRepository.create(newProformaRequest);

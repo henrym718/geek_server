@@ -7,6 +7,7 @@ interface ProformaRequestProps {
     title: TextVO;
     description: TextVO;
     budget: PriceVO;
+    scope: TextVO;
     status: StatusVO;
     createdAt?: Date;
     updatedAt?: Date;
@@ -84,5 +85,9 @@ export class ProformaRequest {
 
     public get title(): TextVO {
         return this.props.title;
+    }
+
+    public get scope(): TextVO {
+        return this.props.scope;
     }
 }

@@ -22,6 +22,7 @@ export class GetProformaRequestByClientIdUseCase implements IGetProformaRequests
             id: proformaRequest.id.getValue(),
             title: proformaRequest.title.getValue(),
             budget: proformaRequest.budget.getValue(),
+            scope: proformaRequest.scope.getValue(),
             description: proformaRequest.description.getValue(),
             status: proformaRequest.status.getValue(),
             createdAt: proformaRequest.createdAt,
