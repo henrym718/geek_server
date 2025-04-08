@@ -17,11 +17,6 @@ export class TextVO {
         if (value.length < 2) {
             throw HttpException.badRequest(`${fieldName} is too short`);
         }
-
-        const invalidChars = /[^a-zA-ZñÑ\p{L}\s.,!?¿¡]/u;
-        if (invalidChars.test(value)) {
-            throw HttpException.badRequest(`${fieldName} contains invalid characters`);
-        }
     }
 
     public isEqual(other: TextVO): boolean {
