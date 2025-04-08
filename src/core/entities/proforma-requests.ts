@@ -4,6 +4,7 @@ import { StatusEnum } from "@Core/value-objects/status.vo";
 
 interface ProformaRequestProps {
     id: IdVO;
+    title: TextVO;
     description: TextVO;
     budget: PriceVO;
     status: StatusVO;
@@ -79,5 +80,9 @@ export class ProformaRequest {
 
     public get skills(): IdVO[] {
         return this.props.skills;
+    }
+
+    public get title(): TextVO {
+        return this.props.title;
     }
 }
