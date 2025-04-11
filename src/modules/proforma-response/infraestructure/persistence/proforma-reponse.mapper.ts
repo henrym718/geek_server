@@ -6,7 +6,7 @@ export class ProformaResponseMapper {
     public static toPersistence(entity: ProformaResponse): Prisma.ProformaResponseCreateInput {
         return {
             id: entity.id.getValue(),
-            budget: entity.budget.getValue(),
+            budget: entity.budget ? entity.budget.getValue() : undefined,
             message: entity.message.getValue(),
             status: entity.status.getValue(),
             vendorProfile: { connect: { id: entity.profileVendorId.getValue() } },
@@ -17,7 +17,7 @@ export class ProformaResponseMapper {
     public static toDomain(entity: PrismaProformaResponse): ProformaResponse {
         return ProformaResponse.reconstitute({
             id: IdVO.create(entity.id),
-            budget: PriceVO.create(entity.budget),
+            budget: entity.budget ? PriceVO.create(entity.budget) : undefined,
             message: TextVO.create("message", entity.message),
             status: StatusVO.fromPlainText(entity.status),
             createdAt: entity.createdAt,
