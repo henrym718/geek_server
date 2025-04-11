@@ -22,7 +22,7 @@ export class GetProformaResponsesByRequestIdUseCase implements IGetProformaRespo
     private proformaResponseMapper(data: ProformaResponseWithVendor[]): ResGetProformaResponsesByRequestIdDto[] {
         return data.map(({ proformaResponse, vendor, vendorProfile }) => ({
             id: proformaResponse.id.getValue(),
-            budget: proformaResponse.budget.getValue(),
+            budget: proformaResponse.budget ? proformaResponse.budget.getValue() : undefined,
             message: proformaResponse.message.getValue(),
             status: proformaResponse.status.getValue(),
             createdAt: proformaResponse.updatedAt,

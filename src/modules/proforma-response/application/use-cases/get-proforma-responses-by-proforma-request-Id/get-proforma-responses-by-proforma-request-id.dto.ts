@@ -4,7 +4,7 @@ export interface ReqGetProformaResponsesByRequestIdDto {
 
 export interface ResGetProformaResponsesByRequestIdDto {
     id: string;
-    budget: number;
+    budget: number | undefined;
     message: string;
     status: string;
     createdAt: Date | undefined;
