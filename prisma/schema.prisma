@@ -160,7 +160,7 @@ model ProformaRequest {
 
 model ProformaResponse {
   id                String          @id
-  budget            Float
+  budget            Float?
   message           String
   status            Status
   createdAt         DateTime        @default(now())
