@@ -1,5 +1,5 @@
 export interface ReqCreateProformaResponseDto {
-    budget: number;
+    budget: number | undefined;
     message: string;
     profileVendorId: string;
     proformaRequestId: string;

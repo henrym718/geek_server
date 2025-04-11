@@ -24,7 +24,7 @@ export class CreateProformaResponseUseCase implements ICreateProformaResponseUse
         const { vendorId, profileVendorId, proformaRequestId, budget, message } = data;
 
         const proformaResponseId = IdVO.create(this.idService.generateUUID());
-        const proformaResponseBudget = PriceVO.create(budget);
+        const proformaResponseBudget = budget ? PriceVO.create(budget) : undefined;
         const proformaResponseMessage = TextVO.create("message", message);
         const profileVendor_Id = IdVO.create(profileVendorId);
         const vendor_Id = IdVO.create(vendorId);
