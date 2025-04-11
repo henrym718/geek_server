@@ -11,6 +11,7 @@ export function configureProformaResponseRoutes(): Router {
 
     proformaResponseRoutes.post("/", authenticate, checkRoles(RoleEnum.VENDOR), proformaResponseController.create);
     proformaResponseRoutes.get("/:requestid", authenticate, checkRoles(RoleEnum.CLIENT), proformaResponseController.getAllByRequestId);
+    proformaResponseRoutes.get("/exists/:requestid/:profileid", proformaResponseController.checkProformaResponseExists);
     proformaResponseRoutes.put("/", authenticate, checkRoles(RoleEnum.CLIENT), proformaResponseController.updateStatusByClient);
 
     return proformaResponseRoutes;
