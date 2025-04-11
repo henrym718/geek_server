@@ -4,7 +4,7 @@ import { StatusEnum } from "@Core/value-objects/status.vo";
 
 interface ProformaResponseProps {
     id: IdVO;
-    budget: PriceVO;
+    budget?: PriceVO;
     message: TextVO;
     status: StatusVO;
     createdAt?: Date;
@@ -51,7 +51,7 @@ export class ProformaResponse {
         return this.props.message;
     }
 
-    public get budget(): PriceVO {
+    public get budget(): PriceVO | undefined {
         return this.props.budget;
     }
 
