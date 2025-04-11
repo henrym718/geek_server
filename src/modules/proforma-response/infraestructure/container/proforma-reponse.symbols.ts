@@ -3,4 +3,5 @@ export const PROFORMA_RES_SYMBOLS = {
     CreateProformaResponse: Symbol.for("CreateProformaResponse"),
     GetproformaResponsesByRequestId: Symbol.for("GetproformaResponsesByRequestId"),
     UpdateProformaResponseStatusByClient: Symbol.for("UpdateProformaResponseStatusByClient"),
+    CheckProformaResponseExists: Symbol.for("CheckProformaResponseExists"),
 };
