@@ -1,7 +1,7 @@
-export type CheckEmailRequest = {
-    email: string;
-};
+import { ExistsResponse } from "@Common/dtos/global.dtos";
 
-export type CheckEmailResponse = {
-    exists: boolean;
-};
+export interface CheckEmailRequest {
+    email: string;
+}
+
+export interface CheckEmailResponse extends ExistsResponse {}
