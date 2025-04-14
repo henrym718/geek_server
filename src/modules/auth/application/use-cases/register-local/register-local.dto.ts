@@ -1,3 +1,5 @@
+import { AccessToken } from "@Common/dtos/global.dtos";
+
 export interface RegisterLocalRequest {
     role: string;
     email: string;
@@ -11,5 +13,5 @@ export interface RegisterLocalRequest {
 }
 
 export interface RegisterLocalResponse {
-    accessToken: string;
+    accessToken: AccessToken;
 }
