@@ -7,7 +7,7 @@ import { IRegisterLocalUseCase } from "@Auth/application/use-cases/register-loca
 import { ILoginLocalUseCase } from "@Auth/application/use-cases/login-local/login-local.use-case";
 import { ReqLoginLocalDto } from "@Auth/application/use-cases/login-local/login-local.dto";
 import { IGetCurrentAccountUseCase } from "@Auth/application/use-cases/get-current-account/get-current-account.use-case";
-import { ReqGetCurrentAccountDTO } from "@Auth/application/use-cases/get-current-account/get-current-account.dto";
+import { GetCurrentAccountRequest } from "@Auth/application/use-cases/get-current-account/get-current-account.dto";
 import { CheckEmailRequest } from "@Auth/application/use-cases/check-email-exists/check-email-exists.dto";
 import { ICheckEmailExistsUseCase } from "@Auth/application/use-cases/check-email-exists/check-email-exists.use-case";
 import { CheckUsernameExistsRequest } from "@Auth/application/use-cases/check-username-exists/check-username-exists.dto";
@@ -66,7 +66,7 @@ export class AuthController {
 
     async getCurrentAccount(req: Request, res: Response, next: NextFunction) {
         try {
-            const email: ReqGetCurrentAccountDTO = { email: req.user?.email! };
+            const email: GetCurrentAccountRequest = { email: req.user?.email! };
             const response = await this.getCurrentAccountUseCase.execute(email);
             HttpResponse.success(res, response);
         } catch (error) {

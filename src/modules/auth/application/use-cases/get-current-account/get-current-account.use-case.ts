@@ -1,5 +1,5 @@
-import { ReqGetCurrentAccountDTO, ResGetCurrentAccountDTO } from "./get-current-account.dto";
+import { GetCurrentAccountRequest, GetCurrentAccountResponse } from "./get-current-account.dto";
 
 export interface IGetCurrentAccountUseCase {
-    execute(data: ReqGetCurrentAccountDTO): Promise<ResGetCurrentAccountDTO>;
+    execute(data: GetCurrentAccountRequest): Promise<GetCurrentAccountResponse>;
 }

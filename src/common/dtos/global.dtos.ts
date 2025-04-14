@@ -2,11 +2,11 @@ export interface User {
     id: string;
     username: string;
     email: string;
-    role: "client" | "vendor";
+    role: string;
     profileCompleted: boolean;
     isActive: boolean;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export interface Client {
@@ -42,7 +42,7 @@ export interface ProformaRequest {
     description: string;
     budget: number;
     scope: string;
-    status: "ACTIVE" | "CANCELED" | "FINISHED" | "ACCEPTED" | "REJECTED";
+    status: string;
     createdAt?: Date;
 }
 
@@ -50,7 +50,7 @@ export interface ProformaResponse {
     id: string;
     budget?: number;
     message: string;
-    status: "ACTIVE" | "CANCELED" | "FINISHED" | "ACCEPTED" | "REJECTED";
+    status: string;
     createdAt?: Date;
 }
 
@@ -72,4 +72,12 @@ export interface Group {
 export interface Suggestion {
     id: string;
     text: string;
+}
+
+export interface AccessToken {
+    accessToken: string;
+}
+
+export interface DetailsResponse {
+    details: string;
 }

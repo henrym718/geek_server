@@ -1,10 +1,10 @@
-import { ResGetCurrentAccountDTO } from "../get-current-account/get-current-account.dto";
+import { GetCurrentAccountResponse } from "../get-current-account/get-current-account.dto";
 import { User } from "@Core/entities/user";
 import { Client } from "@Core/entities/client";
 import { Vendor } from "@Core/entities/vendor";
 
 export function buildResGetCurrentAccount(user: User, client?: Client, vendor?: Vendor) {
-    const response: ResGetCurrentAccountDTO = {
+    const response: GetCurrentAccountResponse = {
         user: {
             id: user.id.getValue(),
             email: user.email.getValue(),
@@ -24,6 +24,7 @@ export function buildResGetCurrentAccount(user: User, client?: Client, vendor?: 
             lastName: client.lastName.getValue(),
             city: client.city.getValue(),
             photo: client.photo?.getValue(),
+            phone: client.phone.getValue(),
         };
     }
 
@@ -34,6 +35,7 @@ export function buildResGetCurrentAccount(user: User, client?: Client, vendor?: 
             lastName: vendor.lastName.getValue(),
             city: vendor.city.getValue(),
             photo: vendor.photo?.getValue(),
+            phone: vendor.phone.getValue(),
         };
     }
 
