@@ -12,6 +12,4 @@ export interface RegisterLocalRequest {
     username: string;
 }
 
-export interface RegisterLocalResponse {
-    accessToken: AccessToken;
-}
+export interface RegisterLocalResponse extends AccessToken {}

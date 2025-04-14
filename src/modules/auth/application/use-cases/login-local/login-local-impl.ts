@@ -40,6 +40,6 @@ export class LoginLocalUserCase implements ILoginLocalUseCase {
         const updatedUser = user.updateRefreshToken(TokenVO.create(refreshToken));
         await this.userRepository.update(updatedUser);
 
-        return { accessToken: { accessToken } };
+        return { accessToken };
     }
 }

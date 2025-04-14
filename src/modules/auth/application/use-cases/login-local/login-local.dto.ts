@@ -5,6 +5,4 @@ export interface ReqLoginLocalDto {
     password: string;
 }
 
-export interface ResLoginLocalDto {
-    accessToken: AccessToken;
-}
+export interface ResLoginLocalDto extends AccessToken {}

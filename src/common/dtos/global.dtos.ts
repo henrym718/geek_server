@@ -78,6 +78,6 @@ export interface AccessToken {
     accessToken: string;
 }
 
-export interface DetailsResponse {
-    details: string;
+export interface ExistsResponse {
+    exists: boolean;
 }

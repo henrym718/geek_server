@@ -56,6 +56,6 @@ export class RegisterUserUseCase implements IRegisterLocalUseCase {
             }
         });
 
-        return { accessToken: { accessToken } };
+        return { accessToken };
     }
 }
