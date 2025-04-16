@@ -2,7 +2,7 @@ import { IProformaRequestsRepository } from "@ProformaRequests/application/repos
 import { ReqCreateProformaRequestDto, ResCreateProformaRequestDto } from "./create-proforma-requests.dto";
 import { ICreateProformaRequestsUseCase } from "./create-proforma-requests.use-case";
 import { ProformaRequest } from "@Core/entities/proforma-requests";
-import { IdVO, PriceVO, StatusVO, TextVO } from "@Core/value-objects";
+import { BudgetUnitVO, IdVO, PriceVO, ProjectLengthVO, ProjectTypeVO, ProjectWorkloadVO, StatusVO, TextVO } from "@Core/value-objects";
 import { IUUIDService } from "@Shared/services/uuid/uuid.service";
 import { StatusEnum } from "@Core/value-objects/status.vo";
 import { inject, injectable } from "inversify";
@@ -23,12 +23,30 @@ export class CreateProformaRequestsUseCase implements ICreateProformaRequestsUse
     ) {}
 
     async execute(data: ReqCreateProformaRequestDto): Promise<ResCreateProformaRequestDto> {
-        const { clientId, categoryId, budget, description, skills, title, scope } = data;
+        const {
+            clientId,
+            categoryId,
+            budget,
+            description,
+            skills,
+            title,
+            scope,
+            budgetUnit,
+            projectLength,
+            projectType,
+            projectWorkload,
+            quotation,
+        } = data;
 
         const proformaRequestiD = IdVO.create(this.idService.generateUUID());
         const proformaRequestTitle = TextVO.create("Title", title);
         const proformaRequestScope = TextVO.create("Scope", scope);
         const proformaRequestBudget = PriceVO.create(budget);
+        const proformaRequestBudgetUnit = BudgetUnitVO.fromPlainText(budgetUnit);
+        const proformaRequestQuotation = quotation;
+        const proformaRequestProjectType = ProjectTypeVO.fromPlainText(projectType);
+        const proformaRequestProjectLength = ProjectLengthVO.fromPlainText(projectLength);
+        const proformaRequestProjectWorkload = ProjectWorkloadVO.fromPlainText(projectWorkload);
         const proformaRequestDescription = TextVO.create("Deescption", description);
         const proformaRequestSttaus = StatusVO.fromEnum(StatusEnum.ACTIVE);
         const proformaRequestSkills = skills.map((skill) => IdVO.create(skill));
@@ -57,6 +75,11 @@ export class CreateProformaRequestsUseCase implements ICreateProformaRequestsUse
             skills: proformaRequestSkills,
             title: proformaRequestTitle,
             scope: proformaRequestScope,
+            budgetUnit: proformaRequestBudgetUnit,
+            quotation: proformaRequestQuotation,
+            projectType: proformaRequestProjectType,
+            projectLength: proformaRequestProjectLength,
+            projectWorkload: proformaRequestProjectWorkload,
         });
 
         await this.proformaRequestsRepository.create(newProformaRequest);
