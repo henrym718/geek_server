@@ -11,3 +11,7 @@ export { TextVO } from "./text.vo";
 export { UrlVO } from "./url.vo";
 export { PriceVO } from "./price.vo";
 export { StatusVO } from "./status.vo";
+export { BudgetUnitVO } from "./buget-unit.vo";
+export { ProjectLengthVO } from "./project-length.vo";
+export { ProjectTypeVO } from "./project-type.vo";
+export { ProjectWorkloadVO } from "./project-work-load.vo";
