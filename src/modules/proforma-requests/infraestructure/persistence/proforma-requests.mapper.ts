@@ -1,5 +1,5 @@
 import { ProformaRequest } from "@Core/entities/proforma-requests";
-import { IdVO, PriceVO, StatusVO, TextVO } from "@Core/value-objects";
+import { BudgetUnitVO, IdVO, PriceVO, ProjectLengthVO, ProjectTypeVO, ProjectWorkloadVO, StatusVO, TextVO } from "@Core/value-objects";
 import { Prisma, ProformaRequest as PrismaProformaRequest } from "@prisma/client";
 
 export class ProformaRequestsMapper {
@@ -9,7 +9,12 @@ export class ProformaRequestsMapper {
             title: entity.title.getValue(),
             description: entity.description.getValue(),
             budget: entity.budget.getValue(),
+            budgetUnit: entity.budgetUnit.getValue(),
+            quotation: entity.quotation,
             scope: entity.scope.getValue(),
+            projectType: entity.projectType.getValue(),
+            projectLength: entity.projectLength.getValue(),
+            projectWorkload: entity.projectWorkload.getValue(),
             status: entity.status.getValue(),
             category: { connect: { id: entity.categoryId.getValue() } },
             client: { connect: { id: entity.clientId.getValue() } },
@@ -23,7 +28,12 @@ export class ProformaRequestsMapper {
             title: TextVO.create("title", entity.title),
             description: TextVO.create("description", entity.description),
             budget: PriceVO.create(entity.budget),
+            budgetUnit: BudgetUnitVO.fromPlainText(entity.budgetUnit),
+            quotation: entity.quotation,
             scope: TextVO.create("scope", entity.scope),
+            projectType: ProjectTypeVO.fromPlainText(entity.projectType),
+            projectLength: ProjectLengthVO.fromPlainText(entity.projectLength),
+            projectWorkload: ProjectWorkloadVO.fromPlainText(entity.projectWorkload),
             status: StatusVO.fromPlainText(entity.status),
             categoryId: IdVO.create(entity.categoryId),
             clientId: IdVO.create(entity.clientId),
