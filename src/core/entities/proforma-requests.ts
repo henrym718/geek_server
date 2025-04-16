@@ -1,5 +1,5 @@
 import { HttpException } from "@Common/exceptions/http.exception";
-import { IdVO, PriceVO, StatusVO, TextVO } from "@Core/value-objects";
+import { BudgetUnitVO, IdVO, PriceVO, ProjectLengthVO, ProjectTypeVO, ProjectWorkloadVO, StatusVO, TextVO } from "@Core/value-objects";
 import { StatusEnum } from "@Core/value-objects/status.vo";
 
 interface ProformaRequestProps {
@@ -7,7 +7,12 @@ interface ProformaRequestProps {
     title: TextVO;
     description: TextVO;
     budget: PriceVO;
+    budgetUnit: BudgetUnitVO;
+    quotation: boolean;
     scope: TextVO;
+    projectType: ProjectTypeVO;
+    projectLength: ProjectLengthVO;
+    projectWorkload: ProjectWorkloadVO;
     status: StatusVO;
     createdAt?: Date;
     updatedAt?: Date;
@@ -89,5 +94,25 @@ export class ProformaRequest {
 
     public get scope(): TextVO {
         return this.props.scope;
+    }
+
+    public get projectType(): ProjectTypeVO {
+        return this.props.projectType;
+    }
+
+    public get projectLength(): ProjectLengthVO {
+        return this.props.projectLength;
+    }
+
+    public get projectWorkload(): ProjectWorkloadVO {
+        return this.props.projectWorkload;
+    }
+
+    public get quotation(): boolean {
+        return this.props.quotation;
+    }
+
+    public get budgetUnit(): BudgetUnitVO {
+        return this.props.budgetUnit;
     }
 }
