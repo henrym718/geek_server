@@ -1,12 +1,12 @@
 import { HttpException } from "@Common/exceptions/http.exception";
-import { IdVO, PriceVO, StatusVO, TextVO } from "@Core/value-objects";
-import { StatusEnum } from "@Core/value-objects/status.vo";
+import { IdVO, PriceVO, StatusResponseVO, TextVO } from "@Core/value-objects";
+import { StatusResponseEnum } from "@Core/value-objects/status-response.vo";
 
 interface ProformaResponseProps {
     id: IdVO;
     budget?: PriceVO;
     message: TextVO;
-    status: StatusVO;
+    status: StatusResponseVO;
     createdAt?: Date;
     updatedAt?: Date;
     proformaRequestId: IdVO;
@@ -24,22 +24,22 @@ export class ProformaResponse {
     }
 
     public accepted(): ProformaResponse {
-        if (this.props.status.equals(StatusVO.fromEnum(StatusEnum.ACCEPTED))) {
+        if (this.props.status.equals(StatusResponseVO.fromEnum(StatusResponseEnum.ACCEPTED))) {
             throw HttpException.forbidden("La ProformaResponse ya está aceptada.");
         }
         return new ProformaResponse({
             ...this.props,
-            status: StatusVO.fromEnum(StatusEnum.ACCEPTED),
+            status: StatusResponseVO.fromEnum(StatusResponseEnum.ACCEPTED),
         });
     }
 
     public rejected(): ProformaResponse {
-        if (this.props.status.equals(StatusVO.fromEnum(StatusEnum.REJECTED))) {
+        if (this.props.status.equals(StatusResponseVO.fromEnum(StatusResponseEnum.REJECTED))) {
             throw HttpException.forbidden("La ProformaRequest ya está rechazada.");
         }
         return new ProformaResponse({
             ...this.props,
-            status: StatusVO.fromEnum(StatusEnum.REJECTED),
+            status: StatusResponseVO.fromEnum(StatusResponseEnum.REJECTED),
         });
     }
 
@@ -55,7 +55,7 @@ export class ProformaResponse {
         return this.props.budget;
     }
 
-    public get status(): StatusVO {
+    public get status(): StatusResponseVO {
         return this.props.status;
     }
 

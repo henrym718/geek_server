@@ -1,4 +1,3 @@
-export { StatusEnum } from "./status.vo";
 export { RoleEnum } from "./role.vo";
 export { ProviderEnum } from "./provider.vo";
 export { IdVO } from "./id.vo";
@@ -10,7 +9,8 @@ export { TokenVO } from "./token.dto";
 export { TextVO } from "./text.vo";
 export { UrlVO } from "./url.vo";
 export { PriceVO } from "./price.vo";
-export { StatusVO } from "./status.vo";
+export { StatusRequestVO } from "./status-request.vo";
+export { StatusResponseVO } from "./status-response.vo";
 export { BudgetUnitVO } from "./buget-unit.vo";
 export { ProjectLengthVO } from "./project-length.vo";
 export { ProjectTypeVO } from "./project-type.vo";

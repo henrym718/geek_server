@@ -5,8 +5,8 @@ import { ICreateProformaResponseUseCase } from "./create-proforma-response.use-c
 import { ProformaResponse } from "@Core/entities/proforma-response";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 import { IUUIDService } from "@Shared/services/uuid/uuid.service";
-import { IdVO, PriceVO, StatusVO, TextVO } from "@Core/value-objects";
-import { StatusEnum } from "@Core/value-objects/status.vo";
+import { IdVO, PriceVO, StatusResponseVO, TextVO } from "@Core/value-objects";
+import { StatusResponseEnum } from "@Core/value-objects/status-response.vo";
 import { IProformaRequestsRepository } from "@ProformaRequests/application/repositories/proforma-requests.repository";
 import { HttpException } from "@Common/exceptions/http.exception";
 import { IVendorProfilesRepository } from "@VendorProfile/aplication/repositories/vendor-profile.repository";
@@ -47,7 +47,7 @@ export class CreateProformaResponseUseCase implements ICreateProformaResponseUse
             message: proformaResponseMessage,
             profileVendorId: profileVendor_Id,
             proformaRequestId: proformaRequest_Id,
-            status: StatusVO.fromEnum(StatusEnum.ACTIVE),
+            status: StatusResponseVO.fromEnum(StatusResponseEnum.PENDING),
         });
 
         await this.proformaResponseRepository.create(newProformaResponse);

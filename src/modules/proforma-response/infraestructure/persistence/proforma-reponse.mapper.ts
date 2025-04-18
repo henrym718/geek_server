@@ -1,5 +1,5 @@
 import { ProformaResponse } from "@Core/entities/proforma-response";
-import { IdVO, PriceVO, StatusVO, TextVO } from "@Core/value-objects";
+import { IdVO, PriceVO, StatusResponseVO, TextVO } from "@Core/value-objects";
 import { Prisma, ProformaResponse as PrismaProformaResponse } from "@prisma/client";
 
 export class ProformaResponseMapper {
@@ -19,7 +19,7 @@ export class ProformaResponseMapper {
             id: IdVO.create(entity.id),
             budget: entity.budget ? PriceVO.create(entity.budget) : undefined,
             message: TextVO.create("message", entity.message),
-            status: StatusVO.fromPlainText(entity.status),
+            status: StatusResponseVO.fromPlainText(entity.status),
             createdAt: entity.createdAt,
             updatedAt: entity.updatedAt,
             profileVendorId: IdVO.create(entity.profileVendorId),

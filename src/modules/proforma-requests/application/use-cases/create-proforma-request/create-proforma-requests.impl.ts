@@ -2,9 +2,9 @@ import { IProformaRequestsRepository } from "@ProformaRequests/application/repos
 import { ReqCreateProformaRequestDto, ResCreateProformaRequestDto } from "./create-proforma-requests.dto";
 import { ICreateProformaRequestsUseCase } from "./create-proforma-requests.use-case";
 import { ProformaRequest } from "@Core/entities/proforma-requests";
-import { BudgetUnitVO, IdVO, PriceVO, ProjectLengthVO, ProjectTypeVO, ProjectWorkloadVO, StatusVO, TextVO } from "@Core/value-objects";
+import { BudgetUnitVO, IdVO, PriceVO, ProjectLengthVO, ProjectTypeVO, ProjectWorkloadVO, StatusRequestVO, TextVO } from "@Core/value-objects";
 import { IUUIDService } from "@Shared/services/uuid/uuid.service";
-import { StatusEnum } from "@Core/value-objects/status.vo";
+import { StatusRequestEnum } from "@Core/value-objects/status-request.vo";
 import { inject, injectable } from "inversify";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 import { ICategoryRepository } from "@Category/application/repositories/category.repository";
@@ -40,15 +40,15 @@ export class CreateProformaRequestsUseCase implements ICreateProformaRequestsUse
 
         const proformaRequestiD = IdVO.create(this.idService.generateUUID());
         const proformaRequestTitle = TextVO.create("Title", title);
-        const proformaRequestScope = TextVO.create("Scope", scope);
-        const proformaRequestBudget = PriceVO.create(budget);
-        const proformaRequestBudgetUnit = BudgetUnitVO.fromPlainText(budgetUnit);
+        const proformaRequestScope = IdVO.create(scope);
+        const proformaRequestBudget = budget ? PriceVO.create(budget) : undefined;
+        const proformaRequestBudgetUnit = budgetUnit ? BudgetUnitVO.fromPlainText(budgetUnit) : undefined;
         const proformaRequestQuotation = quotation;
         const proformaRequestProjectType = ProjectTypeVO.fromPlainText(projectType);
         const proformaRequestProjectLength = ProjectLengthVO.fromPlainText(projectLength);
         const proformaRequestProjectWorkload = ProjectWorkloadVO.fromPlainText(projectWorkload);
         const proformaRequestDescription = TextVO.create("Deescption", description);
-        const proformaRequestSttaus = StatusVO.fromEnum(StatusEnum.ACTIVE);
+        const proformaRequestSttaus = StatusRequestVO.fromEnum(StatusRequestEnum.ACTIVE);
         const proformaRequestSkills = skills.map((skill) => IdVO.create(skill));
         const client_Id = IdVO.create(clientId);
         const category_Id = IdVO.create(categoryId);

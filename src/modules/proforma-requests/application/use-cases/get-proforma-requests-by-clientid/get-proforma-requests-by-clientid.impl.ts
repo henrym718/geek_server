@@ -21,7 +21,8 @@ export class GetProformaRequestByClientIdUseCase implements IGetProformaRequests
         return proformaRequests.map(({ proformaRequest, skills, category }) => ({
             id: proformaRequest.id.getValue(),
             title: proformaRequest.title.getValue(),
-            budget: proformaRequest.budget.getValue(),
+            budget: proformaRequest.budget?.getValue() ?? 0,
+            quotation: proformaRequest.quotation ?? false,
             scope: proformaRequest.scope.getValue(),
             description: proformaRequest.description.getValue(),
             status: proformaRequest.status.getValue(),

@@ -25,10 +25,15 @@ enum BudgetUnit {
   MONTH
 }
 
-enum Status {
+enum StatusRequest {
   ACTIVE
   CANCELED
   FINISHED
+  MATCHED
+}
+
+enum StatusResponse {
+  PENDING
   ACCEPTED
   REJECTED
 }
@@ -177,14 +182,14 @@ model ProformaRequest {
   id                String             @id
   title             String
   description       String
-  budget            Float
-  budgetUnit        BudgetUnit
-  quotation         Boolean
+  budget            Float?
+  budgetUnit        BudgetUnit?
+  quotation         Boolean?
   scope             String
   projectType       ProjectType
   projectLength     ProjectLength
   projectWorkload   ProjectWorkload
-  status            Status
+  status            StatusRequest
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
   client            Client             @relation(fields: [clientId], references: [id])
@@ -201,7 +206,7 @@ model ProformaResponse {
   id                String          @id
   budget            Float?
   message           String
-  status            Status
+  status            StatusResponse
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
   proformaRequest   ProformaRequest @relation(fields: [proformaRequestId], references: [id])

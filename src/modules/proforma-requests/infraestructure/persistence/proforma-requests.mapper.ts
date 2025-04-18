@@ -1,5 +1,5 @@
 import { ProformaRequest } from "@Core/entities/proforma-requests";
-import { BudgetUnitVO, IdVO, PriceVO, ProjectLengthVO, ProjectTypeVO, ProjectWorkloadVO, StatusVO, TextVO } from "@Core/value-objects";
+import { BudgetUnitVO, IdVO, PriceVO, ProjectLengthVO, ProjectTypeVO, ProjectWorkloadVO, StatusRequestVO, TextVO } from "@Core/value-objects";
 import { Prisma, ProformaRequest as PrismaProformaRequest } from "@prisma/client";
 
 export class ProformaRequestsMapper {
@@ -8,8 +8,8 @@ export class ProformaRequestsMapper {
             id: entity.id.getValue(),
             title: entity.title.getValue(),
             description: entity.description.getValue(),
-            budget: entity.budget.getValue(),
-            budgetUnit: entity.budgetUnit.getValue(),
+            budget: entity.budget?.getValue(),
+            budgetUnit: entity.budgetUnit?.getValue(),
             quotation: entity.quotation,
             scope: entity.scope.getValue(),
             projectType: entity.projectType.getValue(),
@@ -27,14 +27,14 @@ export class ProformaRequestsMapper {
             id: IdVO.create(entity.id),
             title: TextVO.create("title", entity.title),
             description: TextVO.create("description", entity.description),
-            budget: PriceVO.create(entity.budget),
-            budgetUnit: BudgetUnitVO.fromPlainText(entity.budgetUnit),
-            quotation: entity.quotation,
-            scope: TextVO.create("scope", entity.scope),
+            budget: entity.budget ? PriceVO.create(entity.budget) : undefined,
+            budgetUnit: entity.budgetUnit ? BudgetUnitVO.fromPlainText(entity.budgetUnit) : undefined,
+            quotation: entity.quotation ?? undefined,
+            scope: IdVO.create(entity.scope),
             projectType: ProjectTypeVO.fromPlainText(entity.projectType),
             projectLength: ProjectLengthVO.fromPlainText(entity.projectLength),
             projectWorkload: ProjectWorkloadVO.fromPlainText(entity.projectWorkload),
-            status: StatusVO.fromPlainText(entity.status),
+            status: StatusRequestVO.fromPlainText(entity.status),
             categoryId: IdVO.create(entity.categoryId),
             clientId: IdVO.create(entity.clientId),
             skills: [],

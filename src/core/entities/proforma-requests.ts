@@ -1,19 +1,19 @@
 import { HttpException } from "@Common/exceptions/http.exception";
-import { BudgetUnitVO, IdVO, PriceVO, ProjectLengthVO, ProjectTypeVO, ProjectWorkloadVO, StatusVO, TextVO } from "@Core/value-objects";
-import { StatusEnum } from "@Core/value-objects/status.vo";
+import { BudgetUnitVO, IdVO, PriceVO, ProjectLengthVO, ProjectTypeVO, ProjectWorkloadVO, StatusRequestVO, TextVO } from "@Core/value-objects";
+import { StatusRequestEnum } from "@Core/value-objects/status-request.vo";
 
 interface ProformaRequestProps {
     id: IdVO;
     title: TextVO;
     description: TextVO;
-    budget: PriceVO;
-    budgetUnit: BudgetUnitVO;
-    quotation: boolean;
-    scope: TextVO;
+    budget?: PriceVO;
+    budgetUnit?: BudgetUnitVO;
+    quotation?: boolean;
+    scope: IdVO;
     projectType: ProjectTypeVO;
     projectLength: ProjectLengthVO;
     projectWorkload: ProjectWorkloadVO;
-    status: StatusVO;
+    status: StatusRequestVO;
     createdAt?: Date;
     updatedAt?: Date;
     clientId: IdVO;
@@ -33,22 +33,22 @@ export class ProformaRequest {
     }
 
     public canceled(): ProformaRequest {
-        if (this.props.status.equals(StatusVO.fromEnum(StatusEnum.CANCELED))) {
+        if (this.props.status.equals(StatusRequestVO.fromEnum(StatusRequestEnum.CANCELED))) {
             throw HttpException.forbidden("La ProformaRequest ya está cancelada.");
         }
         return new ProformaRequest({
             ...this.props,
-            status: StatusVO.fromEnum(StatusEnum.CANCELED),
+            status: StatusRequestVO.fromEnum(StatusRequestEnum.CANCELED),
         });
     }
 
     public finished(): ProformaRequest {
-        if (this.props.status.equals(StatusVO.fromEnum(StatusEnum.FINISHED))) {
+        if (this.props.status.equals(StatusRequestVO.fromEnum(StatusRequestEnum.FINISHED))) {
             throw HttpException.forbidden("La ProformaRequest ya está finalizada.");
         }
         return new ProformaRequest({
             ...this.props,
-            status: StatusVO.fromEnum(StatusEnum.FINISHED),
+            status: StatusRequestVO.fromEnum(StatusRequestEnum.FINISHED),
         });
     }
 
@@ -60,11 +60,11 @@ export class ProformaRequest {
         return this.props.description;
     }
 
-    public get budget(): PriceVO {
+    public get budget(): PriceVO | undefined {
         return this.props.budget;
     }
 
-    public get status(): StatusVO {
+    public get status(): StatusRequestVO {
         return this.props.status;
     }
 
@@ -92,7 +92,7 @@ export class ProformaRequest {
         return this.props.title;
     }
 
-    public get scope(): TextVO {
+    public get scope(): IdVO {
         return this.props.scope;
     }
 
@@ -108,11 +108,11 @@ export class ProformaRequest {
         return this.props.projectWorkload;
     }
 
-    public get quotation(): boolean {
+    public get quotation(): boolean | undefined {
         return this.props.quotation;
     }
 
-    public get budgetUnit(): BudgetUnitVO {
+    public get budgetUnit(): BudgetUnitVO | undefined {
         return this.props.budgetUnit;
     }
 }

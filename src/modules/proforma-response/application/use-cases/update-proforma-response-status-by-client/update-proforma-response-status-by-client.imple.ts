@@ -3,10 +3,11 @@ import { UpdateStatusByClientRequest, UpdateStatusByClientResponse } from "./upd
 import { IUpdateProformaResponseStatusByClientUseCase } from "./update-proforma-response-status-by-client.use-case";
 import { IProformaResponseRepository } from "../../repositories/proforma-response.repository";
 import { IProformaRequestsRepository } from "@ProformaRequests/application/repositories/proforma-requests.repository";
-import { IdVO, StatusVO } from "@Core/value-objects";
+import { IdVO, StatusResponseVO } from "@Core/value-objects";
 import { HttpException } from "@Common/exceptions/http.exception";
-import { StatusEnum } from "@Core/value-objects/status.vo";
+import { StatusResponseEnum } from "@Core/value-objects/status-response.vo";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
+import { StatusRequestEnum } from "@Core/value-objects/status-request.vo";
 
 @injectable()
 export class UpdateProformaResponseStatusByClientUseCase implements IUpdateProformaResponseStatusByClientUseCase {
@@ -21,7 +22,7 @@ export class UpdateProformaResponseStatusByClientUseCase implements IUpdateProfo
         const proformaRequestId = IdVO.create(data.proformaRequestId);
         const proformaResponseId = IdVO.create(data.proformaResponseId);
         const clientId = IdVO.create(data.clientId);
-        const status = StatusVO.fromPlainText(data.newStatus);
+        const status = StatusResponseVO.fromPlainText(data.newStatus);
 
         const [request, response] = await Promise.all([
             await this.proformaRequestRepository.findById(proformaRequestId.getValue()),
@@ -30,20 +31,20 @@ export class UpdateProformaResponseStatusByClientUseCase implements IUpdateProfo
 
         if (!request) throw HttpException.notFound("ProformaRquest no encontrada");
         if (!request.clientId.equals(clientId)) throw HttpException.notFound("request no pertenece al cliente");
-        if (request.status.getValue() !== StatusEnum.ACTIVE) throw HttpException.notFound("ProformaRequest is not active");
+        if (request.status.getValue() !== StatusRequestEnum.ACTIVE) throw HttpException.notFound("ProformaRequest is not active");
         if (!response) throw HttpException.notFound("ProformaResponse no encontrada");
         if (!response.proformaRequestId.equals(proformaRequestId)) throw HttpException.notFound("ProformaResponse no pertenece a la ProformaRequest");
 
-        if (status.getValue() === StatusEnum.REJECTED) {
+        if (status.getValue() === StatusResponseEnum.REJECTED) {
             const updatedResponse = response.rejected();
             await this.proformaResponseRepository.update(updatedResponse);
         }
 
-        if (status.getValue() === StatusEnum.ACCEPTED) {
+        if (status.getValue() === StatusResponseEnum.ACCEPTED) {
             const updatedResponse = response.accepted();
             await this.proformaResponseRepository.update(updatedResponse);
             const otherResponses = (await this.proformaResponseRepository.findAllByRequestId(proformaRequestId.getValue())).filter(
-                (res) => !res.proformaResponse.id.equals(proformaResponseId) && res.proformaResponse.status.getValue() !== StatusEnum.REJECTED
+                (res) => !res.proformaResponse.id.equals(proformaResponseId) && res.proformaResponse.status.getValue() !== StatusResponseEnum.REJECTED
             );
             await this.proformaResponseRepository.updateMany(otherResponses.map((res) => res.proformaResponse.rejected()));
             const updatedRequest = request.finished();
