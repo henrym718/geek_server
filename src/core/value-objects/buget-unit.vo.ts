@@ -12,7 +12,7 @@ export class BudgetUnitVO {
     private constructor(private readonly value: BudgetUnitEnum) {}
 
     public static fromPlainText(value: string): BudgetUnitVO {
-        const normalized = value.toUpperCase();
+        const normalized = value?.toUpperCase();
         const enumValue = BudgetUnitEnum[normalized as keyof typeof BudgetUnitEnum];
         if (!enumValue) {
             throw HttpException.badRequest(`Invalid budget unit: ${value}`);
