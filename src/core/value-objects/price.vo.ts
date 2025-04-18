@@ -9,7 +9,7 @@ export class PriceVO {
     }
 
     private static validate(number: number) {
-        if (!isFinite(number) || number <= 0) {
+        if (!isFinite(number) || number < 0) {
             throw HttpException.badRequest("Invalid price: must be a finite number greater than 0");
         }
     }
