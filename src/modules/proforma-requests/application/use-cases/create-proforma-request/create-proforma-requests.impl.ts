@@ -80,6 +80,7 @@ export class CreateProformaRequestsUseCase implements ICreateProformaRequestsUse
             projectType: proformaRequestProjectType,
             projectLength: proformaRequestProjectLength,
             projectWorkload: proformaRequestProjectWorkload,
+            countResponses: 0,
         });
 
         await this.proformaRequestsRepository.create(newProformaRequest);
