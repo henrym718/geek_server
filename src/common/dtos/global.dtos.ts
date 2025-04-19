@@ -40,8 +40,13 @@ export interface ProformaRequest {
     id: string;
     title: string;
     description: string;
-    budget: number;
+    budget?: number;
+    budgetUnit?: string;
+    quotation?: boolean;
     scope: string;
+    projectType: string;
+    projectLength: string;
+    projectWorkload: string;
     status: string;
     createdAt?: Date;
 }
