@@ -190,6 +190,7 @@ model ProformaRequest {
   projectLength     ProjectLength
   projectWorkload   ProjectWorkload
   status            StatusRequest
+  countResponses    Int                @default(0)
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
   client            Client             @relation(fields: [clientId], references: [id])

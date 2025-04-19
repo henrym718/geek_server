@@ -47,6 +47,7 @@ export interface ProformaRequest {
     projectType: string;
     projectLength: string;
     projectWorkload: string;
+    countResponses: number;
     status: string;
     createdAt?: Date;
 }
