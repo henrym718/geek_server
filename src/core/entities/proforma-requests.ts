@@ -32,13 +32,13 @@ export class ProformaRequest {
         return new ProformaRequest(props);
     }
 
-    public canceled(): ProformaRequest {
-        if (this.props.status.equals(StatusRequestVO.fromEnum(StatusRequestEnum.CANCELED))) {
+    public annulled(): ProformaRequest {
+        if (this.props.status.equals(StatusRequestVO.fromEnum(StatusRequestEnum.ANNULLED))) {
             throw HttpException.forbidden("La ProformaRequest ya está cancelada.");
         }
         return new ProformaRequest({
             ...this.props,
-            status: StatusRequestVO.fromEnum(StatusRequestEnum.CANCELED),
+            status: StatusRequestVO.fromEnum(StatusRequestEnum.ANNULLED),
         });
     }
 
