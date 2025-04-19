@@ -16,6 +16,7 @@ interface ProformaRequestProps {
     status: StatusRequestVO;
     createdAt?: Date;
     updatedAt?: Date;
+    countResponses: number;
     clientId: IdVO;
     categoryId: IdVO;
     skills: IdVO[];
@@ -49,6 +50,13 @@ export class ProformaRequest {
         return new ProformaRequest({
             ...this.props,
             status: StatusRequestVO.fromEnum(StatusRequestEnum.FINISHED),
+        });
+    }
+
+    public incrementCountResponses(): ProformaRequest {
+        return new ProformaRequest({
+            ...this.props,
+            countResponses: this.props.countResponses + 1,
         });
     }
 
@@ -114,5 +122,9 @@ export class ProformaRequest {
 
     public get budgetUnit(): BudgetUnitVO | undefined {
         return this.props.budgetUnit;
+    }
+
+    public get countResponses(): number {
+        return this.props.countResponses;
     }
 }

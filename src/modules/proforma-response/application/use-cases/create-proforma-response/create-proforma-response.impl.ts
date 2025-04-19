@@ -51,6 +51,7 @@ export class CreateProformaResponseUseCase implements ICreateProformaResponseUse
         });
 
         await this.proformaResponseRepository.create(newProformaResponse);
+        await this.proformaRequestsRepository.update(proformaRequestFound.incrementCountResponses());
 
         return { details: "Proforma Response Created" };
     }
