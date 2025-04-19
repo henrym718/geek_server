@@ -4,6 +4,7 @@ import { IProformaRequestsRepository, ProformaRequestWithRelations } from "@Prof
 import { ProformaRequestsMapper } from "./proforma-requests.mapper";
 import { SkillMapper } from "@Skill/infraestructure/persistence/skill.mapper";
 import { CategoryMapper } from "@Category/infraestructure/persistence/category.mapper";
+import { StatusRequestEnum, StatusRequestVO } from "@Core/value-objects/status-request.vo";
 
 export class ProformaRequestsPrismaRepository implements IProformaRequestsRepository {
     private get db() {
@@ -37,7 +38,6 @@ export class ProformaRequestsPrismaRepository implements IProformaRequestsReposi
                 AND: [
                     { categoryId },
                     { status: "ACTIVE" },
-
                     {
                         skills: { some: { id: { in: skillIds } } },
                     },
@@ -57,9 +57,9 @@ export class ProformaRequestsPrismaRepository implements IProformaRequestsReposi
         throw new Error("Method not implemented.");
     }
 
-    async findAllByClientId(clientId: string): Promise<ProformaRequestWithRelations[]> {
+    async findAllByClientId(clientId: string, status: StatusRequestVO): Promise<ProformaRequestWithRelations[]> {
         const proformaRequests = await this.db.proformaRequest.findMany({
-            where: { clientId },
+            where: { AND: [{ clientId }, { status: status.getValue() }] },
             include: { skills: true, category: true },
         });
         return proformaRequests.map((item) => ({
