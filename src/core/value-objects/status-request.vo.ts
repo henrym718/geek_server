@@ -2,7 +2,7 @@ import { HttpException } from "@Common/exceptions/http.exception";
 
 export enum StatusRequestEnum {
     ACTIVE = "ACTIVE",
-    CANCELED = "CANCELED",
+    ANNULLED = "ANNULLED",
     FINISHED = "FINISHED",
     MATCHED = "MATCHED",
 }

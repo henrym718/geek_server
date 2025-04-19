@@ -27,7 +27,7 @@ enum BudgetUnit {
 
 enum StatusRequest {
   ACTIVE
-  CANCELED
+  ANNULLED
   FINISHED
   MATCHED
 }
