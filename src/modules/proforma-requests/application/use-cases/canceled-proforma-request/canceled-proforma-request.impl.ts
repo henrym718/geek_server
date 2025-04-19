@@ -48,7 +48,7 @@ export class CanceledProformaRequestUseCase implements ICanceledProformaRequestU
         }
 
         // Marca la solicitud como cancelada
-        proformaRequest.canceled();
+        proformaRequest.annulled();
 
         // Rechaza todas las respuestas asociadas a la solicitud
         const responses = await this.proformaResponseRepository.findAllByRequestId(requestId.getValue());

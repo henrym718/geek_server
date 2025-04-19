@@ -3,7 +3,7 @@ import { ReqCanceledProformaRequest } from "@ProformaRequests/application/use-ca
 import { ICanceledProformaRequestUseCase } from "@ProformaRequests/application/use-cases/canceled-proforma-request/canceled-proforma-request.use-case";
 import { ReqCreateProformaRequestDto } from "@ProformaRequests/application/use-cases/create-proforma-request/create-proforma-requests.dto";
 import { ICreateProformaRequestsUseCase } from "@ProformaRequests/application/use-cases/create-proforma-request/create-proforma-requests.use-case";
-import { ReqGetProformaRequestsByClientIdDto } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-clientid/get-proforma-requests-by-clientid.dto";
+import { GetProformaRequestsByClientIdRequest } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-clientid/get-proforma-requests-by-clientid.dto";
 import { IGetProformaRequestsByClientUseCase } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-clientid/get-proforma-requests-by-clientid.use-case";
 import { GetByVendorProfilerRequest } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-vendor-profile/get-proforma-requests-by-vendor-profile.dto";
 import { IGetProformaRequestsByVendorProfileUseCase } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-vendor-profile/get-proforma-requests-by-vendor-profile.use-case";
@@ -44,7 +44,7 @@ export class ProformaRequestsController {
 
     async getAllByClient(req: Request, res: Response, next: NextFunction) {
         try {
-            const data: ReqGetProformaRequestsByClientIdDto = { clientId: req.user?.userId! };
+            const data: GetProformaRequestsByClientIdRequest = { clientId: req.user?.userId!, status: req.query.search as string };
             const proforomarequestList = await this.getProformaRequestsByClientUseCase.execute(data);
             HttpResponse.success(res, proforomarequestList);
         } catch (error) {
