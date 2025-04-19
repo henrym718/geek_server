@@ -4,7 +4,7 @@ import { IProformaRequestsRepository, ProformaRequestWithRelations } from "@Prof
 import { ProformaRequestsMapper } from "./proforma-requests.mapper";
 import { SkillMapper } from "@Skill/infraestructure/persistence/skill.mapper";
 import { CategoryMapper } from "@Category/infraestructure/persistence/category.mapper";
-import { StatusRequestEnum, StatusRequestVO } from "@Core/value-objects/status-request.vo";
+import { StatusRequestVO } from "@Core/value-objects/status-request.vo";
 
 export class ProformaRequestsPrismaRepository implements IProformaRequestsRepository {
     private get db() {
