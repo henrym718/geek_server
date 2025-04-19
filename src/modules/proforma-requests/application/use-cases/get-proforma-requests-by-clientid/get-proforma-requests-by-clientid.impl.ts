@@ -1,8 +1,8 @@
 import { IProformaRequestsRepository } from "@ProformaRequests/application/repositories/proforma-requests.repository";
-import { ReqGetProformaRequestsByClientIdDto, ResGetProformaRequestsByClientIdDto } from "./get-proforma-requests-by-clientid.dto";
+import { GetProformaRequestsByClientIdResponse, GetProformaRequestsByClientIdRequest } from "./get-proforma-requests-by-clientid.dto";
 import { IGetProformaRequestsByClientUseCase } from "./get-proforma-requests-by-clientid.use-case";
 import { inject, injectable } from "inversify";
-import { IdVO } from "@Core/value-objects";
+import { IdVO, StatusRequestVO } from "@Core/value-objects";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 
 @injectable()
@@ -12,22 +12,28 @@ export class GetProformaRequestByClientIdUseCase implements IGetProformaRequests
         private readonly proformaRequestsRepository: IProformaRequestsRepository
     ) {}
 
-    async execute(data: ReqGetProformaRequestsByClientIdDto): Promise<ResGetProformaRequestsByClientIdDto[]> {
+    async execute(data: GetProformaRequestsByClientIdRequest): Promise<GetProformaRequestsByClientIdResponse[]> {
         const clientIdVO = IdVO.create(data.clientId);
-
-        const proformaRequests = await this.proformaRequestsRepository.findAllByClientId(clientIdVO.getValue());
+        const statusVO = StatusRequestVO.fromPlainText(data.status);
+        const proformaRequests = await this.proformaRequestsRepository.findAllByClientId(clientIdVO.getValue(), statusVO);
         if (proformaRequests.length === 0) return [];
 
         return proformaRequests.map(({ proformaRequest, skills, category }) => ({
-            id: proformaRequest.id.getValue(),
-            title: proformaRequest.title.getValue(),
-            budget: proformaRequest.budget?.getValue() ?? 0,
-            quotation: proformaRequest.quotation ?? false,
-            scope: proformaRequest.scope.getValue(),
-            description: proformaRequest.description.getValue(),
-            status: proformaRequest.status.getValue(),
-            createdAt: proformaRequest.createdAt,
-            categoty: {
+            request: {
+                id: proformaRequest.id.getValue(),
+                title: proformaRequest.title.getValue(),
+                budget: proformaRequest.budget?.getValue() ?? 0,
+                budgetUnit: proformaRequest.budgetUnit?.getValue() ?? "",
+                quotation: proformaRequest.quotation ?? false,
+                scope: proformaRequest.scope.getValue(),
+                projectType: proformaRequest.projectType.getValue(),
+                projectLength: proformaRequest.projectLength.getValue(),
+                projectWorkload: proformaRequest.projectWorkload.getValue(),
+                description: proformaRequest.description.getValue(),
+                status: proformaRequest.status.getValue(),
+                createdAt: proformaRequest.createdAt,
+            },
+            category: {
                 id: category.id.getValue(),
                 name: category.name.getValue(),
             },

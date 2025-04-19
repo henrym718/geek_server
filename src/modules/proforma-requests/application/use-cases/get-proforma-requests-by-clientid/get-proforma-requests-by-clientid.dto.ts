@@ -1,21 +1,12 @@
-export interface ReqGetProformaRequestsByClientIdDto {
+import { Category, ProformaRequest, Skill } from "@Common/dtos/global.dtos";
+
+export interface GetProformaRequestsByClientIdRequest {
     clientId: string;
+    status: string;
 }
 
-export interface ResGetProformaRequestsByClientIdDto {
-    id: string;
-    title: string;
-    description: string;
-    budget: number;
-    scope: string;
-    status: string;
-    createdAt: Date | undefined;
-    skills: {
-        id: string;
-        name: string;
-    }[];
-    categoty: {
-        id: string;
-        name: string;
-    };
+export interface GetProformaRequestsByClientIdResponse {
+    request: ProformaRequest;
+    skills: Skill[];
+    category: Category;
 }
