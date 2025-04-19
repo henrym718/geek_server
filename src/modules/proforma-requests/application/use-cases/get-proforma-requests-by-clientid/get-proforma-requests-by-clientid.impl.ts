@@ -30,6 +30,7 @@ export class GetProformaRequestByClientIdUseCase implements IGetProformaRequests
                 projectLength: proformaRequest.projectLength.getValue(),
                 projectWorkload: proformaRequest.projectWorkload.getValue(),
                 description: proformaRequest.description.getValue(),
+                countResponses: proformaRequest.countResponses,
                 status: proformaRequest.status.getValue(),
                 createdAt: proformaRequest.createdAt,
             },
