@@ -2,11 +2,13 @@ import { PrismaBootstrap } from "@Bootstraps/prisma.bootsrap";
 import { ProformaResponse } from "@Core/entities/proforma-response";
 import {
     IProformaResponseRepository,
-    ProformaResponseWithVendor,
+    ProformaResponseWithMetadata,
 } from "modules/proforma-response/application/repositories/proforma-response.repository";
 import { ProformaResponseMapper } from "./proforma-reponse.mapper";
 import { VendorMapper } from "@Vendor/infraestructure/persistence/vendor.mapper";
 import { VendorProfileMapper } from "@VendorProfile/infraestructure/persistence/vendor-profile.mapper";
+import { UserMapper } from "@User/infrastructure/persistence/user.mapper";
+import { SkillMapper } from "@Skill/infraestructure/persistence/skill.mapper";
 
 export class ProformaResponsePrismaRepository implements IProformaResponseRepository {
     private get db() {
@@ -57,16 +59,18 @@ export class ProformaResponsePrismaRepository implements IProformaResponseReposi
         throw new Error("Method not implemented.");
     }
 
-    async findAllByRequestId(requestId: string): Promise<ProformaResponseWithVendor[]> {
+    async findAllByRequestId(requestId: string): Promise<ProformaResponseWithMetadata[]> {
         const reponses = await this.db.proformaResponse.findMany({
             where: { proformaRequestId: requestId },
-            include: { vendorProfile: { include: { vendor: true } } },
+            include: { vendorProfile: { include: { vendor: { include: { user: true } }, skills: true } } },
         });
 
         return reponses.map((reponse) => ({
             proformaResponse: ProformaResponseMapper.toDomain(reponse),
+            user: UserMapper.toDomain(reponse.vendorProfile.vendor.user),
             vendor: VendorMapper.toDomain(reponse.vendorProfile.vendor),
             vendorProfile: VendorProfileMapper.toDomain(reponse.vendorProfile),
+            skills: reponse.vendorProfile.skills.map((skill) => SkillMapper.toDomain(skill)),
         }));
     }
 

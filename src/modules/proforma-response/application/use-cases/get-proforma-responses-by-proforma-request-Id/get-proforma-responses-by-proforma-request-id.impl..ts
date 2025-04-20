@@ -1,5 +1,5 @@
 import { IdVO } from "@Core/value-objects";
-import { IProformaResponseRepository, ProformaResponseWithVendor } from "../../repositories/proforma-response.repository";
+import { IProformaResponseRepository, ProformaResponseWithMetadata } from "../../repositories/proforma-response.repository";
 import { GetProformaResponsesByRequestIdRequest, GetProformaResponsesByRequestIdResponse } from "./get-proforma-responses-by-proforma-request-id.dto";
 import { IGetProformaResponsesByRequestIdUseCase } from "./get-proforma-responses-by-proforma-request-id.use-case";
 import { inject, injectable } from "inversify";
@@ -19,29 +19,31 @@ export class GetProformaResponsesByRequestIdUseCase implements IGetProformaRespo
         return this.proformaResponseMapper(reponses);
     }
 
-    private proformaResponseMapper(data: ProformaResponseWithVendor[]): GetProformaResponsesByRequestIdResponse[] {
-        return data.map(({ proformaResponse, vendor, vendorProfile }) => ({
+    private proformaResponseMapper(data: ProformaResponseWithMetadata[]): GetProformaResponsesByRequestIdResponse[] {
+        return data.map(({ proformaResponse, vendor, vendorProfile, user, skills }) => ({
             proformaResponse: {
                 id: proformaResponse.id.getValue(),
                 budget: proformaResponse.budget ? proformaResponse.budget.getValue() : undefined,
                 message: proformaResponse.message.getValue(),
                 status: proformaResponse.status.getValue(),
-                createdAt: proformaResponse.updatedAt,
+            },
+            user: {
+                createdAt: user.createdAt,
+                username: user.username.getValue(),
             },
             vendor: {
-                id: vendor.id.getValue(),
-                firstName: vendor.firstName.getValue(),
-                lastName: vendor.lastName.getValue(),
                 photo: vendor.photo?.getValue() || "",
                 phone: vendor.phone.getValue(),
                 city: vendor.city.getValue(),
             },
             vendorProfile: {
-                id: vendorProfile.id.getValue(),
                 aboutme: vendorProfile.aboutme.getValue(),
                 title: vendorProfile.title.getValue(),
-                isActive: vendorProfile.isActive,
             },
+            skills: skills.map((skill) => ({
+                id: skill.id.getValue(),
+                name: skill.name.getValue(),
+            })),
         }));
     }
 }
