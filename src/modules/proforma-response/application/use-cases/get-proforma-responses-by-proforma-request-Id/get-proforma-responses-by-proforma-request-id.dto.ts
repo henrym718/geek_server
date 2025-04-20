@@ -1,20 +1,11 @@
-export interface ReqGetProformaResponsesByRequestIdDto {
+import { ProformaResponse, Vendor, VendorProfile } from "@Common/dtos/global.dtos";
+
+export interface GetProformaResponsesByRequestIdRequest {
     requestId: string;
 }
 
-export interface ResGetProformaResponsesByRequestIdDto {
-    id: string;
-    budget: number | undefined;
-    message: string;
-    status: string;
-    createdAt: Date | undefined;
-    vendor: {
-        id: string;
-        firstName: string;
-        lastName: string;
-        photo: string;
-    };
-    vendorProfile: {
-        id: string;
-    };
+export interface GetProformaResponsesByRequestIdResponse {
+    proformaResponse: ProformaResponse;
+    vendor: Vendor;
+    vendorProfile: VendorProfile;
 }

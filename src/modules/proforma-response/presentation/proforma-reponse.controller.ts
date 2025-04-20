@@ -5,7 +5,7 @@ import { ReqCreateProformaResponseDto } from "../application/use-cases/create-pr
 import { inject, injectable } from "inversify";
 import { PROFORMA_RES_SYMBOLS } from "../infraestructure/container/proforma-reponse.symbols";
 import { IGetProformaResponsesByRequestIdUseCase } from "../application/use-cases/get-proforma-responses-by-proforma-request-Id/get-proforma-responses-by-proforma-request-id.use-case";
-import { ReqGetProformaResponsesByRequestIdDto } from "../application/use-cases/get-proforma-responses-by-proforma-request-Id/get-proforma-responses-by-proforma-request-id.dto";
+import { GetProformaResponsesByRequestIdRequest } from "../application/use-cases/get-proforma-responses-by-proforma-request-Id/get-proforma-responses-by-proforma-request-id.dto";
 import { IUpdateProformaResponseStatusByClientUseCase } from "../application/use-cases/update-proforma-response-status-by-client/update-proforma-response-status-by-client.use-case";
 import { UpdateStatusByClientRequest } from "../application/use-cases/update-proforma-response-status-by-client/update-proforma-response-status-by-client.dto";
 import { ICheckProformaResponseExistsUseCase } from "../application/use-cases/chek-proforma-response-exists/chek-proforma-response-exists.use-case";
@@ -45,7 +45,7 @@ export class ProformaReponseController {
 
     async getAllByRequestId(req: Request, res: Response, next: NextFunction) {
         try {
-            const data: ReqGetProformaResponsesByRequestIdDto = { requestId: req.params.requestid };
+            const data: GetProformaResponsesByRequestIdRequest = { requestId: req.params.requestid };
             const responses = await this.getProformaResponsesByRequestIdUseCase.execute(data);
             HttpResponse.success(res, responses);
         } catch (error) {
