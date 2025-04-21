@@ -47,7 +47,7 @@ export class UpdateProformaResponseStatusByClientUseCase implements IUpdateProfo
                 (res) => !res.proformaResponse.id.equals(proformaResponseId) && res.proformaResponse.status.getValue() !== StatusResponseEnum.REJECTED
             );
             await this.proformaResponseRepository.updateMany(otherResponses.map((res) => res.proformaResponse.rejected()));
-            const updatedRequest = request.finished();
+            const updatedRequest = request.matched();
             await this.proformaRequestRepository.update(updatedRequest);
         }
 

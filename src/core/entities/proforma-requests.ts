@@ -53,6 +53,16 @@ export class ProformaRequest {
         });
     }
 
+    public matched(): ProformaRequest {
+        if (this.props.status.equals(StatusRequestVO.fromEnum(StatusRequestEnum.MATCHED))) {
+            throw HttpException.forbidden("La ProformaRequest ya está aceptada.");
+        }
+        return new ProformaRequest({
+            ...this.props,
+            status: StatusRequestVO.fromEnum(StatusRequestEnum.MATCHED),
+        });
+    }
+
     public incrementCountResponses(): ProformaRequest {
         return new ProformaRequest({
             ...this.props,
