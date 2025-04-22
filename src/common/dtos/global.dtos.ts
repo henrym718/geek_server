@@ -58,6 +58,7 @@ export interface ProformaResponse {
     message: string;
     status: string;
     createdAt?: Date;
+    updatedAt?: Date;
 }
 
 export interface Skill {
