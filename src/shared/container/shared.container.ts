@@ -14,6 +14,7 @@ import { ProformaRequestsPrismaRepository } from "@ProformaRequests/infraestruct
 import { ProformaResponsePrismaRepository } from "modules/proforma-response/infraestructure/persistence/proforma-reponse-prisma.repository";
 import { VendorProfilePrismaRepository } from "@VendorProfile/infraestructure/persistence/vendor-profile-prisma.repository";
 import { registerRepositories, registerServices } from "@Common/utils/container-utils";
+import { ChatPrismaRepository } from "modules/chat/infraestructure/persistence/chat-prisma.repository";
 
 export function createSharedContainer(): Container {
     const container = new Container();
@@ -34,6 +35,7 @@ export function createSharedContainer(): Container {
         { symbol: SHARED_SYMBOLS.ProformaRequestRepository, implementation: ProformaRequestsPrismaRepository },
         { symbol: SHARED_SYMBOLS.ProformaResponseRepository, implementation: ProformaResponsePrismaRepository },
         { symbol: SHARED_SYMBOLS.VendorProfileRepository, implementation: VendorProfilePrismaRepository },
+        { symbol: SHARED_SYMBOLS.ChatRepository, implementation: ChatPrismaRepository },
     ]);
     return container;
 }

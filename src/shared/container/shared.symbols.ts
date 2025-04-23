@@ -13,4 +13,5 @@ export const SHARED_SYMBOLS = {
     CategoryRepository: Symbol.for("CategoryRepository"),
     ProformaRequestRepository: Symbol.for("ProformaRequestRepository"),
     ProformaResponseRepository: Symbol.for("ProformaResponseRepository"),
+    ChatRepository: Symbol.for("ChatRepository"),
 };
