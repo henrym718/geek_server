@@ -65,19 +65,22 @@ enum ProjectWorkload {
 }
 
 model User {
-  id            String       @id
-  email         String       @unique
-  password      String?
-  provider      AuthProvider
-  tokenProvider String?
-  username      String       @unique
-  role          Role
-  refresToken   String
-  isActive      Boolean      @default(true)
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  client        Client?
-  vendor        Vendor?
+  id             String       @id
+  email          String       @unique
+  password       String?
+  provider       AuthProvider
+  tokenProvider  String?
+  username       String       @unique
+  role           Role
+  refresToken    String
+  isActive       Boolean      @default(true)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  client         Client?
+  vendor         Vendor?
+  messages       Message[]
+  chatsInitiated Chat[]       @relation("User1")
+  chatsReceived  Chat[]       @relation("User2")
 
   @@map("users")
 }
@@ -217,4 +220,32 @@ model ProformaResponse {
 
   @@unique([proformaRequestId, profileVendorId])
   @@map("proforma_responses")
+}
+
+model Chat {
+  id        String    @id
+  user1     User      @relation("User1", fields: [user1Id], references: [id])
+  user1Id   String
+  user2     User      @relation("User2", fields: [user2Id], references: [id])
+  user2Id   String
+  messages  Message[]
+  createdAt DateTime  @default(now())
+
+  @@unique([user1Id, user2Id])
+  @@index([user1Id])
+  @@index([user2Id])
+  @@map("chats")
+}
+
+model Message {
+  id        String   @id
+  message   String
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  chatId    String
+  sender    User     @relation(fields: [senderId], references: [id])
+  senderId  String
+  createdAt DateTime @default(now())
+
+  @@index([chatId])
+  @@map("messages")
 }
