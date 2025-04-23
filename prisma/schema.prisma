@@ -79,8 +79,8 @@ model User {
   client         Client?
   vendor         Vendor?
   messages       Message[]
-  chatsInitiated Chat[]       @relation("User1")
-  chatsReceived  Chat[]       @relation("User2")
+  chatsInitiated Chat[]       @relation("client")
+  chatsReceived  Chat[]       @relation("vendor")
 
   @@map("users")
 }
@@ -224,16 +224,16 @@ model ProformaResponse {
 
 model Chat {
   id        String    @id
-  user1     User      @relation("User1", fields: [user1Id], references: [id])
-  user1Id   String
-  user2     User      @relation("User2", fields: [user2Id], references: [id])
-  user2Id   String
+  client    User      @relation("client", fields: [clientId], references: [id])
+  clientId  String
+  vendor    User      @relation("vendor", fields: [vendorId], references: [id])
+  vendorId  String
   messages  Message[]
   createdAt DateTime  @default(now())
 
-  @@unique([user1Id, user2Id])
-  @@index([user1Id])
-  @@index([user2Id])
+  @@unique([clientId, vendorId])
+  @@index([clientId])
+  @@index([vendorId])
   @@map("chats")
 }
 

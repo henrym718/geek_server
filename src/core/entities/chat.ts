@@ -1,9 +1,9 @@
-import { IdVO, TextVO } from "@Core/value-objects";
+import { IdVO } from "@Core/value-objects";
 
 export interface ChatProps {
     id: IdVO;
-    user1: TextVO;
-    user2: TextVO;
+    clientId: IdVO;
+    vendorId: IdVO;
     createdAt: Date;
 }
 
@@ -22,12 +22,12 @@ export class Chat {
         return this.props.id;
     }
 
-    public get user1(): TextVO {
-        return this.props.user1;
+    public get clientId(): IdVO {
+        return this.props.clientId;
     }
 
-    public get user2(): TextVO {
-        return this.props.user2;
+    public get vendorId(): IdVO {
+        return this.props.vendorId;
     }
 
     public get createdAt(): Date {

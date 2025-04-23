@@ -99,7 +99,7 @@ export interface Message {
 
 export interface Chat {
     id: string;
-    user1: string;
-    user2: string;
+    clientId: string;
+    vendorId: string;
     createdAt: Date;
 }
