@@ -12,6 +12,7 @@ import { configureSkillContainer } from "@Skill/infraestructure/container/skill.
 import { configureProformaRequestsContainer } from "@ProformaRequests/infraestructure/container/proforma-requests.container";
 import { configureProformaResponseContainer } from "modules/proforma-response/infraestructure/container/proforma-reponse.container";
 import { configureSuggestionContainer } from "modules/suggestion/infraestructure/container/suggestion.container";
+import { createChatContainer } from "modules/chat/infraestructure/container/chat.container";
 // Definir identificadores únicos
 export const IDENTIFIERS = {
     Shared: Symbol("SharedContainer"),
@@ -26,12 +27,13 @@ export const IDENTIFIERS = {
     ProformaRequest: Symbol("ProformaRequestContainer"),
     ProformaResponse: Symbol("ProformaResponseContainer"),
     VendorProfile: Symbol("VendorProfileContainer"),
+    Chat: Symbol("ChatContainer"),
 };
 
 export class ContainerBootstrap {
     private static container: Container | null = null;
 
-    async initialize(): Promise<Container> {
+    async initialize(): Promise<void> {
         // Crear el contenedor raíz
         const rootContainer = new Container();
         // Configurar el contenedor compartido y asignarlo como parent
@@ -48,8 +50,8 @@ export class ContainerBootstrap {
         rootContainer.bind(IDENTIFIERS.VendorProfile).toConstantValue(configureVendorProfileContainer(sharedContainer));
         rootContainer.bind(IDENTIFIERS.Skill).toConstantValue(configureSkillContainer(sharedContainer));
         rootContainer.bind(IDENTIFIERS.Suggestion).toConstantValue(configureSuggestionContainer(sharedContainer));
+        rootContainer.bind(IDENTIFIERS.Chat).toConstantValue(createChatContainer(sharedContainer));
         ContainerBootstrap.container = rootContainer;
-        return rootContainer;
     }
 
     // Método genérico para obtener el contenedor de un módulo dado su identificador
