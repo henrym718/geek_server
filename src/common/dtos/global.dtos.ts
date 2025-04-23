@@ -88,3 +88,18 @@ export interface AccessToken {
 export interface ExistsResponse {
     exists: boolean;
 }
+
+export interface Message {
+    id: string;
+    message: string;
+    chatId: string;
+    senderId: string;
+    createdAt: Date;
+}
+
+export interface Chat {
+    id: string;
+    user1: string;
+    user2: string;
+    createdAt: Date;
+}
