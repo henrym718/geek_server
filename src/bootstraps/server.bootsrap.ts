@@ -15,17 +15,33 @@ import { configureProformaRequestRoutes } from "@ProformaRequests/presnetation/p
 import { configureProformaResponseRoutes } from "modules/proforma-response/presentation/proforma-reponse.routes";
 import { configureSuggestionRoutes } from "modules/suggestion/presentation/suggestion.routes";
 import cookieParser from "cookie-parser";
+import { Socket, Server as SocketIOServer } from "socket.io";
+import { HttpException } from "@Common/exceptions/http.exception";
+import { ContainerBootstrap, IDENTIFIERS } from "./container.bootstrap";
+import { ITokenService } from "@Shared/services/token/token.service";
+import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
+import { handleJoinChat } from "modules/chat/infraestructure/socket.events";
+
 export class ServerBootstrap {
     private app: Application | null = null;
     private server: Server | null = null;
+    private io: SocketIOServer | null = null;
 
     public async initialize(): Promise<void> {
         return new Promise((resolve, reject) => {
             this.app = express();
             this.server = http.createServer(this.app);
+            this.io = new SocketIOServer(this.server, {
+                cors: {
+                    origin: "http://localhost:3000",
+                    credentials: true,
+                },
+            });
             this.setupGeneralMiddlewares(this.app);
             this.setupRoutes(this.app);
             this.setupErrorHandling(this.app);
+            this.setupSocketEvents(this.io);
+
             this.server
                 .listen(4000)
                 .on("listening", () => {
@@ -59,6 +75,10 @@ export class ServerBootstrap {
 
     private setupErrorHandling(app: Application) {
         app.use(errorHandler);
+    }
+
+    private setupSocketEvents(io: SocketIOServer) {
+        handleJoinChat(io);
     }
 
     public async close(): Promise<void> {
