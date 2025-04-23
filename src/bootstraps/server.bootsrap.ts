@@ -15,12 +15,9 @@ import { configureProformaRequestRoutes } from "@ProformaRequests/presnetation/p
 import { configureProformaResponseRoutes } from "modules/proforma-response/presentation/proforma-reponse.routes";
 import { configureSuggestionRoutes } from "modules/suggestion/presentation/suggestion.routes";
 import cookieParser from "cookie-parser";
-import { Socket, Server as SocketIOServer } from "socket.io";
-import { HttpException } from "@Common/exceptions/http.exception";
-import { ContainerBootstrap, IDENTIFIERS } from "./container.bootstrap";
-import { ITokenService } from "@Shared/services/token/token.service";
-import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
-import { handleJoinChat } from "modules/chat/infraestructure/socket.events";
+import { Server as SocketIOServer } from "socket.io";
+import { handleJoinChat } from "modules/chat/infraestructure/socket.io/socket.events";
+import { configurecHATRoutes } from "modules/chat/presentation/chat.routes";
 
 export class ServerBootstrap {
     private app: Application | null = null;
@@ -71,6 +68,7 @@ export class ServerBootstrap {
         app.use("/proforma-request", configureProformaRequestRoutes());
         app.use("/proforma-response", configureProformaResponseRoutes());
         app.use("/suggestion", configureSuggestionRoutes());
+        app.use("/chat", configurecHATRoutes());
     }
 
     private setupErrorHandling(app: Application) {
