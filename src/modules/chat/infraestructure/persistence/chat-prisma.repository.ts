@@ -2,6 +2,8 @@ import { PrismaBootstrap } from "@Bootstraps/prisma.bootsrap";
 import { Chat } from "@Core/entities/chat";
 import { IChatRepository } from "modules/chat/application/repositories/chat.repository";
 import { ChatMapper } from "./chat.mapper";
+import { User } from "@Core/entities/user";
+import { UserMapper } from "@User/infrastructure/persistence/user.mapper";
 
 export class ChatPrismaRepository implements IChatRepository {
     private get prisma() {
@@ -22,13 +24,21 @@ export class ChatPrismaRepository implements IChatRepository {
         return chat ? ChatMapper.toDomain(chat) : null;
     }
 
-    async findAllByUser(userId: string): Promise<Chat[]> {
+    async findAllByUser(userId: string): Promise<{ chat: Chat; client: User; vendor: User }[]> {
         const chats = await this.prisma.chat.findMany({
             where: {
                 OR: [{ clientId: userId }, { vendorId: userId }],
             },
+            include: {
+                client: true,
+                vendor: true,
+            },
         });
-        return chats.map(ChatMapper.toDomain);
+        return chats.map((chat) => ({
+            chat: ChatMapper.toDomain(chat),
+            client: UserMapper.toDomain(chat.client),
+            vendor: UserMapper.toDomain(chat.vendor),
+        }));
     }
 
     async findByUsers(clientId: string, vendorId: string): Promise<Chat | null> {
