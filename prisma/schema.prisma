@@ -238,7 +238,7 @@ model Chat {
 }
 
 model Message {
-  id        String   @id
+  id        Int      @id @default(autoincrement())
   message   String
   chat      Chat     @relation(fields: [chatId], references: [id])
   chatId    String
