@@ -12,7 +12,7 @@ export function configurecHATRoutes(): Router {
     const chatController = chatContainer.get(ChatController);
 
     router.post("/", authenticate, checkRoles(RoleEnum.CLIENT, RoleEnum.VENDOR), chatController.createChat);
-    router.get("/:userId", authenticate, checkRoles(RoleEnum.CLIENT, RoleEnum.VENDOR), chatController.getChatsByUserId);
+    router.get("/", authenticate, checkRoles(RoleEnum.CLIENT, RoleEnum.VENDOR), chatController.getChatsByUserId);
 
     return router;
 }

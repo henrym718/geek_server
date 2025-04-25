@@ -32,7 +32,7 @@ export class ChatController {
 
     async getChatsByUserId(req: Request, res: Response, next: NextFunction) {
         try {
-            const data: GetChatsByUserIdRequest = { userId: req.params.userId };
+            const data: GetChatsByUserIdRequest = { userId: req.user?.userId as string };
             const chats = await this.getChatsByUserIdUseCase.execute(data);
             HttpResponse.success(res, chats);
         } catch (error) {
