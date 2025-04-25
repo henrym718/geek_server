@@ -30,7 +30,6 @@ async function loadSuggestionsFromCSV(filename: string) {
         if (isHeader) {
             headers = row.map((header) => header.trim());
             isHeader = false;
-            console.log(`Encabezados: ${headers.join(", ")}`);
             return;
         }
 
