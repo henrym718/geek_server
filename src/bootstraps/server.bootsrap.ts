@@ -34,6 +34,7 @@ export class ServerBootstrap {
                     credentials: true,
                 },
             });
+
             this.setupGeneralMiddlewares(this.app);
             this.setupRoutes(this.app);
             this.setupErrorHandling(this.app);
