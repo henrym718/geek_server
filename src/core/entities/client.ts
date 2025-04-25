@@ -21,6 +21,10 @@ export class Client {
         return new Client(props);
     }
 
+    get fullName(): string {
+        return this.props.firstName.getValue() + " " + this.props.lastName.getValue();
+    }
+
     get id(): IdVO {
         return this.props.id;
     }

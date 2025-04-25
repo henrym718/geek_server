@@ -20,6 +20,10 @@ export class Vendor {
         return new Vendor(props);
     }
 
+    get fullName(): string {
+        return this.props.firstName.getValue() + " " + this.props.lastName.getValue();
+    }
+
     get id(): IdVO {
         return this.props.id;
     }
