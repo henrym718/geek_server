@@ -51,7 +51,6 @@ export class UserPrismaRepository implements IUserRepository {
 
     async findbyEmail(email: string): Promise<User | null> {
         const userFound = await this.prisma.user.findUnique({ where: { email } });
-        console.log(userFound, "desde repository");
         if (!userFound) return null;
         return UserMapper.toDomain(userFound);
     }
