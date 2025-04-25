@@ -23,11 +23,13 @@ export class GetChatsByUserIdUseCase implements IGetChatsByUserIdUseCase {
             },
             client: {
                 id: chat.client.id.getValue(),
-                username: chat.client.username.getValue(),
+                fullName: chat.clientProfile.fullName,
+                image: chat.clientProfile?.photo?.getValue() ?? "",
             },
             vendor: {
                 id: chat.vendor.id.getValue(),
-                username: chat.vendor.username.getValue(),
+                fullName: chat.vendorProfile.fullName,
+                image: chat.vendorProfile?.photo?.getValue() ?? "",
             },
         }));
     }
