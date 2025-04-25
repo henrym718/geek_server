@@ -7,7 +7,6 @@ export class UsernameVO {
 
     public static create(value: string): UsernameVO {
         const username = value.trim();
-        console.log("username", username);
         this.validate(username);
         return new UsernameVO(value);
     }
