@@ -26,20 +26,21 @@ export class SearchVendorProfilesUseCase implements ISearchVendorProfilesUseCase
      * @param {SearchRequest} data - Filtros de búsqueda.
      * @returns {Promise<SearchResponse>} - Resultados de la búsqueda.
      */
-    async execute(data: SearchRequest): Promise<SearchResponse> {
+    async execute(request: SearchRequest): Promise<SearchResponse> {
+        console.log(request.categoryName);
         // Construcción del filtro con valores predeterminados en caso de ser undefined
         const filter = {
-            query: data.query as string,
-            categoryName: data.categoryName as string,
-            city: data.city as string,
-            limit: Number(data.limit) || EnvBootstrap.ENV.LIMIT_PER_QUERY_PROFILES,
-            order: (data.order as "asc" | "desc") ?? "asc",
-            page: Number(data.page) || 1,
-            skills: data.skills as string,
+            query: request.query as string,
+            categoryName: request.categoryName as string,
+            city: request.city as string,
+            limit: Number(request.limit) || EnvBootstrap.ENV.LIMIT_PER_QUERY_PROFILES,
+            order: (request.order as "asc" | "desc") ?? "asc",
+            page: Number(request.page) || 1,
+            skills: request.skills as string,
         };
 
         // Realiza la búsqueda de perfiles en el repositorio
-        const { results, vendorProfiles } = await this.vendorProfileRepository.searchVendorProfiles(filter);
+        const { results, data } = await this.vendorProfileRepository.searchVendorProfiles(filter);
 
         // Cálculo de la paginación
         const currentPage = Number(filter.page) || 1;
@@ -54,7 +55,7 @@ export class SearchVendorProfilesUseCase implements ISearchVendorProfilesUseCase
             pages,
             nextPage,
             prevPage,
-            data: vendorProfiles.map(({ vendor, vendorProfile, skills }) => ({
+            data: data.map(({ vendor, vendorProfile, skills }) => ({
                 vendor: {
                     id: vendor.id.getValue(),
                     firstName: vendor.firstName.getValue(),
@@ -68,10 +69,12 @@ export class SearchVendorProfilesUseCase implements ISearchVendorProfilesUseCase
                     title: vendorProfile.title.getValue(),
                     aboutme: vendorProfile.aboutme.getValue(),
                     createdAt: vendorProfile.createdAt,
+                    isActive: vendorProfile.isActive,
                 },
-                skills: {
-                    name: skills.map((skill) => skill.name.getValue()).join(","),
-                },
+                skills: skills.map((skill) => ({
+                    id: skill.id.getValue(),
+                    name: skill.name.getValue(),
+                })),
             })),
         };
     }

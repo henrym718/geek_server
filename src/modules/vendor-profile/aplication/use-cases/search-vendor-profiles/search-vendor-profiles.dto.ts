@@ -1,3 +1,5 @@
+import { Skill, Vendor, VendorProfile } from "@Common/dtos/global.dtos";
+
 export type SearchRequest = {
     order?: "asc" | "desc";
     city?: string;
@@ -15,22 +17,8 @@ export interface SearchResponse {
     nextPage: number | null;
     prevPage: number | null;
     data: {
-        vendor: {
-            id: string;
-            firstName: string;
-            lastName: string;
-            city: string;
-            phone: string;
-            photo: string;
-        };
-        vendorProfile: {
-            id: string;
-            title: string;
-            aboutme: string;
-            createdAt: Date | undefined;
-        };
-        skills: {
-            name: string;
-        };
+        vendor: Vendor;
+        vendorProfile: VendorProfile;
+        skills: Skill[];
     }[];
 }
