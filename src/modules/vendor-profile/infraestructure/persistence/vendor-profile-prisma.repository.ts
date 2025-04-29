@@ -47,14 +47,14 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
 
     async searchVendorProfiles(
         filter: Required<SearchRequest>
-    ): Promise<{ vendorProfiles: Array<{ vendorProfile: VendorProfile; vendor: Vendor; skills: Skill[] }>; results: number }> {
+    ): Promise<{ data: Array<{ vendorProfile: VendorProfile; vendor: Vendor; skills: Skill[] }>; results: number }> {
         const { order, city, skills, page, query, categoryName, limit } = filter;
         const take = limit;
         const skip = (page - 1) * take;
 
         const whereCondition = {
             OR: [
-                { tittle: { contains: query, mode: "insensitive" as const } },
+                { title: { contains: query, mode: "insensitive" as const } },
                 { skills: { some: { name: { contains: query, mode: "insensitive" as const } } } },
             ],
             category: { name: { contains: categoryName, mode: "insensitive" as const } },
@@ -77,13 +77,13 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
             }),
         ]);
 
-        const vendorProfiles = profiles.map(({ vendor, skills, ...vendorProfile }) => ({
+        const data = profiles.map(({ vendor, skills, ...vendorProfile }) => ({
             vendorProfile: VendorProfileMapper.toDomain(vendorProfile),
             vendor: VendorMapper.toDomain(vendor),
             skills: skills.map((skill) => SkillMapper.toDomain(skill)),
         }));
 
-        return { vendorProfiles, results };
+        return { data, results };
     }
 
     findAll(): Promise<VendorProfile[]> {
