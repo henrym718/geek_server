@@ -32,7 +32,8 @@ export class SearchSuggestionsUseCase implements ISearchSuggestionsUseCase {
         // Mapea los resultados obtenidos en el formato requerido
         return suggestions.map(({ suggestions, skills }) => ({
             suggestions: suggestions.text.getValue(),
-            skill: skills.id.getValue(),
+            skillId: skills.id.getValue(),
+            skillName: skills.name.getValue(),
         }));
     }
 }
