@@ -27,11 +27,10 @@ export class SearchVendorProfilesUseCase implements ISearchVendorProfilesUseCase
      * @returns {Promise<SearchResponse>} - Resultados de la búsqueda.
      */
     async execute(request: SearchRequest): Promise<SearchResponse> {
-        console.log(request.categoryName);
         // Construcción del filtro con valores predeterminados en caso de ser undefined
         const filter = {
             query: request.query as string,
-            categoryName: request.categoryName as string,
+            categoryId: request.categoryId as string,
             city: request.city as string,
             limit: Number(request.limit) || EnvBootstrap.ENV.LIMIT_PER_QUERY_PROFILES,
             order: (request.order as "asc" | "desc") ?? "asc",
@@ -50,31 +49,20 @@ export class SearchVendorProfilesUseCase implements ISearchVendorProfilesUseCase
 
         // Construcción de la respuesta formateada
         return {
-            results,
-            currentPage,
-            pages,
-            nextPage,
-            prevPage,
-            data: data.map(({ vendor, vendorProfile, skills }) => ({
-                vendor: {
-                    id: vendor.id.getValue(),
-                    firstName: vendor.firstName.getValue(),
-                    lastName: vendor.lastName.getValue(),
-                    city: vendor.city.getValue(),
-                    phone: vendor.phone.getValue(),
-                    photo: vendor.photo?.getValue() ?? "",
-                },
-                vendorProfile: {
-                    id: vendorProfile.id.getValue(),
-                    title: vendorProfile.title.getValue(),
-                    aboutme: vendorProfile.aboutme.getValue(),
-                    createdAt: vendorProfile.createdAt,
-                    isActive: vendorProfile.isActive,
-                },
-                skills: skills.map((skill) => ({
-                    id: skill.id.getValue(),
-                    name: skill.name.getValue(),
-                })),
+            pagination: {
+                results,
+                currentPage,
+                pages,
+                nextPage,
+                prevPage,
+            },
+            results: data.map(({ vendor, vendorProfile }) => ({
+                id: vendorProfile.id.getValue(),
+                firstName: vendor.firstName.getValue(),
+                lastName: vendor.lastName.getValue(),
+                city: vendor.city.getValue(),
+                photo: vendor.photo?.getValue() ?? "",
+                title: vendorProfile.title.getValue(),
             })),
         };
     }

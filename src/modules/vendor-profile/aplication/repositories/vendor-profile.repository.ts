@@ -8,7 +8,7 @@ import { Category } from "@Core/entities/category";
 export interface IVendorProfilesRepository extends IRepository<VendorProfile> {
     findByIdWithSkillsId(id: string): Promise<VendorProfile | null>;
     searchVendorProfiles(filter: Required<SearchRequest>): Promise<{
-        data: Array<{ vendorProfile: VendorProfile; vendor: Vendor; skills: Skill[] }>;
+        data: Array<{ vendorProfile: VendorProfile; vendor: Vendor }>;
         results: number;
     }>;
     findByVendorId(vendorId: string): Promise<{ vendorProfile: VendorProfile; skills: Skill[]; category: Category }[] | null>;
