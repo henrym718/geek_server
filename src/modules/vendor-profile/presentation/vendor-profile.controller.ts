@@ -1,8 +1,8 @@
 import { HttpResponse } from "@Common/response/http.response";
 import { ReqCreateVendorProfileDto } from "@VendorProfile/aplication/use-cases/create-vendor-profile/create-vendor-profile.dto";
 import { ICreateVendorProfileUseCase } from "@VendorProfile/aplication/use-cases/create-vendor-profile/create-vendor-profile.use-case";
-import { GetVendorProfilesRequest } from "@VendorProfile/aplication/use-cases/get-vendor-profiles-by-username/get-vendor-profiles.dto";
-import { IGetVendorProfilesUseCase } from "@VendorProfile/aplication/use-cases/get-vendor-profiles-by-username/get-vendor-profiles.use-case";
+import { GetVendorProfileRequest } from "@VendorProfile/aplication/use-cases/get-vendor-profile-by-id/get-vendor-profiles-by-id.dto";
+import { IGetVendorProfileByIdUseCase } from "@VendorProfile/aplication/use-cases/get-vendor-profile-by-id/get-vendor-profiles-by-id.use-case";
 import { SearchRequest } from "@VendorProfile/aplication/use-cases/search-vendor-profiles/search-vendor-profiles.dto";
 import { ISearchVendorProfilesUseCase } from "@VendorProfile/aplication/use-cases/search-vendor-profiles/search-vendor-profiles.use-case";
 import { VENDOR_PROFILE_SYMBOLS } from "@VendorProfile/infraestructure/container/vendor-profile.symbols";
@@ -14,11 +14,11 @@ export class VendorProfileController {
     constructor(
         @inject(VENDOR_PROFILE_SYMBOLS.CreateVendorProfile) private readonly createVendorProfileUseCase: ICreateVendorProfileUseCase,
         @inject(VENDOR_PROFILE_SYMBOLS.SearchVendorProfiles) private readonly searchVendorProfilesUseCase: ISearchVendorProfilesUseCase,
-        @inject(VENDOR_PROFILE_SYMBOLS.GetVendorProfiles) private readonly getVendorProfilesUseCase: IGetVendorProfilesUseCase
+        @inject(VENDOR_PROFILE_SYMBOLS.GetVendorProfileById) private readonly getVendorProfileByIdUseCase: IGetVendorProfileByIdUseCase
     ) {
         this.createVendorprofile = this.createVendorprofile.bind(this);
         this.searchVendorProfiles = this.searchVendorProfiles.bind(this);
-        this.getVendorProfiles = this.getVendorProfiles.bind(this);
+        this.getVendorProfileById = this.getVendorProfileById.bind(this);
     }
 
     async createVendorprofile(req: Request, res: Response, next: NextFunction) {
@@ -41,11 +41,11 @@ export class VendorProfileController {
         }
     }
 
-    async getVendorProfiles(req: Request, res: Response, next: NextFunction) {
+    async getVendorProfileById(req: Request, res: Response, next: NextFunction) {
         try {
-            const data: GetVendorProfilesRequest = { vendorId: req.user?.userId! };
-            const vendorProfiles = await this.getVendorProfilesUseCase.execute(data);
-            HttpResponse.success(res, vendorProfiles);
+            const data: GetVendorProfileRequest = { profileId: req.params.id };
+            const vendorProfile = await this.getVendorProfileByIdUseCase.execute(data);
+            HttpResponse.success(res, vendorProfile);
         } catch (error) {
             next(error);
         }
