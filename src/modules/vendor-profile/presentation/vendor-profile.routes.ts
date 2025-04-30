@@ -10,7 +10,7 @@ export function configureVendorProfileRoutes(): Router {
     const vendorProfileController = ContainerBootstrap.getModuleContainer(IDENTIFIERS.VendorProfile).get(VendorProfileController);
 
     vendorProfileRoutes.post("/", authenticate, checkRoles(RoleEnum.VENDOR), vendorProfileController.createVendorprofile);
-    vendorProfileRoutes.get("/", vendorProfileController.searchVendorProfiles);
+    vendorProfileRoutes.get("/talents", vendorProfileController.searchVendorProfiles);
     vendorProfileRoutes.get("/me", authenticate, checkRoles(RoleEnum.VENDOR), vendorProfileController.getVendorProfiles);
     return vendorProfileRoutes;
 }
