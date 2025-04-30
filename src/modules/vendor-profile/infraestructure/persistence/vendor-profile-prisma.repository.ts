@@ -9,6 +9,8 @@ import { SkillMapper } from "@Skill/infraestructure/persistence/skill.mapper";
 import { VendorMapper } from "@Vendor/infraestructure/persistence/vendor.mapper";
 import { Category } from "@Core/entities/category";
 import { CategoryMapper } from "@Category/infraestructure/persistence/category.mapper";
+import { User } from "@Core/entities/user";
+import { UserMapper } from "@User/infrastructure/persistence/user.mapper";
 
 export class VendorProfilePrismaRepository implements IVendorProfilesRepository {
     // Obtiene la instancia de prisma
@@ -25,15 +27,43 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
         throw new Error("Method not implemented.");
     }
 
-    // Busca un perfil por ID
     async findById(id: string): Promise<VendorProfile | null> {
         const response = await this.db.vendorProfile.findUnique({ where: { id } });
         return response ? VendorProfileMapper.toDomain(response) : null;
     }
 
+    async findByIdWithDetails(
+        id: string
+    ): Promise<{ user: User; vendor: Vendor; vendorProfile: VendorProfile; skills: Skill[]; category: Category } | null> {
+        const response = await this.db.vendorProfile.findUnique({
+            where: { id },
+            include: {
+                skills: true,
+                category: true,
+                vendor: {
+                    include: {
+                        user: true,
+                    },
+                },
+            },
+        });
+
+        if (!response) return null;
+
+        return {
+            user: UserMapper.toDomain(response.vendor.user),
+            vendor: VendorMapper.toDomain(response.vendor),
+            vendorProfile: VendorProfileMapper.toDomain(response),
+            skills: response.skills.map((skill) => SkillMapper.toDomain(skill)),
+            category: CategoryMapper.toDomain(response.category),
+        };
+    }
     // Busca perfiles por ID del vendedor incluyendo skills y categoría
     async findByVendorId(vendorId: string): Promise<{ vendorProfile: VendorProfile; skills: Skill[]; category: Category }[] | null> {
-        const response = await this.db.vendorProfile.findMany({ where: { vendorId }, include: { skills: true, category: true } });
+        const response = await this.db.vendorProfile.findMany({
+            where: { vendorId },
+            include: { skills: true, category: true },
+        });
 
         if (!response) return null;
 
