@@ -11,10 +11,12 @@ import { Category } from "@Core/entities/category";
 import { CategoryMapper } from "@Category/infraestructure/persistence/category.mapper";
 
 export class VendorProfilePrismaRepository implements IVendorProfilesRepository {
+    // Obtiene la instancia de prisma
     get db() {
         return PrismaBootstrap.prisma;
     }
 
+    // Crea un nuevo perfil de vendedor
     async create(entity: VendorProfile): Promise<void> {
         await this.db.vendorProfile.create({ data: VendorProfileMapper.toPersistence(entity) });
     }
@@ -23,11 +25,13 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
         throw new Error("Method not implemented.");
     }
 
+    // Busca un perfil por ID
     async findById(id: string): Promise<VendorProfile | null> {
         const response = await this.db.vendorProfile.findUnique({ where: { id } });
         return response ? VendorProfileMapper.toDomain(response) : null;
     }
 
+    // Busca perfiles por ID del vendedor incluyendo skills y categoría
     async findByVendorId(vendorId: string): Promise<{ vendorProfile: VendorProfile; skills: Skill[]; category: Category }[] | null> {
         const response = await this.db.vendorProfile.findMany({ where: { vendorId }, include: { skills: true, category: true } });
 
@@ -40,47 +44,73 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
         }));
     }
 
+    // Busca un perfil por ID incluyendo sus skills
     async findByIdWithSkillsId(id: string): Promise<VendorProfile | null> {
         const response = await this.db.vendorProfile.findUnique({ where: { id }, include: { skills: true } });
         return response ? VendorProfileMapper.toDomain(response, response.skills) : null;
     }
 
+    // Busca perfiles con filtros y paginación
     async searchVendorProfiles(
         filter: Required<SearchRequest>
-    ): Promise<{ data: Array<{ vendorProfile: VendorProfile; vendor: Vendor; skills: Skill[] }>; results: number }> {
-        const { order, city, skills, page, query, categoryName, limit } = filter;
+    ): Promise<{ data: Array<{ vendorProfile: VendorProfile; vendor: Vendor }>; results: number }> {
+        const { order, city, skills, page, query, categoryId, limit } = filter;
         const take = limit;
         const skip = (page - 1) * take;
 
-        const whereCondition = {
-            OR: [
-                { title: { contains: query, mode: "insensitive" as const } },
-                { skills: { some: { name: { contains: query, mode: "insensitive" as const } } } },
-            ],
-            category: { name: { contains: categoryName, mode: "insensitive" as const } },
-            vendor: { city: { contains: city, mode: "insensitive" as const } },
-            AND: skills?.split(",").map((skill) => ({ skills: { some: { name: skill } } })),
+        // Separa los nombres de skills por comas
+        const skillNames = skills?.split(",").map((s) => s.trim()) || [];
+
+        const where = {
+            ...(skillNames.length > 0 && {
+                skills: {
+                    some: {
+                        name: { in: skillNames, mode: "insensitive" as const },
+                    },
+                },
+            }),
+            ...(query && {
+                title: {
+                    contains: query,
+                    mode: "insensitive" as const,
+                },
+            }),
+            ...(city && {
+                vendor: {
+                    city: {
+                        contains: city,
+                        mode: "insensitive" as const,
+                    },
+                },
+            }),
+            ...(categoryId && {
+                categoryId,
+            }),
             isActive: true,
         };
 
+        // Ejecuta la búsqueda y el conteo en una transacción
         const [profiles, results] = await this.db.$transaction([
             this.db.vendorProfile.findMany({
-                where: whereCondition,
-                orderBy: { createdAt: order },
+                where,
+                orderBy: {
+                    createdAt: order,
+                },
                 take,
                 skip,
-                include: { skills: true, vendor: true, category: true },
+                include: {
+                    vendor: true,
+                    category: true,
+                },
             }),
 
-            this.db.vendorProfile.count({
-                where: whereCondition,
-            }),
+            this.db.vendorProfile.count({ where }),
         ]);
 
-        const data = profiles.map(({ vendor, skills, ...vendorProfile }) => ({
+        // Mapea los resultados al dominio
+        const data = profiles.map(({ vendor, ...vendorProfile }) => ({
             vendorProfile: VendorProfileMapper.toDomain(vendorProfile),
             vendor: VendorMapper.toDomain(vendor),
-            skills: skills.map((skill) => SkillMapper.toDomain(skill)),
         }));
 
         return { data, results };
