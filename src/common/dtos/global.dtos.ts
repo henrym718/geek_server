@@ -103,3 +103,11 @@ export interface Chat {
     vendorId: string;
     createdAt: Date;
 }
+
+export interface Pagination {
+    results: number;
+    currentPage: number;
+    pages: number;
+    nextPage: number | null;
+    prevPage: number | null;
+}
