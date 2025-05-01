@@ -11,7 +11,7 @@ export class UserMapper {
             email: user.email.getValue(),
             password: user.password?.getValue() ?? null,
             role: user.role.getValue(),
-            refresToken: user.refreshToken.getValue(),
+            refreshToken: user.refreshToken?.getValue() ?? null,
             tokenProvider: user.tokenProvider?.getValue() ?? null,
             username: user.username.getValue(),
         };
@@ -25,7 +25,7 @@ export class UserMapper {
             password: user.password ? PasswordVO.fromPlainText(user.password) : null,
             role: RoleVO.fromPlainText(user.role),
             isActive: user.isActive,
-            refreshToken: TokenVO.create(user.refresToken),
+            refreshToken: user.refreshToken ? TokenVO.create(user.refreshToken) : null,
             tokenProvider: user.tokenProvider ? TokenVO.create(user.tokenProvider) : null,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
