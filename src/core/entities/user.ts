@@ -9,7 +9,7 @@ interface UserProps {
     readonly provider: ProviderVO;
     readonly tokenProvider: TokenVO | null;
     readonly role: RoleVO;
-    readonly refreshToken: TokenVO;
+    readonly refreshToken: TokenVO | null;
     readonly isActive: boolean;
     readonly createdAt: Date;
     readonly updatedAt: Date;
@@ -41,6 +41,14 @@ export class User {
         });
     }
 
+    removeRefreshToken(): User {
+        return new User({
+            ...this.props,
+            refreshToken: null,
+            updatedAt: new Date(),
+        });
+    }
+
     get id(): IdVO {
         return this.props.id;
     }
@@ -59,7 +67,7 @@ export class User {
     get role(): RoleVO {
         return this.props.role;
     }
-    get refreshToken(): TokenVO {
+    get refreshToken(): TokenVO | null {
         return this.props.refreshToken;
     }
     get isActive(): boolean {
