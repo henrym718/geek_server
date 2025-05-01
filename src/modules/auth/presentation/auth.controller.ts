@@ -13,6 +13,7 @@ import { ICheckEmailExistsUseCase } from "@Auth/application/use-cases/check-emai
 import { CheckUsernameExistsRequest } from "@Auth/application/use-cases/check-username-exists/check-username-exists.dto";
 import { ICheckUsernameExistsUseCase } from "@Auth/application/use-cases/check-username-exists/check-username-exists.use-case";
 import { EnvBootstrap } from "@Bootstraps/env.bootstrap";
+import { ILogoutUseCase } from "@Auth/application/use-cases/logout/logout.use-case";
 
 @injectable()
 export class AuthController {
@@ -21,13 +22,15 @@ export class AuthController {
         @inject(AUTH_SYMBOL.LoginUser) private readonly loginUserCase: ILoginLocalUseCase,
         @inject(AUTH_SYMBOL.GetCurrentAccount) private readonly getCurrentAccountUseCase: IGetCurrentAccountUseCase,
         @inject(AUTH_SYMBOL.CheckEmailExists) private readonly checkEmailExistsUseCase: ICheckEmailExistsUseCase,
-        @inject(AUTH_SYMBOL.CheckUsernameExists) private readonly checkUsernameExistsUseCase: ICheckUsernameExistsUseCase
+        @inject(AUTH_SYMBOL.CheckUsernameExists) private readonly checkUsernameExistsUseCase: ICheckUsernameExistsUseCase,
+        @inject(AUTH_SYMBOL.Logout) private readonly logoutUseCase: ILogoutUseCase
     ) {
         this.registerUserLocal = this.registerUserLocal.bind(this);
         this.loginUserLocal = this.loginUserLocal.bind(this);
         this.getCurrentAccount = this.getCurrentAccount.bind(this);
         this.checkEmailExists = this.checkEmailExists.bind(this);
         this.checkUsernameExists = this.checkUsernameExists.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     async registerUserLocal(req: Request, res: Response, next: NextFunction) {
@@ -88,6 +91,16 @@ export class AuthController {
         try {
             const data: CheckUsernameExistsRequest = req.body;
             const response = await this.checkUsernameExistsUseCase.execute(data);
+            HttpResponse.success(res, response);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async logout(req: Request, res: Response, next: NextFunction) {
+        try {
+            const response = await this.logoutUseCase.execute(req.user?.userId!);
+            res.clearCookie(EnvBootstrap.ENV.COOKIE_NAME);
             HttpResponse.success(res, response);
         } catch (error) {
             next(error);

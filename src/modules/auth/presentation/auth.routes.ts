@@ -13,6 +13,7 @@ export function configureAuthRoutes(): Router {
     router.get("/me", authenticate, authController.getCurrentAccount);
     router.post("/check-email", authController.checkEmailExists);
     router.post("/check-username", authController.checkUsernameExists);
+    router.get("/logout", authenticate, authController.logout);
 
     return router;
 }
