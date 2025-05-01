@@ -16,8 +16,10 @@ export class UserPrismaRepository implements IUserRepository {
         await client.user.create({ data: UserMapper.toPrisma(user) });
     }
 
-    findById(id: string): Promise<User | null> {
-        throw new Error("Method not implemented.");
+    async findById(id: string): Promise<User | null> {
+        const userFound = await this.prisma.user.findUnique({ where: { id } });
+        if (!userFound) return null;
+        return UserMapper.toDomain(userFound);
     }
 
     async findByUsername(username: string): Promise<User | null> {
