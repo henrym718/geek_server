@@ -14,6 +14,7 @@ import { VENDOR_SYMBOLS } from "@Vendor/infraestructure/container/vendor.symbol"
 import { CreateVendorUseCase } from "@Vendor/application/use-cases/create-vendor/create-vendor.impl";
 import { registerControllers, registerUseCases } from "@Common/utils/container-utils";
 import { CheckUsernameExistsUseCase } from "@Auth/application/use-cases/check-username-exists/check-username-exists.impl";
+import { LogoutUseCase } from "@Auth/application/use-cases/logout/logout.impl";
 
 export function createAuthContainer(parentContainer: Container): Container {
     const container = new Container();
@@ -28,6 +29,7 @@ export function createAuthContainer(parentContainer: Container): Container {
         { symbol: CLIENT_SYMBOLS.CreateClient, implementation: CreateClientUseCase },
         { symbol: USER_SYMBOLS.CreateUser, implementation: CreateUserUseCase },
         { symbol: AUTH_SYMBOL.CheckUsernameExists, implementation: CheckUsernameExistsUseCase },
+        { symbol: AUTH_SYMBOL.Logout, implementation: LogoutUseCase },
     ]);
 
     registerControllers(container, [AuthController]);

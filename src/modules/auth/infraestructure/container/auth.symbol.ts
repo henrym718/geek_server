@@ -8,5 +8,6 @@ export const AUTH_SYMBOL = {
     HashService: Symbol.for("HashService"),
     TokenService: Symbol.for("TokenService"),
     IdService: Symbol.for("IdService"),
+    Logout: Symbol.for("Logout"),
     AuthController: Symbol.for("AuthController"),
 };
