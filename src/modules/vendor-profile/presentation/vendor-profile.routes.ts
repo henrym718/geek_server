@@ -12,5 +12,6 @@ export function configureVendorProfileRoutes(): Router {
     vendorProfileRoutes.post("/", authenticate, checkRoles(RoleEnum.VENDOR), vendorProfileController.createVendorprofile);
     vendorProfileRoutes.get("/talents", vendorProfileController.searchVendorProfiles);
     vendorProfileRoutes.get("/talent/:id", vendorProfileController.getVendorProfileById);
+    vendorProfileRoutes.get("/access-token", authenticate, checkRoles(RoleEnum.VENDOR), vendorProfileController.getAllProfilesByVendorId);
     return vendorProfileRoutes;
 }
