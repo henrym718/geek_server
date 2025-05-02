@@ -16,5 +16,5 @@ export interface IVendorProfilesRepository {
         data: Array<{ vendorProfile: VendorProfile; vendor: Vendor }>;
         results: number;
     }>;
-    findByVendorId(vendorId: string): Promise<{ vendorProfile: VendorProfile; skills: Skill[]; category: Category }[] | null>;
+    findByVendorId(vendorId: string): Promise<{ vendor: Vendor; vendorProfile: VendorProfile }[] | null>;
 }
