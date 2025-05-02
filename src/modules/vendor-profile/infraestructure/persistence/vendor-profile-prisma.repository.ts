@@ -59,18 +59,17 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
         };
     }
     // Busca perfiles por ID del vendedor incluyendo skills y categoría
-    async findByVendorId(vendorId: string): Promise<{ vendorProfile: VendorProfile; skills: Skill[]; category: Category }[] | null> {
+    async findByVendorId(vendorId: string): Promise<{ vendor: Vendor; vendorProfile: VendorProfile }[] | null> {
         const response = await this.db.vendorProfile.findMany({
             where: { vendorId },
-            include: { skills: true, category: true },
+            include: { vendor: true },
         });
 
         if (!response) return null;
 
-        return response.map(({ skills, category, ...vendorProfile }) => ({
+        return response.map(({ vendor, ...vendorProfile }) => ({
+            vendor: VendorMapper.toDomain(vendor),
             vendorProfile: VendorProfileMapper.toDomain(vendorProfile),
-            category: CategoryMapper.toDomain(category),
-            skills: skills.map((skill) => SkillMapper.toDomain(skill)),
         }));
     }
 
