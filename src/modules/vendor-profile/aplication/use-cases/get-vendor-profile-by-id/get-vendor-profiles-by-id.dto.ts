@@ -1,4 +1,4 @@
-import { Category, Skill, User, Vendor, VendorProfile } from "@Common/dtos/global.dtos";
+import { Category, City, Skill, User, Vendor, VendorProfile } from "@Common/dtos/global.dtos";
 
 export interface GetVendorProfileRequest {
     profileId: string;
@@ -10,4 +10,5 @@ export interface GetVendorProfileResponse {
     vendorProfile: Pick<VendorProfile, "title" | "aboutme" | "createdAt">;
     category: Category;
     skills: Skill[];
+    city: City;
 }

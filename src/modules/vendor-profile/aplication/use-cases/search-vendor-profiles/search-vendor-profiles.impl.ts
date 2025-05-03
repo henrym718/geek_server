@@ -56,11 +56,11 @@ export class SearchVendorProfilesUseCase implements ISearchVendorProfilesUseCase
                 nextPage,
                 prevPage,
             },
-            results: data.map(({ vendor, vendorProfile }) => ({
+            results: data.map(({ vendor, vendorProfile, city }) => ({
                 id: vendorProfile.id.getValue(),
                 firstName: vendor.firstName.getValue(),
                 lastName: vendor.lastName.getValue(),
-                city: vendor.city.getValue(),
+                city: city.name.getValue(),
                 photo: vendor.photo?.getValue() ?? "",
                 title: vendorProfile.title.getValue(),
             })),

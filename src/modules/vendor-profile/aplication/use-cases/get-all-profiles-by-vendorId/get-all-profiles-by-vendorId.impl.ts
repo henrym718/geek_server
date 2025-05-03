@@ -18,12 +18,14 @@ export class GetAllProfilesByVendorIdUseCase implements IGetAllProfilesByVendorI
 
         if (!profiles) throw HttpException.notFound("No profiles found");
 
-        return profiles.map(({ vendor, vendorProfile }) => ({
+        console.log(profiles);
+
+        return profiles.map(({ vendor, vendorProfile, city }) => ({
             id: vendorProfile.id.getValue(),
             firstName: vendor.firstName.getValue(),
             lastName: vendor.lastName.getValue(),
             photo: vendor.photo?.getValue() ?? "",
-            city: vendor.city.getValue(),
+            city: city.name.getValue(),
             title: vendorProfile.title.getValue(),
         }));
     }

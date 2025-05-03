@@ -26,6 +26,8 @@ export class CreateProformaRequestsUseCase implements ICreateProformaRequestsUse
         const { clientId, categoryId, budget, description, skills, title, city, budgetUnit, projectLength, projectType, projectWorkload, quotation } =
             data;
 
+        console.log(city);
+
         const proformaRequestiD = IdVO.create(this.idService.generateUUID());
         const proformaRequestTitle = TextVO.create("Title", title);
         const proformaRequestCity = IdVO.create(city);

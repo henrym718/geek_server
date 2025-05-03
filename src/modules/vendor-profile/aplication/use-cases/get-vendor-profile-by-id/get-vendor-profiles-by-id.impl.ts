@@ -20,7 +20,7 @@ export class GetVendorProfileByIdUseCase implements IGetVendorProfileByIdUseCase
             throw HttpException.badRequest("Vendor profile not found");
         }
 
-        const { user, vendor, vendorProfile, skills, category } = reponse;
+        const { user, vendor, vendorProfile, skills, category, city } = reponse;
 
         return {
             user: {
@@ -47,6 +47,10 @@ export class GetVendorProfileByIdUseCase implements IGetVendorProfileByIdUseCase
                 id: skill.id.getValue(),
                 name: skill.name.getValue(),
             })),
+            city: {
+                id: city.id.getValue(),
+                name: city.name.getValue(),
+            },
         };
     }
 }

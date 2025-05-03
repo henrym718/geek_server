@@ -11,6 +11,8 @@ import { Category } from "@Core/entities/category";
 import { CategoryMapper } from "@Category/infraestructure/persistence/category.mapper";
 import { User } from "@Core/entities/user";
 import { UserMapper } from "@User/infrastructure/persistence/user.mapper";
+import { City } from "@Core/entities/city";
+import { CityMapper } from "modules/city/infraestructure/persistense/city.mapper";
 
 export class VendorProfilePrismaRepository implements IVendorProfilesRepository {
     // Obtiene la instancia de prisma
@@ -34,7 +36,7 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
 
     async findByIdWithDetails(
         id: string
-    ): Promise<{ user: User; vendor: Vendor; vendorProfile: VendorProfile; skills: Skill[]; category: Category } | null> {
+    ): Promise<{ user: User; vendor: Vendor; vendorProfile: VendorProfile; skills: Skill[]; category: Category; city: City } | null> {
         const response = await this.db.vendorProfile.findUnique({
             where: { id },
             include: {
@@ -43,6 +45,7 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
                 vendor: {
                     include: {
                         user: true,
+                        city: true,
                     },
                 },
             },
@@ -56,13 +59,14 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
             vendorProfile: VendorProfileMapper.toDomain(response),
             skills: response.skills.map((skill) => SkillMapper.toDomain(skill)),
             category: CategoryMapper.toDomain(response.category),
+            city: CityMapper.toDomain(response.vendor.city),
         };
     }
     // Busca perfiles por ID del vendedor incluyendo skills y categoría
-    async findByVendorId(vendorId: string): Promise<{ vendor: Vendor; vendorProfile: VendorProfile }[] | null> {
+    async findByVendorId(vendorId: string): Promise<{ vendor: Vendor; vendorProfile: VendorProfile; city: City }[] | null> {
         const response = await this.db.vendorProfile.findMany({
             where: { vendorId },
-            include: { vendor: true },
+            include: { vendor: { include: { city: true } } },
         });
 
         if (!response) return null;
@@ -70,6 +74,7 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
         return response.map(({ vendor, ...vendorProfile }) => ({
             vendor: VendorMapper.toDomain(vendor),
             vendorProfile: VendorProfileMapper.toDomain(vendorProfile),
+            city: CityMapper.toDomain(vendor.city),
         }));
     }
 
@@ -82,7 +87,7 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
     // Busca perfiles con filtros y paginación
     async searchVendorProfiles(
         filter: Required<SearchRequest>
-    ): Promise<{ data: Array<{ vendorProfile: VendorProfile; vendor: Vendor }>; results: number }> {
+    ): Promise<{ data: Array<{ vendorProfile: VendorProfile; vendor: Vendor; city: City }>; results: number }> {
         const { order, city, skills, page, query, categoryId, limit } = filter;
         const take = limit;
         const skip = (page - 1) * take;
@@ -127,7 +132,7 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
                 take,
                 skip,
                 include: {
-                    vendor: true,
+                    vendor: { include: { city: true } },
                     category: true,
                 },
             }),
@@ -139,6 +144,7 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
         const data = profiles.map(({ vendor, ...vendorProfile }) => ({
             vendorProfile: VendorProfileMapper.toDomain(vendorProfile),
             vendor: VendorMapper.toDomain(vendor),
+            city: CityMapper.toDomain(vendor.city),
         }));
 
         return { data, results };
