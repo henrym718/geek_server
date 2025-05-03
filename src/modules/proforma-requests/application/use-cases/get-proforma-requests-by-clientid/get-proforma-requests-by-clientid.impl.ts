@@ -18,7 +18,7 @@ export class GetProformaRequestByClientIdUseCase implements IGetProformaRequests
         const proformaRequests = await this.proformaRequestsRepository.findAllByClientId(clientIdVO.getValue(), statusVO);
         if (proformaRequests.length === 0) return [];
 
-        return proformaRequests.map(({ proformaRequest, skills, category }) => ({
+        return proformaRequests.map(({ proformaRequest, skills, category, city }) => ({
             request: {
                 id: proformaRequest.id.getValue(),
                 title: proformaRequest.title.getValue(),
@@ -42,8 +42,8 @@ export class GetProformaRequestByClientIdUseCase implements IGetProformaRequests
                 name: skill.name.getValue(),
             })),
             city: {
-                id: proformaRequest.city.getValue(),
-                name: proformaRequest.city.getValue(),
+                id: city.id.getValue(),
+                name: city.name.getValue(),
             },
         }));
     }

@@ -55,7 +55,7 @@ export class GetProformaRequestsByVendorProfileUseCase implements IGetProformaRe
         );
 
         // Mapea las solicitudes obtenidas en el formato de respuesta esperado
-        return request.map(({ proformaRequest, category, skills }) => ({
+        return request.map(({ proformaRequest, category, skills, city }) => ({
             request: {
                 id: proformaRequest.id.getValue(),
                 title: proformaRequest.title.getValue(),
@@ -66,7 +66,6 @@ export class GetProformaRequestsByVendorProfileUseCase implements IGetProformaRe
                 projectType: proformaRequest.projectType.getValue(),
                 projectLength: proformaRequest.projectLength.getValue(),
                 projectWorkload: proformaRequest.projectWorkload.getValue(),
-                city: proformaRequest.city.getValue(),
                 budget: proformaRequest.budget?.getValue() ?? 0,
                 budgetUnit: proformaRequest.budgetUnit?.getValue() ?? undefined,
                 quotation: proformaRequest.quotation ?? undefined,
@@ -80,8 +79,8 @@ export class GetProformaRequestsByVendorProfileUseCase implements IGetProformaRe
                 name: skill.name.getValue(),
             })),
             city: {
-                id: proformaRequest.city.getValue(),
-                name: proformaRequest.city.getValue(),
+                id: city.id.getValue(),
+                name: city.name.getValue(),
             },
         }));
     }
