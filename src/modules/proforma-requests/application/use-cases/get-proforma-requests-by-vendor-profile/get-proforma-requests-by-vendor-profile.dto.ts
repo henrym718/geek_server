@@ -1,22 +1,12 @@
+import { Category, ProformaRequest, Skill } from "@Common/dtos/global.dtos";
+
 export interface GetByVendorProfilerRequest {
     vendorProfileId: string;
     vendorId: string;
 }
 
 export interface GetByVendorProfilerResponse {
-    id: string;
-    title: string;
-    description: string;
-    budget: number;
-    scope: string;
-    status: string;
-    createdAt: Date | undefined;
-    skills: {
-        id: string;
-        name: string;
-    }[];
-    categoty: {
-        id: string;
-        name: string;
-    };
+    request: ProformaRequest;
+    skills: Skill[];
+    category: Category;
 }
