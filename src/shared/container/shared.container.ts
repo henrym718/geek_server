@@ -15,6 +15,7 @@ import { ProformaResponsePrismaRepository } from "modules/proforma-response/infr
 import { VendorProfilePrismaRepository } from "@VendorProfile/infraestructure/persistence/vendor-profile-prisma.repository";
 import { registerRepositories, registerServices } from "@Common/utils/container-utils";
 import { ChatPrismaRepository } from "modules/chat/infraestructure/persistence/chat-prisma.repository";
+import { CityPrismaRepository } from "modules/city/infraestructure/persistense/city-prisma.repository";
 
 export function createSharedContainer(): Container {
     const container = new Container();
@@ -36,6 +37,7 @@ export function createSharedContainer(): Container {
         { symbol: SHARED_SYMBOLS.ProformaResponseRepository, implementation: ProformaResponsePrismaRepository },
         { symbol: SHARED_SYMBOLS.VendorProfileRepository, implementation: VendorProfilePrismaRepository },
         { symbol: SHARED_SYMBOLS.ChatRepository, implementation: ChatPrismaRepository },
+        { symbol: SHARED_SYMBOLS.CityRepository, implementation: CityPrismaRepository },
     ]);
     return container;
 }

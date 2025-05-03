@@ -18,6 +18,7 @@ import cookieParser from "cookie-parser";
 import { Server as SocketIOServer } from "socket.io";
 import { handleJoinChat } from "modules/chat/infraestructure/socket.io/socket.events";
 import { configurecHATRoutes } from "modules/chat/presentation/chat.routes";
+import { configureCityRouter } from "modules/city/presentation/city.routes";
 
 export class ServerBootstrap {
     private app: Application | null = null;
@@ -70,6 +71,7 @@ export class ServerBootstrap {
         app.use("/proforma-response", configureProformaResponseRoutes());
         app.use("/suggestion", configureSuggestionRoutes());
         app.use("/chat", configurecHATRoutes());
+        app.use("/city", configureCityRouter());
     }
 
     private setupErrorHandling(app: Application) {

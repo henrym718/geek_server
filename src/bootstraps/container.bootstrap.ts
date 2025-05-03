@@ -13,6 +13,7 @@ import { configureProformaRequestsContainer } from "@ProformaRequests/infraestru
 import { configureProformaResponseContainer } from "modules/proforma-response/infraestructure/container/proforma-reponse.container";
 import { configureSuggestionContainer } from "modules/suggestion/infraestructure/container/suggestion.container";
 import { createChatContainer } from "modules/chat/infraestructure/container/chat.container";
+import { createCityContainer } from "modules/city/infraestructure/container/city.container";
 // Definir identificadores únicos
 export const IDENTIFIERS = {
     Shared: Symbol("SharedContainer"),
@@ -28,6 +29,7 @@ export const IDENTIFIERS = {
     ProformaResponse: Symbol("ProformaResponseContainer"),
     VendorProfile: Symbol("VendorProfileContainer"),
     Chat: Symbol("ChatContainer"),
+    City: Symbol("CityContainer"),
 };
 
 export class ContainerBootstrap {
@@ -51,6 +53,7 @@ export class ContainerBootstrap {
         rootContainer.bind(IDENTIFIERS.Skill).toConstantValue(configureSkillContainer(sharedContainer));
         rootContainer.bind(IDENTIFIERS.Suggestion).toConstantValue(configureSuggestionContainer(sharedContainer));
         rootContainer.bind(IDENTIFIERS.Chat).toConstantValue(createChatContainer(sharedContainer));
+        rootContainer.bind(IDENTIFIERS.City).toConstantValue(createCityContainer(sharedContainer));
         ContainerBootstrap.container = rootContainer;
     }
 
