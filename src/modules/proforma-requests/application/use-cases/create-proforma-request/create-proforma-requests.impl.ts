@@ -23,24 +23,12 @@ export class CreateProformaRequestsUseCase implements ICreateProformaRequestsUse
     ) {}
 
     async execute(data: ReqCreateProformaRequestDto): Promise<ResCreateProformaRequestDto> {
-        const {
-            clientId,
-            categoryId,
-            budget,
-            description,
-            skills,
-            title,
-            scope,
-            budgetUnit,
-            projectLength,
-            projectType,
-            projectWorkload,
-            quotation,
-        } = data;
+        const { clientId, categoryId, budget, description, skills, title, city, budgetUnit, projectLength, projectType, projectWorkload, quotation } =
+            data;
 
         const proformaRequestiD = IdVO.create(this.idService.generateUUID());
         const proformaRequestTitle = TextVO.create("Title", title);
-        const proformaRequestScope = IdVO.create(scope);
+        const proformaRequestCity = IdVO.create(city);
         const proformaRequestBudget = budget ? PriceVO.create(budget) : undefined;
         const proformaRequestBudgetUnit = budgetUnit ? BudgetUnitVO.fromPlainText(budgetUnit) : undefined;
         const proformaRequestQuotation = quotation;
@@ -74,7 +62,7 @@ export class CreateProformaRequestsUseCase implements ICreateProformaRequestsUse
             categoryId: category_Id,
             skills: proformaRequestSkills,
             title: proformaRequestTitle,
-            scope: proformaRequestScope,
+            city: proformaRequestCity,
             budgetUnit: proformaRequestBudgetUnit,
             quotation: proformaRequestQuotation,
             projectType: proformaRequestProjectType,

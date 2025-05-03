@@ -25,7 +25,6 @@ export class GetProformaRequestByClientIdUseCase implements IGetProformaRequests
                 budget: proformaRequest.budget?.getValue() ?? 0,
                 budgetUnit: proformaRequest.budgetUnit?.getValue() ?? "",
                 quotation: proformaRequest.quotation ?? false,
-                scope: proformaRequest.scope.getValue(),
                 projectType: proformaRequest.projectType.getValue(),
                 projectLength: proformaRequest.projectLength.getValue(),
                 projectWorkload: proformaRequest.projectWorkload.getValue(),
@@ -42,6 +41,10 @@ export class GetProformaRequestByClientIdUseCase implements IGetProformaRequests
                 id: skill.id.getValue(),
                 name: skill.name.getValue(),
             })),
+            city: {
+                id: proformaRequest.city.getValue(),
+                name: proformaRequest.city.getValue(),
+            },
         }));
     }
 }

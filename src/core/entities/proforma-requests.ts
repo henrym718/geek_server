@@ -9,7 +9,7 @@ interface ProformaRequestProps {
     budget?: PriceVO;
     budgetUnit?: BudgetUnitVO;
     quotation?: boolean;
-    scope: IdVO;
+    city: IdVO;
     projectType: ProjectTypeVO;
     projectLength: ProjectLengthVO;
     projectWorkload: ProjectWorkloadVO;
@@ -110,8 +110,8 @@ export class ProformaRequest {
         return this.props.title;
     }
 
-    public get scope(): IdVO {
-        return this.props.scope;
+    public get city(): IdVO {
+        return this.props.city;
     }
 
     public get projectType(): ProjectTypeVO {

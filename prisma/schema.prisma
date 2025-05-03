@@ -91,7 +91,8 @@ model Client {
   lastName         String
   photo            String?
   phone            String
-  city             String
+  city             City              @relation(fields: [cityId], references: [id])
+  cityId           String
   isActive         Boolean           @default(true)
   user             User              @relation(fields: [id], references: [id])
   proformaRequests ProformaRequest[]
@@ -105,7 +106,8 @@ model Vendor {
   lastName       String
   photo          String?
   phone          String
-  city           String
+  city           City            @relation(fields: [cityId], references: [id])
+  cityId         String
   isActive       Boolean         @default(true)
   user           User            @relation(fields: [id], references: [id])
   vendorProfiles VendorProfile[]
@@ -169,6 +171,16 @@ model Skill {
   @@map("skills")
 }
 
+model City {
+  id               String            @id
+  name             String            @unique
+  proformaRequests ProformaRequest[]
+  Client           Client[]
+  Vendor           Vendor[]
+
+  @@map("cities")
+}
+
 model Suggestion {
   id         String   @id
   text       String
@@ -188,7 +200,6 @@ model ProformaRequest {
   budget            Float?
   budgetUnit        BudgetUnit?
   quotation         Boolean?
-  scope             String
   projectType       ProjectType
   projectLength     ProjectLength
   projectWorkload   ProjectWorkload
@@ -202,6 +213,8 @@ model ProformaRequest {
   categoryId        String
   skills            Skill[]
   proformaResponses ProformaResponse[]
+  city              City               @relation(fields: [cityId], references: [id])
+  cityId            String
 
   @@map("proforma_requests")
 }

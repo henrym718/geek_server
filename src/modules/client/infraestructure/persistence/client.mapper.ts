@@ -9,7 +9,7 @@ export class ClientMapper {
             id: client.id.getValue(),
             firstName: client.firstName.getValue(),
             lastName: client.lastName.getValue(),
-            city: client.city.getValue(),
+            cityId: client.city.getValue(),
             photo: client.photo?.getValue() ?? null,
             phone: client.phone.getValue(),
         };
@@ -20,7 +20,7 @@ export class ClientMapper {
             id: IdVO.create(client.id),
             firstName: TextVO.create("firstName", client.firstName),
             lastName: TextVO.create("lastName", client.lastName),
-            city: TextVO.create("city", client.city),
+            city: IdVO.create(client.cityId),
             photo: client.photo ? UrlVO.create(client.photo, "s3") : null,
             phone: PhoneVO.create(client.phone),
         });

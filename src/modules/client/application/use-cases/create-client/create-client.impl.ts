@@ -20,7 +20,7 @@ export class CreateClientUseCase implements ICreateClientUseCase {
             id: IdVO.create(data.id),
             firstName: TextVO.create("firstName", data.firstName),
             lastName: TextVO.create("lastName", data.lastName),
-            city: TextVO.create("city", data.city),
+            city: IdVO.create(data.city),
             phone: PhoneVO.create(data.phone),
             photo: data.photo ? UrlVO.create(data.photo, "s3") : null,
         });

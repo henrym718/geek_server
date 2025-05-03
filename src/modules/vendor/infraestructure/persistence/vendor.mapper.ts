@@ -11,7 +11,7 @@ export class VendorMapper {
             lastName: vendor.lastName.getValue(),
             photo: vendor.photo?.getValue() ?? null,
             phone: vendor.phone.getValue(),
-            city: vendor.city.getValue(),
+            cityId: vendor.city.getValue(),
         };
     }
 
@@ -22,7 +22,7 @@ export class VendorMapper {
             lastName: TextVO.create("lastName", vendor.lastName),
             photo: vendor.photo ? UrlVO.create(vendor.photo, "s3") : null,
             phone: PhoneVO.create(vendor.phone),
-            city: TextVO.create("city", vendor.city),
+            city: IdVO.create(vendor.cityId),
         });
     }
 }

@@ -7,7 +7,7 @@ export interface ClientProps {
     readonly lastName: TextVO;
     readonly photo: UrlVO | null;
     readonly phone: PhoneVO;
-    readonly city: TextVO;
+    readonly city: IdVO;
 }
 
 export class Client {
@@ -41,7 +41,7 @@ export class Client {
         return this.props.photo ?? null;
     }
 
-    get city(): TextVO {
+    get city(): IdVO {
         return this.props.city;
     }
 

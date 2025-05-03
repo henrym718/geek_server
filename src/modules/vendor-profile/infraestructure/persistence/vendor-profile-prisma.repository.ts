@@ -107,8 +107,7 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
             ...(city && {
                 vendor: {
                     city: {
-                        contains: city,
-                        mode: "insensitive" as const,
+                        id: city,
                     },
                 },
             }),

@@ -4,7 +4,7 @@ export interface ReqCreateProformaRequestDto {
     budget?: number;
     budgetUnit?: string;
     quotation?: boolean;
-    scope: string;
+    city: string;
     projectType: string;
     projectLength: string;
     projectWorkload: string;

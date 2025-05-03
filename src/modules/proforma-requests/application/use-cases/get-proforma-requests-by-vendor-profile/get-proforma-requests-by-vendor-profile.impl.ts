@@ -66,7 +66,7 @@ export class GetProformaRequestsByVendorProfileUseCase implements IGetProformaRe
                 projectType: proformaRequest.projectType.getValue(),
                 projectLength: proformaRequest.projectLength.getValue(),
                 projectWorkload: proformaRequest.projectWorkload.getValue(),
-                scope: proformaRequest.scope.getValue(),
+                city: proformaRequest.city.getValue(),
                 budget: proformaRequest.budget?.getValue() ?? 0,
                 budgetUnit: proformaRequest.budgetUnit?.getValue() ?? undefined,
                 quotation: proformaRequest.quotation ?? undefined,
@@ -79,6 +79,10 @@ export class GetProformaRequestsByVendorProfileUseCase implements IGetProformaRe
                 id: skill.id.getValue(),
                 name: skill.name.getValue(),
             })),
+            city: {
+                id: proformaRequest.city.getValue(),
+                name: proformaRequest.city.getValue(),
+            },
         }));
     }
 }

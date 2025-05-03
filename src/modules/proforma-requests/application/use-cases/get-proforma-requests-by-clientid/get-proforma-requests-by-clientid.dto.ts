@@ -1,4 +1,4 @@
-import { Category, ProformaRequest, Skill } from "@Common/dtos/global.dtos";
+import { Category, City, ProformaRequest, Skill } from "@Common/dtos/global.dtos";
 
 export interface GetProformaRequestsByClientIdRequest {
     clientId: string;
@@ -9,4 +9,5 @@ export interface GetProformaRequestsByClientIdResponse {
     request: ProformaRequest;
     skills: Skill[];
     category: Category;
+    city: City;
 }

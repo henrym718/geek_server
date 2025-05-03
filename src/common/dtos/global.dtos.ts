@@ -43,7 +43,6 @@ export interface ProformaRequest {
     budget?: number;
     budgetUnit?: string;
     quotation?: boolean;
-    scope: string;
     projectType: string;
     projectLength: string;
     projectWorkload: string;
@@ -67,6 +66,11 @@ export interface Skill {
 }
 
 export interface Category {
+    id: string;
+    name: string;
+}
+
+export interface City {
     id: string;
     name: string;
 }
