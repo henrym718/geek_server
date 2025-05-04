@@ -4,6 +4,7 @@ interface VendorProfileProps {
     id: IdVO;
     title: TextVO;
     aboutme: TextVO;
+    bannerImage: IdVO;
     isActive: boolean;
     skills: IdVO[];
     createdAt?: Date;
@@ -57,5 +58,9 @@ export class VendorProfile {
 
     public get skills(): IdVO[] {
         return this.props.skills;
+    }
+
+    public get bannerImage(): IdVO {
+        return this.props.bannerImage;
     }
 }
