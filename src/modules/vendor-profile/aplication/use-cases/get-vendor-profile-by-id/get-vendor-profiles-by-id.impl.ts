@@ -37,6 +37,7 @@ export class GetVendorProfileByIdUseCase implements IGetVendorProfileByIdUseCase
             vendorProfile: {
                 title: vendorProfile.title.getValue(),
                 aboutme: vendorProfile.aboutme.getValue(),
+                bannerImage: vendorProfile.bannerImage.getValue(),
                 createdAt: vendorProfile.createdAt,
             },
             category: {

@@ -7,7 +7,7 @@ export interface GetVendorProfileRequest {
 export interface GetVendorProfileResponse {
     user: Pick<User, "id" | "username">;
     vendor: Pick<Vendor, "firstName" | "lastName" | "photo" | "phone" | "city">;
-    vendorProfile: Pick<VendorProfile, "title" | "aboutme" | "createdAt">;
+    vendorProfile: Pick<VendorProfile, "title" | "aboutme" | "bannerImage" | "createdAt">;
     category: Category;
     skills: Skill[];
     city: City;
