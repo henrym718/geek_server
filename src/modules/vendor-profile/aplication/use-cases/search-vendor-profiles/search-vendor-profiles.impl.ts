@@ -63,6 +63,7 @@ export class SearchVendorProfilesUseCase implements ISearchVendorProfilesUseCase
                 city: city.name.getValue(),
                 photo: vendor.photo?.getValue() ?? "",
                 title: vendorProfile.title.getValue(),
+                bannerImage: vendorProfile.bannerImage.getValue(),
             })),
         };
     }

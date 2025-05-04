@@ -19,5 +19,6 @@ export interface SearchResponse {
         photo: string;
         city: string;
         title: string;
+        bannerImage: string;
     }[];
 }
