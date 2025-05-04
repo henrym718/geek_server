@@ -31,6 +31,7 @@ export interface VendorProfile {
     id: string;
     title: string;
     aboutme: string;
+    bannerImage: string;
     isActive: boolean;
     createdAt?: Date;
     updatedAt?: Date;
