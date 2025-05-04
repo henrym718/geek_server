@@ -14,8 +14,18 @@ export class UrlVO {
 
     private static validateUrl(type: "standard" | "s3", url: string | undefined | null) {
         if (!url) throw HttpException.badRequest("Url is required");
-        const isValid = type === "standard" ? this.STANDARD_REGEX.test(url) : this.S3_REGEX.test(url);
+        console.log(url);
+        const isValid = type === "standard" ? this.isStandardUrl(url) : this.S3_REGEX.test(url);
         if (!isValid) throw HttpException.badRequest("Url not valid");
+    }
+
+    private static isStandardUrl(url: string): boolean {
+        try {
+            new URL(url);
+            return true;
+        } catch {
+            return false;
+        }
     }
 
     public getValue(): string {
