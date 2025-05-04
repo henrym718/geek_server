@@ -1,5 +1,5 @@
 import { VendorProfile } from "@Core/entities/profile-vendor";
-import { IdVO, TextVO } from "@Core/value-objects";
+import { IdVO, TextVO, UrlVO } from "@Core/value-objects";
 import { Prisma, VendorProfile as PrismaProfileVendor } from "@prisma/client";
 
 export class VendorProfileMapper {
@@ -22,7 +22,7 @@ export class VendorProfileMapper {
             aboutme: TextVO.create("aboutme", entity.aboutme),
             title: TextVO.create("tittle", entity.title),
             skills: skillsId ? skillsId.map((skill) => IdVO.create(skill.id)) : [],
-            bannerImage: IdVO.create(entity.bannerImage),
+            bannerImage: UrlVO.create(entity.bannerImage, "standard"),
             isActive: entity.isActive,
             categoryId: IdVO.create(entity.categoryId),
             vendorId: IdVO.create(entity.vendorId),
