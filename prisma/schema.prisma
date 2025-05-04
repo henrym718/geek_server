@@ -119,6 +119,7 @@ model VendorProfile {
   id                String             @id
   title             String
   aboutme           String
+  bannerImage       String
   isActive          Boolean            @default(true)
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
