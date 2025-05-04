@@ -1,4 +1,4 @@
-import { IdVO, TextVO } from "@Core/value-objects";
+import { IdVO, TextVO, UrlVO } from "@Core/value-objects";
 import { IVendorProfilesRepository } from "@VendorProfile/aplication/repositories/vendor-profile.repository";
 import { ReqCreateVendorProfileDto, ResCreateVendorProfileDto } from "./create-vendor-profile.dto";
 import { ICreateVendorProfileUseCase } from "./create-vendor-profile.use-case";
@@ -21,14 +21,14 @@ export class CreateVendorProfileUseCase implements ICreateVendorProfileUseCase {
     ) {}
 
     async execute(data: ReqCreateVendorProfileDto): Promise<ResCreateVendorProfileDto> {
-        const { aboutme, skills, title, categoryId, vendorId } = data;
+        const { aboutme, skills, title, categoryId, vendorId, bannerImage } = data;
 
         const aboutmeVO = TextVO.create("aboutme", aboutme);
         const titleVO = TextVO.create("title", title);
         const skillsVO = skills.map((skill) => IdVO.create(skill));
         const categoryIdVO = IdVO.create(categoryId);
         const vendorIdVO = IdVO.create(vendorId);
-
+        const bannerImageVO = UrlVO.create(bannerImage, "standard");
         const [skill, category, vendor] = await Promise.all([
             this.skillRepository.findByIds(skillsVO.map((skill) => skill.getValue())),
             this.categoryRepository.findById(categoryIdVO.getValue()),
@@ -46,6 +46,7 @@ export class CreateVendorProfileUseCase implements ICreateVendorProfileUseCase {
             skills: skillsVO,
             categoryId: categoryIdVO,
             vendorId: vendorIdVO,
+            bannerImage: bannerImageVO,
         });
 
         await this.vendorProfileRepository.create(newProfileVendor);

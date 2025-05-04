@@ -1,10 +1,10 @@
-import { IdVO, TextVO } from "@Core/value-objects";
+import { IdVO, TextVO, UrlVO } from "@Core/value-objects";
 
 interface VendorProfileProps {
     id: IdVO;
     title: TextVO;
     aboutme: TextVO;
-    bannerImage: IdVO;
+    bannerImage: UrlVO;
     isActive: boolean;
     skills: IdVO[];
     createdAt?: Date;
@@ -60,7 +60,7 @@ export class VendorProfile {
         return this.props.skills;
     }
 
-    public get bannerImage(): IdVO {
+    public get bannerImage(): UrlVO {
         return this.props.bannerImage;
     }
 }

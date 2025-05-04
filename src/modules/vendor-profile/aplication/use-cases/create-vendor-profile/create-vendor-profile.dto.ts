@@ -4,6 +4,7 @@ export interface ReqCreateVendorProfileDto {
     aboutme: string;
     vendorId: string;
     categoryId: string;
+    bannerImage: string;
 }
 
 export interface ResCreateVendorProfileDto {
