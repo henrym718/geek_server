@@ -27,6 +27,7 @@ export class GetAllProfilesByVendorIdUseCase implements IGetAllProfilesByVendorI
             photo: vendor.photo?.getValue() ?? "",
             city: city.name.getValue(),
             title: vendorProfile.title.getValue(),
+            bannerImage: vendorProfile.bannerImage.getValue(),
         }));
     }
 }
