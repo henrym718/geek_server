@@ -4,6 +4,7 @@ import { VendorProfile } from "@Core/entities/profile-vendor";
 import { IRepository } from "@Shared/interfaces/repository";
 import { User } from "@Core/entities/user";
 import { Skill } from "@Core/entities/skill";
+import { City } from "@Core/entities/city";
 
 export interface ProformaResponseWithMetadata {
     proformaResponse: ProformaResponse;
@@ -11,6 +12,7 @@ export interface ProformaResponseWithMetadata {
     vendor: Vendor;
     vendorProfile: VendorProfile;
     skills: Skill[];
+    city: City;
 }
 
 export interface IProformaResponseRepository extends IRepository<ProformaResponse> {

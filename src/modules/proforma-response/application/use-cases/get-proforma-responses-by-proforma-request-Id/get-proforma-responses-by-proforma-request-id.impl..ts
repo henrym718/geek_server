@@ -20,7 +20,7 @@ export class GetProformaResponsesByRequestIdUseCase implements IGetProformaRespo
     }
 
     private proformaResponseMapper(data: ProformaResponseWithMetadata[]): GetProformaResponsesByRequestIdResponse[] {
-        return data.map(({ proformaResponse, vendor, vendorProfile, user, skills }) => ({
+        return data.map(({ proformaResponse, vendor, vendorProfile, user, skills, city }) => ({
             proformaResponse: {
                 id: proformaResponse.id.getValue(),
                 budget: proformaResponse.budget ? proformaResponse.budget.getValue() : undefined,
@@ -35,6 +35,8 @@ export class GetProformaResponsesByRequestIdUseCase implements IGetProformaRespo
                 photo: vendor.photo?.getValue() || "",
                 phone: vendor.phone.getValue(),
                 city: vendor.city.getValue(),
+                firstName: vendor.firstName.getValue(),
+                lastName: vendor.lastName.getValue(),
             },
             vendorProfile: {
                 aboutme: vendorProfile.aboutme.getValue(),
@@ -44,6 +46,10 @@ export class GetProformaResponsesByRequestIdUseCase implements IGetProformaRespo
                 id: skill.id.getValue(),
                 name: skill.name.getValue(),
             })),
+            city: {
+                id: city.id.getValue(),
+                name: city.name.getValue(),
+            },
         }));
     }
 }

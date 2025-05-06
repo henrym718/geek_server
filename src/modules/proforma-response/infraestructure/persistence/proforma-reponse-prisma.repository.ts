@@ -9,6 +9,7 @@ import { VendorMapper } from "@Vendor/infraestructure/persistence/vendor.mapper"
 import { VendorProfileMapper } from "@VendorProfile/infraestructure/persistence/vendor-profile.mapper";
 import { UserMapper } from "@User/infrastructure/persistence/user.mapper";
 import { SkillMapper } from "@Skill/infraestructure/persistence/skill.mapper";
+import { CityMapper } from "modules/city/infraestructure/persistense/city.mapper";
 
 export class ProformaResponsePrismaRepository implements IProformaResponseRepository {
     private get db() {
@@ -62,7 +63,7 @@ export class ProformaResponsePrismaRepository implements IProformaResponseReposi
     async findAllByRequestId(requestId: string): Promise<ProformaResponseWithMetadata[]> {
         const reponses = await this.db.proformaResponse.findMany({
             where: { proformaRequestId: requestId },
-            include: { vendorProfile: { include: { vendor: { include: { user: true } }, skills: true } } },
+            include: { vendorProfile: { include: { vendor: { include: { user: true, city: true } }, skills: true } } },
         });
 
         return reponses.map((reponse) => ({
@@ -71,6 +72,7 @@ export class ProformaResponsePrismaRepository implements IProformaResponseReposi
             vendor: VendorMapper.toDomain(reponse.vendorProfile.vendor),
             vendorProfile: VendorProfileMapper.toDomain(reponse.vendorProfile),
             skills: reponse.vendorProfile.skills.map((skill) => SkillMapper.toDomain(skill)),
+            city: CityMapper.toDomain(reponse.vendorProfile.vendor.city),
         }));
     }
 
