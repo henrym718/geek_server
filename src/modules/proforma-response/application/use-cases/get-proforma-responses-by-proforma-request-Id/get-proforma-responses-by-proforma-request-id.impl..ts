@@ -30,6 +30,7 @@ export class GetProformaResponsesByRequestIdUseCase implements IGetProformaRespo
             user: {
                 createdAt: user.createdAt,
                 username: user.username.getValue(),
+                id: user.id.getValue(),
             },
             vendor: {
                 photo: vendor.photo?.getValue() || "",
