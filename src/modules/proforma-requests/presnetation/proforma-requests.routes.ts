@@ -13,6 +13,7 @@ export function configureProformaRequestRoutes(): Router {
     proformarequestRoutes.delete("/", authenticate, checkRoles(RoleEnum.CLIENT), proformaRequestController.canceledByClient);
     proformarequestRoutes.get("/client", authenticate, checkRoles(RoleEnum.CLIENT), proformaRequestController.getAllByClient);
     proformarequestRoutes.get("/vendor/:profileid", authenticate, checkRoles(RoleEnum.VENDOR), proformaRequestController.getAllByVendorProfile);
+    proformarequestRoutes.get("/:skill", proformaRequestController.getProformaRequestBySkill);
 
     return proformarequestRoutes;
 }

@@ -3,6 +3,8 @@ import { ReqCanceledProformaRequest } from "@ProformaRequests/application/use-ca
 import { ICanceledProformaRequestUseCase } from "@ProformaRequests/application/use-cases/canceled-proforma-request/canceled-proforma-request.use-case";
 import { ReqCreateProformaRequestDto } from "@ProformaRequests/application/use-cases/create-proforma-request/create-proforma-requests.dto";
 import { ICreateProformaRequestsUseCase } from "@ProformaRequests/application/use-cases/create-proforma-request/create-proforma-requests.use-case";
+import { GetProformaRequestBySkillRequest } from "@ProformaRequests/application/use-cases/get-proforma-request-by-skill/get-proforma-request-by-skill.dto";
+import { IGetProformaRequestBySkillUseCase } from "@ProformaRequests/application/use-cases/get-proforma-request-by-skill/get-proforma-request-by-skill.use-case";
 import { GetProformaRequestsByClientIdRequest } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-clientid/get-proforma-requests-by-clientid.dto";
 import { IGetProformaRequestsByClientUseCase } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-clientid/get-proforma-requests-by-clientid.use-case";
 import { GetByVendorProfilerRequest } from "@ProformaRequests/application/use-cases/get-proforma-requests-by-vendor-profile/get-proforma-requests-by-vendor-profile.dto";
@@ -24,12 +26,16 @@ export class ProformaRequestsController {
         private readonly canceledProformaRequestUseCase: ICanceledProformaRequestUseCase,
 
         @inject(PROFORMA_REQ_SYMBOLS.GetProformaRequestsByVendorProfile)
-        private readonly getProformaRequestsByVendorProfileUseCase: IGetProformaRequestsByVendorProfileUseCase
+        private readonly getProformaRequestsByVendorProfileUseCase: IGetProformaRequestsByVendorProfileUseCase,
+
+        @inject(PROFORMA_REQ_SYMBOLS.GetProformaRequestBySkillUseCase)
+        private readonly getProformaRequestBySkillUseCase: IGetProformaRequestBySkillUseCase
     ) {
         this.create = this.create.bind(this);
         this.getAllByClient = this.getAllByClient.bind(this);
         this.canceledByClient = this.canceledByClient.bind(this);
         this.getAllByVendorProfile = this.getAllByVendorProfile.bind(this);
+        this.getProformaRequestBySkill = this.getProformaRequestBySkill.bind(this);
     }
 
     async create(req: Request, res: Response, next: NextFunction) {
@@ -66,6 +72,16 @@ export class ProformaRequestsController {
         try {
             const data: GetByVendorProfilerRequest = { vendorProfileId: req.params?.profileid, vendorId: req.user?.userId! };
             const response = await this.getProformaRequestsByVendorProfileUseCase.execute(data);
+            HttpResponse.success(res, response);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async getProformaRequestBySkill(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data: GetProformaRequestBySkillRequest = { skillId: req.params?.skill };
+            const response = await this.getProformaRequestBySkillUseCase.execute(data);
             HttpResponse.success(res, response);
         } catch (error) {
             next(error);
