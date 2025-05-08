@@ -4,4 +4,5 @@ export const PROFORMA_REQ_SYMBOLS = {
     GetProformaRequestsByClientUseCase: Symbol.for("GetProformaRequestsByClientUseCase"),
     CanceledProformaRequestUseCase: Symbol.for("CanceledProformaRequestUseCase"),
     GetProformaRequestsByVendorProfile: Symbol.for("GetProformaRequestsByVendorProfile"),
+    GetProformaRequestBySkillUseCase: Symbol.for("GetProformaRequestBySkillUseCase"),
 };

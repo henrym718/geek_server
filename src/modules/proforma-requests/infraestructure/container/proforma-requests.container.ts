@@ -7,6 +7,7 @@ import { GetProformaRequestsByVendorProfileUseCase } from "@ProformaRequests/app
 
 import { PROFORMA_REQ_SYMBOLS } from "./proforma-requests.symbols";
 import { registerUseCases, registerControllers } from "@Common/utils/container-utils";
+import { GetProformaRequestBySkillUseCase } from "@ProformaRequests/application/use-cases/get-proforma-request-by-skill/get-proforma-request-by-skill.impl";
 
 export function configureProformaRequestsContainer(parentContainer: Container): Container {
     const container = new Container();
@@ -17,6 +18,7 @@ export function configureProformaRequestsContainer(parentContainer: Container): 
         { symbol: PROFORMA_REQ_SYMBOLS.CreateProformaRequestsUseCase, implementation: CreateProformaRequestsUseCase },
         { symbol: PROFORMA_REQ_SYMBOLS.GetProformaRequestsByClientUseCase, implementation: GetProformaRequestByClientIdUseCase },
         { symbol: PROFORMA_REQ_SYMBOLS.GetProformaRequestsByVendorProfile, implementation: GetProformaRequestsByVendorProfileUseCase },
+        { symbol: PROFORMA_REQ_SYMBOLS.GetProformaRequestBySkillUseCase, implementation: GetProformaRequestBySkillUseCase },
     ]);
 
     registerControllers(container, [ProformaRequestsController]);
