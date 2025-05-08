@@ -14,4 +14,5 @@ export interface ProformaRequestWithRelations {
 export interface IProformaRequestsRepository extends IRepository<ProformaRequest> {
     findAllByClientId(clientId: string, status: StatusRequestVO): Promise<ProformaRequestWithRelations[]>;
     findByCategoryIdAndSkills(categoryId: string, skillIds: string[]): Promise<ProformaRequestWithRelations[]>;
+    findBySkill(skillId: string): Promise<ProformaRequestWithRelations[]>;
 }

@@ -34,15 +34,18 @@ export class ProformaRequestsPrismaRepository implements IProformaRequestsReposi
     }
 
     async findByCategoryIdAndSkills(categoryId: string, skillIds: string[]): Promise<ProformaRequestWithRelations[]> {
+        console.log("LLEGA AQUI SKILLS", skillIds);
         const requests = await this.db.proformaRequest.findMany({
             where: {
-                AND: [
-                    { categoryId },
-                    { status: "ACTIVE" },
-                    {
-                        skills: { some: { id: { in: skillIds } } },
+                categoryId,
+                status: "ACTIVE",
+                skills: {
+                    some: {
+                        id: {
+                            in: skillIds,
+                        },
                     },
-                ],
+                },
             },
             include: { skills: true, category: true, city: true },
         });
@@ -62,6 +65,23 @@ export class ProformaRequestsPrismaRepository implements IProformaRequestsReposi
     async findAllByClientId(clientId: string, status: StatusRequestVO): Promise<ProformaRequestWithRelations[]> {
         const proformaRequests = await this.db.proformaRequest.findMany({
             where: { AND: [{ clientId }, { status: status.getValue() }] },
+            include: { skills: true, category: true, city: true },
+        });
+        return proformaRequests.map((item) => ({
+            proformaRequest: ProformaRequestsMapper.toDomain(item),
+            skills: item.skills.map((s) => SkillMapper.toDomain(s)),
+            category: CategoryMapper.toDomain(item.category),
+            city: CityMapper.toDomain(item.city),
+        }));
+    }
+
+    async findBySkill(skillId: string): Promise<ProformaRequestWithRelations[]> {
+        const proformaRequests = await this.db.proformaRequest.findMany({
+            where: {
+                skills: {
+                    some: { id: skillId },
+                },
+            },
             include: { skills: true, category: true, city: true },
         });
         return proformaRequests.map((item) => ({
