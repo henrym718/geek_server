@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import "../common/cron/updateRequestStatus";
 import express, { Application } from "express";
 import http, { Server } from "http";
 import { logger } from "@Common/logs/logger";
