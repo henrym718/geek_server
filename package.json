@@ -3,9 +3,9 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "dev": "NODE_ENV=development nodemon --watch src/ --exec  ts-node src/main.ts",
-        "migrate": "DATABASE_URL=postgresql://geek:12345@localhost:5432/dbtest?schema=pubic npx prisma migrate dev",
-        "studio": "DATABASE_URL=postgresql://geek:12345@localhost:5432/dbtest?schema=pubic npx prisma studio"
+        "dev": "set NODE_ENV=development && nodemon --watch src/ --exec ts-node src/main.ts",
+        "migrate": "set DATABASE_URL=postgresql://geek:12345@localhost:5432/dbtest?schema=public && npx prisma migrate dev",
+        "studio": "set DATABASE_URL=postgresql://geek:12345@localhost:5432/dbtest?schema=public && npx prisma studio"
     },
     "keywords": [],
     "author": "",
@@ -37,7 +37,7 @@
         "@types/node-cron": "^3.0.11",
         "@types/socket.io": "^3.0.1",
         "nodemon": "^3.1.9",
-        "prisma": "^6.1.0",
+        "prisma": "^5.10.2",
         "ts-node": "^10.9.2",
         "tsconfig-paths": "^4.2.0",
         "typescript": "^5.7.2"
