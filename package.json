@@ -5,7 +5,8 @@
     "scripts": {
         "dev": "set NODE_ENV=development && nodemon --watch src/ --exec ts-node src/main.ts",
         "migrate": "set DATABASE_URL=postgresql://geek:12345@localhost:5432/dbtest?schema=public && npx prisma migrate dev",
-        "studio": "set DATABASE_URL=postgresql://geek:12345@localhost:5432/dbtest?schema=public && npx prisma studio"
+        "studio": "set DATABASE_URL=postgresql://geek:12345@localhost:5432/dbtest?schema=public && npx prisma studio",
+        "load": "set DATABASE_URL=postgresql://geek:12345@localhost:5432/dbtest?schema=public && npx ts-node src/script/load-suggestions-from-csv.ts"
     },
     "keywords": [],
     "author": "",

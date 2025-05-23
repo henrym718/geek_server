@@ -1,55 +1,28 @@
-groupName,categoryName,skillName,suggestion
-Servicios Tecnológicos,Desarrollo de aplicaciones web,React,React básico
-Servicios Tecnológicos,Desarrollo de aplicaciones web,React,React avanzado
-Servicios Tecnológicos,Desarrollo de aplicaciones web,Angular,Angular básico
-Servicios Tecnológicos,Desarrollo de aplicaciones web,Angular,Angular avanzado
-Servicios Tecnológicos,Desarrollo de aplicaciones web,Vue,Vue básico
-Servicios Tecnológicos,Desarrollo de aplicaciones web,Vue,Vue avanzado
-Servicios Tecnológicos,Desarrollo de aplicaciones móviles,Flutter,Flutter básico
-Servicios Tecnológicos,Desarrollo de aplicaciones móviles,Flutter,Flutter avanzado
-Servicios Tecnológicos,Desarrollo de aplicaciones móviles,React Native,React Native básico
-Servicios Tecnológicos,Desarrollo de aplicaciones móviles,React Native,React Native avanzado
-Servicios Tecnológicos,Desarrollo de aplicaciones móviles,Ionic,Ionic básico
-Servicios Tecnológicos,Desarrollo de aplicaciones móviles,Ionic,Ionic avanzado
-Servicios Tecnológicos,Administración de sistemas,Linux,Linux básico
-Servicios Tecnológicos,Administración de sistemas,Linux,Linux avanzado
-Servicios Tecnológicos,Administración de sistemas,Windows Server,Windows Server básico
-Servicios Tecnológicos,Administración de sistemas,Windows Server,Windows Server avanzado
-Servicios Tecnológicos,Administración de sistemas,Docker,Docker básico
-Servicios Tecnológicos,Administración de sistemas,Docker,Docker avanzado
-Artesanía y Manualidades,Joyería artesanal,Collares,Collares básico
-Artesanía y Manualidades,Joyería artesanal,Collares,Collares avanzado
-Artesanía y Manualidades,Joyería artesanal,Pulseras,Pulseras básico
-Artesanía y Manualidades,Joyería artesanal,Pulseras,Pulseras avanzado
-Artesanía y Manualidades,Joyería artesanal,Anillos,Anillos básico
-Artesanía y Manualidades,Joyería artesanal,Anillos,Anillos avanzado
-Artesanía y Manualidades,Decoración artesanal,Macramé,Macramé básico
-Artesanía y Manualidades,Decoración artesanal,Macramé,Macramé avanzado
-Artesanía y Manualidades,Decoración artesanal,Cerámica,Cerámica básico
-Artesanía y Manualidades,Decoración artesanal,Cerámica,Cerámica avanzado
-Artesanía y Manualidades,Decoración artesanal,Tejido,Tejido básico
-Artesanía y Manualidades,Decoración artesanal,Tejido,Tejido avanzado
-Artesanía y Manualidades,Arte en madera,Tallado,Tallado básico
-Artesanía y Manualidades,Arte en madera,Tallado,Tallado avanzado
-Artesanía y Manualidades,Arte en madera,Marquetería,Marquetería básico
-Artesanía y Manualidades,Arte en madera,Marquetería,Marquetería avanzado
-Artesanía y Manualidades,Arte en madera,Pirograbado,Pirograbado básico
-Artesanía y Manualidades,Arte en madera,Pirograbado,Pirograbado avanzado
-Educación,Clases de Programación,React,React básico
-Educación,Clases de Programación,React,React avanzado
-Educación,Clases de Programación,Python,Python básico
-Educación,Clases de Programación,Python,Python avanzado
-Educación,Clases de Programación,JavaScript,JavaScript básico
-Educación,Clases de Programación,JavaScript,JavaScript avanzado
-Educación,Idiomas,Inglés,Inglés básico
-Educación,Idiomas,Inglés,Inglés avanzado
-Educación,Idiomas,Francés,Francés básico
-Educación,Idiomas,Francés,Francés avanzado
-Educación,Idiomas,Alemán,Alemán básico
-Educación,Idiomas,Alemán,Alemán avanzado
-Educación,Música,Guitarra,Guitarra básico
-Educación,Música,Guitarra,Guitarra avanzado
-Educación,Música,Piano,Piano básico
-Educación,Música,Piano,Piano avanzado
-Educación,Música,Violín,Violín básico
-Educación,Música,Violín,Violín avanzado
+groupName-categoryName-skillName-suggestion
+Construcción, Remodelación y Mantenimiento-Cerrajero-Apertura de Puertas-Apertura de puertas y cerraduras sin daño
+Construcción, Remodelación y Mantenimiento-Cerrajero-Cambio de Cerraduras-Cambio e instalación de cerraduras de seguridad
+Construcción, Remodelación y Mantenimiento-Cerrajero-Reparación de Cerraduras-Reparación de todo tipo de cerraduras y mecanismos
+Construcción, Remodelación y Mantenimiento-Cerrajero-Instalación de Cerraduras de Seguridad-Instalación de sistemas de cerraduras de alta seguridad
+Construcción, Remodelación y Mantenimiento-Cerrajero-Duplicado de Llaves-Duplicado de llaves
+Construcción, Remodelación y Mantenimiento-Electricista-Instalaciones Eléctricas 110V-Instalación y reparación de sistemas eléctricos de 110V
+Construcción, Remodelación y Mantenimiento-Electricista-Instalaciones Eléctricas 220V-Instalación y reparación de sistemas eléctricos de 220V
+Construcción, Remodelación y Mantenimiento-Electricista-Mantenimiento Eléctrico Residencial-Mantenimiento y revisión de instalaciones eléctricas en hogares
+Construcción, Remodelación y Mantenimiento-Electricista-Mantenimiento Eléctrico Empresarial-Mantenimiento y revisión de instalaciones eléctricas en empresas
+Construcción, Remodelación y Mantenimiento-Electricista-Servicios Eléctricos Generales-Solución de problemas eléctricos, cortes de energía y reconexión en general
+Construcción, Remodelación y Mantenimiento-Electricista-Diagnóstico y Reparación de Fallas-Detección y solución de cortocircuitos, fallas y problemas eléctricos
+Construcción, Remodelación y Mantenimiento-Electricista-Instalación de Iluminación-Instalación de lámparas, focos, LED y sistemas de iluminación
+Construcción, Remodelación y Mantenimiento-Electricista-Lectura de Planos Eléctricos-Interpretación de diagramas y planos para instalaciones y reparaciones eléctricas
+Construcción, Remodelación y Mantenimiento-Gasfitero / Plomero-Reparación de Fugas de Agua-Detección y reparación de fugas en tuberías y griferías
+Construcción, Remodelación y Mantenimiento-Gasfitero / Plomero-Instalación de Tuberías de Agua-Instalación de redes de tuberías de agua potable y desagüe
+Construcción, Remodelación y Mantenimiento-Gasfitero / Plomero-Desatasco de Desagües-Limpieza y desatasco de tuberías, inodoros y lavabos
+Construcción, Remodelación y Mantenimiento-Gasfitero / Plomero-Instalación de Sanitarios-Instalación de inodoros, lavabos, duchas y griferías
+Construcción, Remodelación y Mantenimiento-Gasfitero / Plomero-Mantenimiento de Sistemas de Agua-Mantenimiento preventivo de sistemas de plomería y gasfitería
+Construcción, Remodelación y Mantenimiento-Gasfitero / Plomero-Instalación de Bombas de Agua-Instalación y reparación de bombas de agua para uso doméstico o comercial
+Construcción, Remodelación y Mantenimiento-Instalador de Gypsum-Instalación de Paredes de Gypsum-Instalación de paredes con Gypsum
+Construcción, Remodelación y Mantenimiento-Instalador de Gypsum-Instalación de Techos Falsos de Gypsum-Instalación de cielo rasos y techos suspendidos de Gypsum
+Construcción, Remodelación y Mantenimiento-Instalador de Gypsum-Reparación de Gypsum-Reparación de agujeros, golpes y daños en superficies de Gypsum
+Construcción, Remodelación y Mantenimiento-Instalador de Gypsum-Instalación de Vigas y Columnas Falsas-Construcción de vigas y columnas decorativas con Gypsum
+Construcción, Remodelación y Mantenimiento-Pintor-Pintura de Interiores-Pintado de paredes, techos y ambientes internos en hogares y oficinas
+Construcción, Remodelación y Mantenimiento-Pintor-Pintura de Exteriores-Pintado de fachadas, muros exteriores y renovaciones de edificios
+Construcción, Remodelación y Mantenimiento-Pintor-Pintura Decorativa y Acabados Especiales-Aplicación de técnicas de pintura decorativa, estucos y texturas
+Construcción, Remodelación y Mantenimiento-Pintor-Empastado de Paredes-Aplicación de masilla en paredes (empastado)

@@ -191,6 +191,7 @@ model Suggestion {
   categoryId String
 
   @@index([text], map: "idx_search_text")
+  @@unique([text, skillId]) 
   @@map("suggestions")
 }
 

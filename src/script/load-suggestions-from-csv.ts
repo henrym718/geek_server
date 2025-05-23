@@ -7,8 +7,7 @@ import path from "path";
 const prisma = new PrismaClient();
 
 async function loadSuggestionsFromCSV(filename: string) {
-    const csvPath = path.resolve(__dirname, filename);
-    console.log(csvPath);
+    const csvPath = path.resolve(__dirname, filename);    
     const existFile = fs.existsSync(csvPath);
 
     if (!existFile) {
@@ -25,7 +24,7 @@ async function loadSuggestionsFromCSV(filename: string) {
     let headers: string[] = [];
 
     rl.on("line", async (line: string) => {
-        const row = line.trim().split(",");
+        const row = line.trim().split("-");
 
         if (isHeader) {
             headers = row.map((header) => header.trim());
@@ -37,6 +36,8 @@ async function loadSuggestionsFromCSV(filename: string) {
         headers.forEach((header, index) => {
             suggestion[header] = row[index].trim();
         });
+
+        console.log(suggestion);
 
         try {
             // Crear o actualizar el grupo
@@ -72,8 +73,10 @@ async function loadSuggestionsFromCSV(filename: string) {
             });
 
             // Crear la sugerencia
-            await prisma.suggestion.create({
-                data: {
+            await prisma.suggestion.upsert({
+                where: { text_skillId: { text: suggestion.suggestion, skillId: skill.id } },
+                update: {},
+                create: {
                     id: uuidv4(),
                     text: suggestion.suggestion,
                     skillId: skill.id,
