@@ -4,9 +4,9 @@ import { ReqCreateVendorProfileDto, ResCreateVendorProfileDto } from "./create-v
 import { ICreateVendorProfileUseCase } from "./create-vendor-profile.use-case";
 import { VendorProfile } from "@Core/entities/profile-vendor";
 import { IUUIDService } from "@Shared/services/uuid/uuid.service";
-import { ICategoryRepository } from "@Category/application/repositories/category.repository";
+import { ICategoryRepository } from "modules/admin/category/application/repositories/category.repository";
 import { IVendorRepository } from "@Vendor/application/repositories/vendor.repository";
-import { ISkillRepository } from "@Skill/application/repositories/skill.repository";
+import { ISkillRepository } from "modules/admin/skill/application/repositories/skill.repository";
 import { inject, injectable } from "inversify";
 import { SHARED_SYMBOLS } from "@Shared/container/shared.symbols";
 
@@ -25,12 +25,12 @@ export class CreateVendorProfileUseCase implements ICreateVendorProfileUseCase {
 
         const aboutmeVO = TextVO.create("aboutme", aboutme);
         const titleVO = TextVO.create("title", title);
-        const skillsVO = skills.map((skill) => IdVO.create(skill));
+        const skillsVO = skills.map(skill => IdVO.create(skill));
         const categoryIdVO = IdVO.create(categoryId);
         const vendorIdVO = IdVO.create(vendorId);
         const bannerImageVO = UrlVO.create(bannerImage, "standard");
         const [skill, category, vendor] = await Promise.all([
-            this.skillRepository.findByIds(skillsVO.map((skill) => skill.getValue())),
+            this.skillRepository.findByIds(skillsVO.map(skill => skill.getValue())),
             this.categoryRepository.findById(categoryIdVO.getValue()),
             this.vendorRepository.findById(vendorIdVO.getValue()),
         ]);

@@ -5,16 +5,11 @@ import { registerControllers, registerUseCases } from "@Common/utils/container-u
 import { ChatController } from "modules/chat/presentation/chat.controller";
 import { GetChatsByUserIdUseCase } from "modules/chat/application/use-cases/get-chats-by-userid/get-chats-by-userid.impl";
 
-export function createChatContainer(parentContainer: Container): Container {
-    const container = new Container();
-    container.parent = parentContainer;
-
-    registerUseCases(container, [
+export function createChatContainer(rootContainer: Container) {
+    registerUseCases(rootContainer, [
         { symbol: CHAT_SYMBOLS.CreateChat, implementation: CreateChatUseCase },
         { symbol: CHAT_SYMBOLS.GetChatsByUserId, implementation: GetChatsByUserIdUseCase },
     ]);
 
-    registerControllers(container, [ChatController]);
-
-    return container;
+    registerControllers(rootContainer, [ChatController]);
 }

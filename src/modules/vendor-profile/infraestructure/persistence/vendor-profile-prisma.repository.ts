@@ -5,14 +5,14 @@ import { VendorProfileMapper } from "./vendor-profile.mapper";
 import { Vendor } from "@Core/entities/vendor";
 import { Skill } from "@Core/entities/skill";
 import { SearchRequest } from "@VendorProfile/aplication/use-cases/search-vendor-profiles/search-vendor-profiles.dto";
-import { SkillMapper } from "@Skill/infraestructure/persistence/skill.mapper";
+import { SkillMapper } from "modules/admin/skill/infraestructure/persistence/skill.mapper";
 import { VendorMapper } from "@Vendor/infraestructure/persistence/vendor.mapper";
 import { Category } from "@Core/entities/category";
-import { CategoryMapper } from "@Category/infraestructure/persistence/category.mapper";
+import { CategoryMapper } from "modules/admin/category/infraestructure/persistence/category.mapper";
 import { User } from "@Core/entities/user";
 import { UserMapper } from "@User/infrastructure/persistence/user.mapper";
 import { City } from "@Core/entities/city";
-import { CityMapper } from "modules/city/infraestructure/persistense/city.mapper";
+import { CityMapper } from "modules/admin/city/infraestructure/persistense/city.mapper";
 
 export class VendorProfilePrismaRepository implements IVendorProfilesRepository {
     // Obtiene la instancia de prisma
@@ -57,7 +57,7 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
             user: UserMapper.toDomain(response.vendor.user),
             vendor: VendorMapper.toDomain(response.vendor),
             vendorProfile: VendorProfileMapper.toDomain(response),
-            skills: response.skills.map((skill) => SkillMapper.toDomain(skill)),
+            skills: response.skills.map(skill => SkillMapper.toDomain(skill)),
             category: CategoryMapper.toDomain(response.category),
             city: CityMapper.toDomain(response.vendor.city),
         };
@@ -93,7 +93,7 @@ export class VendorProfilePrismaRepository implements IVendorProfilesRepository 
         const skip = (page - 1) * take;
 
         // Separa los nombres de skills por comas
-        const skillNames = skills?.split(",").map((s) => s.trim()) || [];
+        const skillNames = skills?.split(",").map(s => s.trim()) || [];
 
         const where = {
             ...(skillNames.length > 0 && {

@@ -16,11 +16,8 @@ import { registerControllers, registerUseCases } from "@Common/utils/container-u
 import { CheckUsernameExistsUseCase } from "@Auth/application/use-cases/check-username-exists/check-username-exists.impl";
 import { LogoutUseCase } from "@Auth/application/use-cases/logout/logout.impl";
 
-export function createAuthContainer(parentContainer: Container): Container {
-    const container = new Container();
-    container.parent = parentContainer;
-
-    registerUseCases(container, [
+export function createAuthContainer(rootContainer: Container) {
+    registerUseCases(rootContainer, [
         { symbol: AUTH_SYMBOL.LoginUser, implementation: LoginLocalUserCase },
         { symbol: AUTH_SYMBOL.CheckEmailExists, implementation: CheckEmailExistsUseCase },
         { symbol: AUTH_SYMBOL.GetCurrentAccount, implementation: GetCurrentAccountUseCase },
@@ -32,7 +29,5 @@ export function createAuthContainer(parentContainer: Container): Container {
         { symbol: AUTH_SYMBOL.Logout, implementation: LogoutUseCase },
     ]);
 
-    registerControllers(container, [AuthController]);
-
-    return container;
+    registerControllers(rootContainer, [AuthController]);
 }

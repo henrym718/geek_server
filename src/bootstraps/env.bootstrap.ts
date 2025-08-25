@@ -15,8 +15,8 @@ export class EnvBootstrap {
     }
 
     private getEnvPath(): string {
-        const enviroment = process.env.NODE_EMV ?? "development";
-        return path.resolve(process.cwd(), `.env.${enviroment}`);
+        const envFile = process.env.NODE_ENV === "production" ? ".env.production" : ".env.development";
+        return path.resolve(process.cwd(), envFile);
     }
 
     private async ensureEnvFileExists(envPath: string) {
@@ -30,7 +30,7 @@ export class EnvBootstrap {
     private validateEnvFile(env: NodeJS.ProcessEnv) {
         const result = envSchema.safeParse(env);
         if (!result.success) {
-            const errorFormated = result.error.issues.map((issue) => `${"\n"} - ${issue.path}: ${issue.message}`).join("");
+            const errorFormated = result.error.issues.map(issue => `${"\n"} - ${issue.path}: ${issue.message}`).join("");
             throw new Error(`enviroment validation error: ${errorFormated}`);
         }
         return result.data;

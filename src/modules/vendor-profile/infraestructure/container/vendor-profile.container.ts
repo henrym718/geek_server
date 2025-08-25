@@ -7,18 +7,13 @@ import { GetVendorProfileByIdUseCase } from "@VendorProfile/aplication/use-cases
 import { registerUseCases, registerControllers } from "@Common/utils/container-utils";
 import { GetAllProfilesByVendorIdUseCase } from "@VendorProfile/aplication/use-cases/get-all-profiles-by-vendorId/get-all-profiles-by-vendorId.impl";
 
-export function configureVendorProfileContainer(parentContainer: Container): Container {
-    const container = new Container();
-    container.parent = parentContainer;
-
-    registerUseCases(container, [
+export function configureVendorProfileContainer(rootContainer: Container) {
+    registerUseCases(rootContainer, [
         { symbol: VENDOR_PROFILE_SYMBOLS.CreateVendorProfile, implementation: CreateVendorProfileUseCase },
         { symbol: VENDOR_PROFILE_SYMBOLS.SearchVendorProfiles, implementation: SearchVendorProfilesUseCase },
         { symbol: VENDOR_PROFILE_SYMBOLS.GetVendorProfileById, implementation: GetVendorProfileByIdUseCase },
         { symbol: VENDOR_PROFILE_SYMBOLS.GetAllProfilesByVendorId, implementation: GetAllProfilesByVendorIdUseCase },
     ]);
 
-    registerControllers(container, [VendorProfileController]);
-
-    return container;
+    registerControllers(rootContainer, [VendorProfileController]);
 }
